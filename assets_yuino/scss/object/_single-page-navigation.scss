@@ -1,0 +1,10 @@
+@use "../foundation/setting" as *;
+@use "../foundation/mixin" as *;
+
+.is-disabled {
+  color: #ccc;
+  cursor: default;
+  pointer-events: none;
+  text-decoration: none;
+}
+

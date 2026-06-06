@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+// メディアクエリの基準幅
+$bp-sp: 767px;
+$bp-pc: 768px;
+
+//PCカンプ幅(a)px
+//左右マージン(b)px = inner幅(a - b*2)px
+
+
+//SPカンプ幅375px
+//左右マージン20px
+
+// vwの基準となる幅 →320px=スマホ最小
+// ここの値は単純にカンプ幅。px必須
+$vw_standard_width: 1920px;
+
+
+// こちらがinner幅
+// innerサイズ + 左右padding
+// 「px」ナシ
+$vw-base: 1660;
+
+
+
+
+
+

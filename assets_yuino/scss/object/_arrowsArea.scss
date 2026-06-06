@@ -1,0 +1,71 @@
+@use "../foundation/setting" as *;
+@use "../foundation/mixin" as *;
+
+.ArrowsArea {
+  width: rem(824);
+  margin-inline: auto;
+  display: flex;
+  column-gap: rem(92);
+  color: #354256;
+  margin-block-start: rem(83);
+  margin-block-end: rem(110);
+}
+
+.PrevNavi,
+.NextNavi {
+  width: rem(366);
+  height: rem(80);
+  border-radius: 999px;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: rem(24);
+  font-weight: 700;
+  position: relative;
+  transition: all 0.4s;
+  &:hover {
+    background-color: #354256;
+    color: #fff;
+  }
+}
+
+.PrevNavi__p,
+.NextNavi__p {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.PrevNavi::after {
+  display: block;
+  content: "";
+  width: rem(15);
+  height: rem(15);
+  border-block-start: 2px solid;
+  border-inline-start: 2px solid;
+  position: absolute;
+  top: 50%;
+  left: rem(50);
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.PrevNavi:hover::after,
+.NextNavi:hover::after {
+  border-color: #fff;
+}
+
+.NextNavi::after {
+  display: block;
+  content: "";
+  width: rem(15);
+  height: rem(15);
+  border-block-start: 2px solid;
+  border-inline-end: 2px solid;
+  position: absolute;
+  top: 50%;
+  right: rem(50);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+
+

@@ -1,0 +1,79 @@
+@use './setting' as *;
+
+
+// メディアクエリ
+@mixin pc {
+  @media only screen and (min-width: #{$bp-pc}) {
+    @content;
+  }
+}
+
+@mixin sp {
+  @media only screen and (max-width: #{$bp-sp}) {
+    @content;
+  }
+}
+
+
+// @function vw($size, $viewport: $vw_standard_width) {
+//   $rate: math.div(100, $viewport);
+//   @return $rate * $size * 1vw;
+//   }
+// // settingで指定した幅を基準にvwを返す
+// // setting で $vw_standard_width が例えば1440pxに設定されている場合
+// // $viewport: $vw_standard_width は規定値として扱われ省略可能
+// // 従って vw($size) を記述することで割合表記が可能
+// // width: vw(720px);
+// // は画面幅に対し常に50%で可変となる
+// // px必須
+
+
+@function vw($pixelSize, $baseWidth:$vw-base) {
+  @return calc($pixelSize / $baseWidth * 100vw);
+}
+//$baseWidthは
+//たとえば$baseWidth:1280
+//と記述することで初期値の設定が可能
+//設定した場合は未記入で初期値が適応される
+//SP幅で別数値が必要な場合のみ別途記述
+//ここでは先ほど定義した変数を使用
+
+@function vw1920($pixelSize, $baseWidth:1920){
+  @return calc($pixelSize / $baseWidth * 100vw);
+}
+
+
+@function vwM($pixelSize, $baseWidth:$vw-base) {
+  @return min(vw($pixelSize, $baseWidth), $pixelSize * 1px);
+}
+//この場合の$baseWidthの初期値はカンプ幅ではなく
+//inner幅+左右paddingの値を設定する
+
+//これによりfontが小さくなりすぎるのを防ぐ
+
+// マイナス値の場合
+// calc(vwM(50) * -1); 
+
+
+
+
+
+
+@function rem($px, $base: 16) {
+  @return calc($px / $base) * 1rem;
+}
+//pxをremに変換する
+//基準値は16px
+//必要に応じて第二引数で基準値を変更可能
+//例）rem(24, 12) → 2rem
+//例）rem(24) → 1.5rem (基準値16px
+
+
+
+@function lh($px, $base: 16) {
+  @return calc($px / $base);
+}
+
+
+
+

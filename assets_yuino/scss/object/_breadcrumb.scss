@@ -1,0 +1,56 @@
+@use "../foundation/setting" as *;
+@use "../foundation/mixin" as *;
+
+.Breadcrumb {
+  margin-block-end: rem(8);
+}
+
+.Breadcrumb_List {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: rem(16);
+  row-gap: rem(16);
+  @include sp {
+    row-gap: unset;
+  }
+}
+
+.Breadcrumb_Item {
+  display: flex;
+  align-items: center; // 基本の中央揃え
+  font-size: rem(18);
+  color: #fff;
+  line-height: lh(42,18);
+  @include sp {
+    font-size: rem(12, 14);
+    line-height: unset;
+  }
+}
+
+// 最後の項目以外に > 記号を付与
+.Breadcrumb_Item:not(:last-child)::after {
+  content: ">"; // 記号を指定
+  margin-left: vwM(10); // 右側の余白
+  color: #fff;
+  font-family: sans-serif; // 記号のフォント崩れ防止
+
+  // 個別に中央配置を確実にしたい場合、基本指針に基づき指定
+  align-self: center;
+}
+
+.Breadcrumb_Item a {
+  text-decoration: none;
+  color: inherit;
+}
+.Breadcrumb_Item a:hover {
+  text-decoration: underline;
+}
+
+.Breadcrumb_List--white .Breadcrumb_Item {
+  color: #000;
+}
+
+.Breadcrumb_List--white .Breadcrumb_Item:not(:last-child)::after {
+  color: #000;
+}
+  

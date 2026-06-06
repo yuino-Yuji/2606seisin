@@ -1,0 +1,70 @@
+@use "../foundation/setting" as *;
+@use "../foundation/mixin" as *;
+
+.list-pageNo {
+  width: 100%;
+  @include sp {
+    margin-top: 6.4rem;
+  }
+}
+
+.PageNumBox {
+  display: flex;
+  justify-content: center;
+  column-gap: rem(10);
+}
+
+.page-numbers {
+  font-size: rem(18);
+  font-weight: bold;
+  text-align: center;
+  padding-top: rem(15);
+  width: rem(50);
+  height: rem(50);
+  background: #fff;
+  border: rem(1) solid #000;
+}
+
+.page-numbers.current {
+  color: #fff;
+  background: #000;
+}
+
+.page-numbers.dots {
+  border: none;
+}
+
+.PageNumBox div {
+  width: rem(50);
+  height: rem(50);
+  margin: 0 rem(3.5);
+  border: 1px solid #000;
+  position: relative;
+  transition-duration: 0.3s;
+  @include sp {
+    width: rem(50);
+    height: rem(50);
+    margin: 0 rem(3.5);
+  }
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.PageNumBox div:nth-of-type(1) {
+  background-color: #000;
+  color: #fff;
+}
+
+.PageNumBox div:nth-of-type(4) {
+  border: none;
+}
+
+.PageNumBox div p,
+.PageNumBox div a{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  padding: rem(10) rem(15);
+}
