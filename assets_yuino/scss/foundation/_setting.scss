@@ -13,13 +13,37 @@ $bp-pc: 768px;
 
 // vwの基準となる幅 →320px=スマホ最小
 // ここの値は単純にカンプ幅。px必須
-$vw_standard_width: 1920px;
+$vw_standard_width: 1280px;
 
 
 // こちらがinner幅
 // innerサイズ + 左右padding
 // 「px」ナシ
-$vw-base: 1660;
+$vw-base: 1200;
+
+
+// ===========================================
+// カラー（カンプ実測値から抽出 / メイン4色）
+// ===========================================
+// ブランドアクセント（テラコッタピンク）：FV 装飾 / CTA 装飾 / ステップ番号 / Q.ラベル
+$color-accent:  #d69a91;
+// 見出しテキスト（濃ブラウン）：H2 / H3 / セクションタイトル
+$color-heading: #655046;
+// 本文テキスト（中グレージュ）：本文 / 補助テキスト
+$color-text:    #837472;
+// セクション背景（ペールピンク）：こんなお悩み / ご利用の流れ / 注意事項帯
+$color-bg-pink: #fbf0f2;
+
+
+// ===========================================
+// フォント
+// ===========================================
+// 見出し用：カンプは「リュウミン Pro Medium」→ Noto Sans JP 700 で代替
+$font-heading: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+// 本文用：カンプは「FOT-Rodin ProN DB」→ Noto Sans JP 500 で代替
+$font-body:    "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+// 装飾タグ用：カンプは「FOT-Seurat ProN DB」→ Zen Maru Gothic 500 で代替
+$font-tag:     "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "YuGothic", sans-serif;
 
 
 

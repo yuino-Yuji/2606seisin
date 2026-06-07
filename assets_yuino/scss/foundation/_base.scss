@@ -13,15 +13,15 @@
   }
 }
 
-:root {
-  --bg-color: #ffffff;
-  --text-color: #121212;
+// :root {
+//   --bg-color: #ffffff;
+//   --text-color: #121212;
 
-  @media (prefers-color-scheme: dark) {
-    --bg-color: #121212;
-    --text-color: #f0f0f0;
-  }
-}
+//   @media (prefers-color-scheme: dark) {
+//     --bg-color: #121212;
+//     --text-color: #f0f0f0;
+//   }
+// }
 
 html {
   word-break: break-all;
@@ -47,16 +47,10 @@ html {
 
 body {
   font-size: rem(16);
-  font-family:
-    "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Meiryo",
-    "Yu Gothic", sans-serif;
-  // font-family: "Yu Gothic", sans-serif;
-  // font-family: "Yu Mincho", serif;
-  // font-family: "Zen Maru Gothic", serif;
-  // font-family: 'Sawarabi Mincho', serif;
-  // font-family: 'Shippori Mincho', serif;
+  font-family: $font-body;
+  font-weight: 500;
+  color: $color-text;
   background-color: var(--bg-color);
-  color: var(--text-color);
 
   @include sp {
     font-size: rem(14, 14);
