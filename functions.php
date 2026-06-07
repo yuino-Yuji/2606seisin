@@ -64,10 +64,23 @@ add_action('wp_enqueue_scripts', 'add_stylesheet');
  ****************/
 function add_custom_fonts()
 {
-  // Google Fonts - Noto Sans JP
+  // preconnect で Google Fonts の DNS/TLS を先行確立
+  add_action('wp_head', function () {
+    echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
+    echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
+  }, 1);
+
+  // 注：Google Fonts はファミリーごとに enqueue を分ける（まとめると稀に一部が読み込まれない事例があったため）
+  // Noto Sans JP: リュウミン Medium / ロダン DB の代替（500=本文・小見出し, 700=見出し・強調）
   wp_enqueue_style(
-    'google-fonts',
-    'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap',
+    'google-fonts-noto-sans-jp',
+    'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap',
+    array()
+  );
+  // Zen Maru Gothic: スーラ DB の代替（FV タグ等）
+  wp_enqueue_style(
+    'google-fonts-zen-maru-gothic',
+    'https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap',
     array()
   );
 

@@ -38,7 +38,7 @@
 //SP幅で別数値が必要な場合のみ別途記述
 //ここでは先ほど定義した変数を使用
 
-@function vw1920($pixelSize, $baseWidth:1920){
+@function vw1280($pixelSize, $baseWidth:1280){
   @return calc($pixelSize / $baseWidth * 100vw);
 }
 
