@@ -46,6 +46,14 @@ $font-body:    "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-se
 $font-tag:     "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "YuGothic", sans-serif;
 
 
+// ===========================================
+// 固定ヘッダー高さ（カンプ実測：ロゴ・ナビ・CTA を含む可視高さ）
+// ===========================================
+// scroll-padding-top と main の padding-top で参照
+$header-height-pc: 95;  // px @ viewport 1200
+$header-height-sp: 80;  // px @ viewport 375 (rem 第二引数 14 と組み合わせ)
+
+
 
 
 

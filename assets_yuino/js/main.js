@@ -19,6 +19,40 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+
+  // SP ハンバーガーメニュー開閉
+  const hamburger = document.querySelector(".HeaderHamburger");
+  const header = document.querySelector(".Header");
+  if (hamburger && header) {
+    const setOpen = (isOpen) => {
+      header.classList.toggle("is-open", isOpen);
+      hamburger.setAttribute("aria-expanded", String(isOpen));
+      hamburger.setAttribute("aria-label", isOpen ? "メニューを閉じる" : "メニュー");
+      document.body.style.overflow = isOpen ? "hidden" : "";
+    };
+
+    hamburger.addEventListener("click", () => {
+      const isOpen = header.classList.contains("is-open");
+      setOpen(!isOpen);
+    });
+
+    // ドロワー内リンク押下時は自動的に閉じる
+    const drawerLinks = header.querySelectorAll(".HeaderNavLink, .HeaderCtaLine, .HeaderCtaReserve");
+    drawerLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (header.classList.contains("is-open")) {
+          setOpen(false);
+        }
+      });
+    });
+
+    // ESC キーで閉じる
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && header.classList.contains("is-open")) {
+        setOpen(false);
+      }
+    });
+  }
 });
 
 //バックグラウンドごとに色を変える
