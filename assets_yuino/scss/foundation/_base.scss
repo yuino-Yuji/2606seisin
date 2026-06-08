@@ -28,6 +28,13 @@ html {
   // font-size: 62.5%;
   font-size: 100%;
   scroll-behavior: smooth;
+  // 固定ヘッダー分のアンカージャンプ位置補正
+  @include pc {
+    scroll-padding-block-start: rem($header-height-pc);
+  }
+  @include sp {
+    scroll-padding-block-start: rem($header-height-sp, 14);
+  }
   @media (min-width: 768px) and (max-width: ($vw-base * 1px)) {
     // ここの max-width が、mixin で設定した $baseWidth:1300 と同じ値になる
     // つまり inner幅 + 左右padding
@@ -37,7 +44,7 @@ html {
     // そうしないと狂う
   }
   @include sp {
-    font-size: min(vw(14, 375), 550 / 375 * 14px);
+    font-size: min(vw(14, 390), 550 / 390 * 14px);
     // // 拡大を止めない場合はコチラを使用
     // font-size: vw(14, 375);
     // // カンプ幅750pxの場合はコチラを使用

@@ -1,3 +1,295 @@
 @use '../foundation/setting' as *;
 @use '../foundation/mixin' as *;
 
+// ============================================
+// Header — 固定ヘッダー（scroll-padding-top 連動）
+// ============================================
+.Header {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 100;
+  background-color: #fff;
+  inline-size: 100%;
+
+  @include pc {
+    block-size: rem($header-height-pc);
+  }
+  @include sp {
+    block-size: rem($header-height-sp, 14);
+  }
+}
+
+.HeaderInner {
+  display: flex;
+  align-items: center;
+  block-size: 100%;
+  max-inline-size: ($vw-base * 1px);
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+
+  @include pc {
+    padding-inline-start: rem(30);
+    padding-inline-end: rem(30);
+    column-gap: rem(25); // カンプ：nav 右端 → LINE 左端 25
+  }
+  @include sp {
+    padding-inline-start: rem(20, 14);
+    padding-inline-end: rem(20, 14);
+    justify-content: space-between;
+  }
+}
+
+// ロゴ
+.HeaderLogo {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-end: auto; // ロゴを左端、以降を右端へ
+
+  @include pc {
+    inline-size: rem(165); // カンプ：ロゴ幅 164
+  }
+  @include sp {
+    inline-size: rem(110, 14); // カンプ：SP ロゴ幅 132 ≒ 110rem換算
+  }
+}
+
+.HeaderLogoLink {
+  display: block;
+}
+
+.HeaderLogoImage {
+  display: block;
+  inline-size: 100%;
+}
+
+// ナビ＋CTA をまとめるラッパー（SP ドロワー用）
+.HeaderEnd {
+  @include pc {
+    display: flex;
+    align-items: center;
+    column-gap: rem(25); // カンプ：nav → LINE 25
+  }
+  @include sp {
+    // SP では非表示。ハンバーガー押下時に .is-open を Header に付与で表示
+    display: none;
+  }
+}
+
+.Header.is-open .HeaderEnd {
+  @include sp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: rem(30, 14);
+    position: fixed;
+    inset-block-start: rem($header-height-sp, 14);
+    inset-inline: 0;
+    inset-block-end: 0;
+    background-color: #fff;
+    padding-inline: rem(20, 14);
+    padding-block: rem(40, 14);
+    overflow-y: auto;
+  }
+}
+
+// ナビゲーション
+.HeaderNav {
+  // PC: HeaderEnd 内で flex 横並び
+  // SP: ドロワー内で縦並び
+}
+
+.HeaderNavList {
+  list-style: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
+  display: flex;
+
+  @include pc {
+    column-gap: rem(20); // カンプ：nav 各リンク間隔 ≒ 19-25 → 20 に統一
+  }
+  @include sp {
+    flex-direction: column;
+    align-items: center;
+    row-gap: rem(20, 14);
+  }
+}
+
+.HeaderNavItem {
+  font-family: $font-body;
+}
+
+.HeaderNavLink {
+  color: $color-heading;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 500;
+  white-space: nowrap;
+
+  @include pc {
+    font-size: rem(14); // カンプ：nav text 14px
+  }
+  @include sp {
+    font-size: rem(16, 14);
+  }
+}
+
+.HeaderNavLink:hover {
+  color: $color-accent;
+}
+
+// CTA エリア
+.HeaderCtas {
+  display: flex;
+
+  @include pc {
+    column-gap: rem(14); // カンプ：LINE → 予約 14
+  }
+  @include sp {
+    flex-direction: column;
+    row-gap: rem(12, 14);
+    inline-size: 100%;
+    max-inline-size: rem(260, 14);
+  }
+}
+
+// LINE CTA（緑）
+.HeaderCtaLine {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: #38b34c; // カンプ：LINE 緑 #38B34C
+  color: #fff;
+  border-radius: 9999px; // non-comp: mask（ピル形状の技術的マスク）
+  font-family: $font-body;
+  font-weight: 700;
+
+  @include pc {
+    column-gap: rem(8);
+    block-size: rem(50); // カンプ：ボタン高さ 49
+    inline-size: rem(175); // カンプ：ボタン幅 174
+    font-size: rem(15);
+  }
+  @include sp {
+    column-gap: rem(8, 14);
+    block-size: rem(50, 14);
+    inline-size: 100%;
+    font-size: rem(16, 14);
+  }
+}
+
+.HeaderCtaLineIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  @include pc {
+    inline-size: rem(24); // カンプ：LINE アイコン幅 23
+  }
+  @include sp {
+    inline-size: rem(24, 14);
+  }
+}
+
+// 予約 CTA（白＋アクセント枠）
+.HeaderCtaReserve {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: #fff;
+  color: $color-accent;
+  border: 1.5px solid $color-accent; // カンプ：アクセント色 1.5px ボーダー
+  border-radius: 9999px; // non-comp: mask
+  font-family: $font-body;
+  font-weight: 700;
+
+  @include pc {
+    column-gap: rem(8);
+    block-size: rem(50);
+    inline-size: rem(175);
+    font-size: rem(15);
+  }
+  @include sp {
+    column-gap: rem(8, 14);
+    block-size: rem(50, 14);
+    inline-size: 100%;
+    font-size: rem(16, 14);
+  }
+}
+
+.HeaderCtaReserveIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  @include pc {
+    inline-size: rem(20); // カンプ：カレンダー幅 20
+  }
+  @include sp {
+    inline-size: rem(20, 14);
+  }
+}
+
+// ハンバーガーボタン（SP のみ）
+.HeaderHamburger {
+  background-color: transparent;
+  border: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  cursor: pointer;
+  position: relative;
+
+  @include pc {
+    display: none;
+  }
+  @include sp {
+    display: block;
+    inline-size: rem(30, 14);
+    block-size: rem(24, 14);
+  }
+}
+
+.HeaderHamburger span {
+  display: block;
+  position: absolute;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  background-color: $color-heading;
+  transition: transform 0.3s, opacity 0.3s;
+
+  @include sp {
+    block-size: rem(2, 14);
+  }
+}
+
+.HeaderHamburger span:nth-child(1) {
+  inset-block-start: 0;
+}
+
+.HeaderHamburger span:nth-child(2) {
+  inset-block-start: 50%;
+  transform: translateY(-50%); // non-comp: layout-tool（縦中央寄せ）
+}
+
+.HeaderHamburger span:nth-child(3) {
+  inset-block-end: 0;
+}
+
+// 開いた状態（× 表示）
+.HeaderHamburger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(rem(11, 14)) rotate(45deg); // non-comp: animation-state
+  inset-block-start: 0;
+}
+
+.HeaderHamburger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0; // non-comp: animation-state
+}
+
+.HeaderHamburger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(rem(-11, 14)) rotate(-45deg); // non-comp: animation-state
+  inset-block-end: 0;
+}
