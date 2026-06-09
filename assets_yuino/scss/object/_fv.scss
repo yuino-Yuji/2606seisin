@@ -1,0 +1,321 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+.main {
+  // padding-block-start: rem(151);
+  padding-block-start: rem($header-height-pc);
+}
+
+// ============================================
+// FV — メインビジュアル
+// カンプ：PC artboard 1280×(top→Concern先頭 ≒ 1013)、SP artboard 391×(top→Concern ≒ 1245)
+// 構造：左カラム（タグ・見出し・区切り線・本文・バッジ・注釈・CTA）／右カラム（写真）
+// ============================================
+.Fv {
+  position: relative;
+  background-color: #fff;
+  // カンプ：写真は artboard top（ヘッダー裏）から、artboard 中心 -50px に左端を置く。viewport 拡縮に追従
+  background-image: url('../img/FV/top-FV.webp');
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: vw1280(720) auto; // カンプ：写真 inline-size 720（artboard 1280 基準で 56.25vw）
+  overflow-x: hidden; // non-comp: mask（写真が画面右にはみ出すため）
+  isolation: isolate; // non-comp: stacking
+  min-block-size: rem(1013); // カンプ：ヘッダー底〜FV 底 ≒ 1013
+
+  @include sp {
+    // SP は別画像（top-FV-sp.webp 783×829）。100vw 表示で高さ ≒ 100 * 829/783 = 105.87vw
+    background-image: url('../img/FV/top-FV-sp.webp');
+    background-position: center 0;
+    background-size: 100vw auto;
+    min-block-size: auto;
+    // FvInner 位置を維持するためヘッダー + 画像分の余白を確保
+    padding-block-start: calc(#{rem($header-height-sp, 14)} + 105.87vw);
+  }
+}
+
+// Inner
+.FvInner {
+  position: relative;
+  z-index: 1; // non-comp: stacking
+  max-inline-size: ($vw_standard_width); // カンプ：PC artboard 1280
+  margin-inline: auto;
+  padding-inline-start: rem(76); // カンプ：artboard 左端 → 左カラム左端 76
+  padding-inline-end: rem(30);
+
+  @include sp {
+    padding-inline-start: rem(20, 14);
+    padding-inline-end: rem(20, 14);
+  }
+}
+
+// 左カラム（本文ブロック）
+.FvBody {
+  inline-size: rem(620); // カンプ：見出し SVG width=569 だが、CSS では tracking が文字単位ではなく均一 0.05em のため幅が広がる
+  padding-block-start: rem(74); // カンプ：タグ実体 top 224.55 − ヘッダー 151 = 73.55
+  padding-block-end: rem(85);
+
+  @include sp {
+    inline-size: auto;
+    padding-block-start: rem(45, 14);
+    padding-block-end: rem(40, 14);
+  }
+}
+
+// 「妊活中のあなたへ」タグ
+.FvTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f2f3; // カンプ実測：rgb(248,242,243) ≒ #F8F2F3
+  border: 0.5px solid $color-accent; // カンプ実測：境界ストローク 0.5px アクセント色
+  border-radius: 999px; // カンプ実測：SVG rx=20.28（実体 40.55 高さに対するピル）
+  box-shadow: 0 0 rem(4) rgba(5, 1, 1, 0.1); // カンプ：drop-shadow stdDeviation=2 → CSS blur-radius ≒ 4, color #050101 / opacity 0.1
+  color: $color-accent; // カンプ実測：SVG fill=#d69a91
+  font-family: $font-body; // カンプ実測：FOT-Rodin ProN DB
+  font-weight: 700;
+  letter-spacing: 0.18em; // カンプ実測：tracking 各文字 0.15〜0.20em の平均
+  margin-block-start: 0;
+  margin-block-end: 0;
+  inline-size: rem(252); // カンプ実測：SVG rect width=252.02
+  block-size: rem(41); // カンプ実測：SVG rect height=40.55
+  font-size: rem(19); // カンプ実測：SVG font-size=19.33
+
+  @include sp {
+    inline-size: rem(252, 14);
+    block-size: rem(41, 14);
+    font-size: rem(17, 14);
+  }
+}
+
+// メイン見出し
+.FvTitle {
+  color: $color-heading; // カンプ実測：SVG fill=#655046（「妊活」以外）
+  font-family: $font-heading;
+  font-weight: 400;
+  letter-spacing: 0.05em; // カンプ実測：tracking 50（句読点 -0.45em は別途）
+  line-height: 1.42; // カンプ：leading 70.73 / font 49.39 ≒ 1.43
+  margin-block-start: rem(28); // カンプ：タグ下端 272 → 見出し top 301 = 29
+  margin-block-end: 0;
+  font-size: rem(49); // カンプ実測：SVG font-size=49.39（「妊活」以外）
+  // カンプ実測：uuid 474（同テキストの裏）visual 649×216 − 実体 569×136 = 各方向 40px 拡張 → Gaussian blur stdDev ≒ 13。drop-shadow を重ねて光彩感を出す
+  filter: drop-shadow(0 0 rem(13) #fff) drop-shadow(0 0 rem(8) #fff) drop-shadow(0 0 rem(4) #fff);
+
+  @include sp {
+    margin-block-start: rem(20, 14);
+    font-size: rem(26, 14); // カンプ SP：「妊活をがんばる毎日に、」が 1 行に収まる
+    letter-spacing: 0.02em; // SP は tracking 控えめにして折り返し防止
+  }
+}
+
+// メイン見出しの「妊活」だけ大きく＆アクセント色
+.FvTitleAccent {
+  color: $color-accent; // カンプ実測：SVG fill=#d69a91
+  font-size: rem(62); // カンプ実測：SVG font-size=61.78
+}
+
+// 区切り線（アクセント色） + 左の小シンボル
+.FvDivider {
+  position: relative;
+  background-color: $color-accent; // カンプ実測：SVG stroke=#d69a91
+  margin-block-start: rem(33); // カンプ：見出し下端 437 → 線 top 469 = 32
+  margin-inline-start: rem(60); // カンプ：見出し左 80 → 線左 135 = 55、シンボル分含めて 60
+  inline-size: rem(345); // カンプ実測：SVG line 長さ 345.48
+  block-size: 0.5px; // カンプ実測：SVG stroke-width=0.5
+
+  @include sp {
+    margin-block-start: rem(28, 14);
+    margin-inline-start: rem(40, 14);
+    inline-size: rem(220, 14);
+  }
+}
+
+.FvDividerMark {
+  position: absolute;
+  inset-block-start: 50%;
+  transform: translate(-100%, -50%); // non-comp: layout-tool（線左端に花マークを配置）
+  inset-inline-start: rem(-20);
+  inline-size: rem(27); // カンプ実測：シンボル width=27
+  block-size: rem(26); // カンプ実測：シンボル height=25.7
+
+  @include sp {
+    inset-inline-start: rem(-8, 14);
+    inline-size: rem(22, 14);
+    block-size: rem(21, 14);
+  }
+}
+
+.FvDividerMark img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+// 本文リード
+.FvLead {
+  color: $color-text; // カンプ実測：SVG fill=#837472
+  font-family: $font-body; // カンプ実測：FOT-Rodin ProN DB
+  font-weight: 500;
+  letter-spacing: 0.13em; // カンプ実測：文字ごと 0.04〜0.21em の平均（厳密には文字単位カーニング）
+  line-height: 1.75; // カンプ実測：leading 33.82 / font 19.33 ≒ 1.75
+  margin-block-start: rem(39); // カンプ実測：本文 top 510 − 線 top 471 = 39
+  margin-block-end: 0;
+  padding-inline-start: rem(11); // カンプ実測：本文 left 86.61 − FvInner padding 76 = 10.61
+  font-size: rem(19); // カンプ実測：SVG font-size=19.33
+
+  @include sp {
+    margin-block-start: rem(20, 14);
+    padding-inline-start: 0;
+    font-size: rem(16, 14);
+  }
+}
+
+// バッジ 3 つ
+.FvBadges {
+  display: flex;
+  list-style: none;
+  margin-block-start: rem(38); // カンプ実測：バッジ実体 top 670.42 − 本文下端 632.4 = 38.02
+  margin-block-end: 0;
+  padding-inline-start: rem(7);
+  column-gap: rem(7); // カンプ：バッジ間 6.5
+
+  @include sp {
+    flex-wrap: wrap;
+    column-gap: rem(7, 14);
+    row-gap: rem(8, 14);
+    margin-block-start: rem(28, 14);
+    padding-inline-start: 0;
+    justify-content: space-between;
+  }
+}
+
+.FvBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f2ee; // カンプ実測：rgb(248,242,238) ≒ #F8F2EE
+  border-radius: rem(8); // カンプ実測：SVG rx=7.75
+  box-shadow: 0 0 rem(4) rgba(5, 1, 1, 0.1); // カンプ：drop-shadow stdDeviation=2 → CSS blur-radius ≒ 4, color #050101 / opacity 0.1
+  color: $color-text; // カンプ実測：SVG fill=#837472
+  font-family: $font-tag;
+  font-weight: 500;
+  letter-spacing: 0; // カンプ実測：tracking ≒ 0（文字ごと -0.02〜0.01em）
+  column-gap: rem(8); // カンプ：アイコン → ラベル 8
+  inline-size: rem(204); // カンプ実測：SVG rect width=203.95
+  block-size: rem(64); // カンプ実測：SVG rect height=63.99
+  font-size: rem(16); // カンプ実測：SVG font-size=16
+
+  @include sp {
+    flex-direction: column;
+    column-gap: 0;
+    row-gap: rem(6, 14);
+    inline-size: calc((100% - #{rem(14, 14)}) / 3);
+    block-size: rem(110, 14);
+    font-size: rem(13, 14);
+    text-align: center;
+  }
+}
+
+.FvBadgeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  inline-size: rem(20);
+
+  @include sp {
+    inline-size: rem(34, 14);
+  }
+}
+
+.FvBadgeIcon img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+// 注釈
+.FvNote {
+  color: #666; // カンプ実測：SVG fill=#666（$color-text とは別）
+  font-family: $font-body; // カンプ実測：FOT-Rodin ProN DB
+  font-weight: 500;
+  margin-block-start: rem(25); // カンプ実測：注釈 top 860.57 − CTA 実体 bottom 835.88 = 24.69
+  margin-block-end: 0;
+  padding-inline-start: rem(15); // カンプ実測：注釈 left 90.82 − FvInner padding 76 = 14.82
+  font-size: rem(16); // カンプ実測：SVG font-size=16
+
+  @include sp {
+    margin-block-start: rem(18, 14);
+    padding-inline-start: 0;
+    font-size: rem(13, 14);
+  }
+}
+
+// CTA 2 つ
+.FvCtas {
+  display: flex;
+  column-gap: rem(30); // カンプ実測：実体ボタン間隔 30.53（visual bounds 上は 17 だが実体差で 30）
+  margin-block-start: rem(29); // カンプ実測：CTA 実体 top 763.68 − バッジ実体 bottom 734.41 = 29.27
+  padding-inline-start: rem(7);
+
+  @include sp {
+    flex-direction: column;
+    column-gap: 0;
+    row-gap: rem(14, 14);
+    margin-block-start: rem(28, 14);
+    padding-inline-start: 0;
+  }
+}
+
+.FvCtaLine,
+.FvCtaReserve {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: rem(36); // カンプ実測：SVG rx=36.1
+  box-shadow: 0 0 rem(4) rgba(5, 1, 1, 0.1); // カンプ：drop-shadow stdDeviation=2 → CSS blur ≒ 4, color #050101 / opacity 0.1
+  font-family: $font-body; // カンプ実測：FOT-Rodin ProN DB
+  font-weight: 700;
+  column-gap: rem(10);
+  inline-size: rem(333); // カンプ実測：SVG rect width=333.47
+  block-size: rem(72); // カンプ実測：SVG rect height=72.2
+  font-size: rem(19); // カンプ実測：SVG font-size=19.33
+
+  @include sp {
+    column-gap: rem(10, 14);
+    inline-size: 100%;
+    block-size: rem(60, 14);
+    font-size: rem(16, 14);
+  }
+}
+
+.FvCtaLine {
+  background-color: #38b34c; // カンプ実測：SVG fill=#38b34c
+  color: #fff; // カンプ実測：SVG text fill=#fff
+}
+
+.FvCtaReserve {
+  background-color: #fff; // カンプ実測：SVG fill=#fff
+  color: $color-accent; // カンプ実測：SVG text fill=#d69a91
+  border: 0.75px solid $color-accent; // カンプ実測：SVG stroke-width=0.75
+}
+
+.FvCtaLineIcon,
+.FvCtaReserveIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  inline-size: rem(30);
+
+  @include sp {
+    inline-size: rem(28, 14);
+  }
+}
+
+.FvCtaLineIcon img,
+.FvCtaReserveIcon img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}

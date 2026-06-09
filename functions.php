@@ -74,7 +74,7 @@ function add_custom_fonts()
   // Noto Sans JP: リュウミン Medium / ロダン DB の代替（500=本文・小見出し, 700=見出し・強調）
   wp_enqueue_style(
     'google-fonts-noto-sans-jp',
-    'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700&display=swap',
+    'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap',
     array()
   );
   // Zen Maru Gothic: スーラ DB の代替（FV タグ等）

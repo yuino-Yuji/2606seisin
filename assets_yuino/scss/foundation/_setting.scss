@@ -50,7 +50,7 @@ $font-tag:     "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "YuGothic", sans-
 // 固定ヘッダー高さ（カンプ実測：ロゴ・ナビ・CTA を含む可視高さ）
 // ===========================================
 // scroll-padding-top と main の padding-top で参照
-$header-height-pc: 95;  // px @ viewport 1200
+$header-height-pc: 151; // px @ viewport 1280。カンプ：ヘッダー帯 uuid 464 height=151.31
 $header-height-sp: 80;  // px @ viewport 375 (rem 第二引数 14 と組み合わせ)
 
 
