@@ -11,10 +11,8 @@
   z-index: 100;
   background-color: #fff;
   inline-size: 100%;
+  block-size: rem($header-height-pc);
 
-  @include pc {
-    block-size: rem($header-height-pc);
-  }
   @include sp {
     block-size: rem($header-height-sp, 14);
   }
@@ -24,19 +22,18 @@
   display: flex;
   align-items: center;
   block-size: 100%;
-  max-inline-size: ($vw-base * 1px);
+  max-inline-size: $vw_standard_width; // カンプ：artboard 1280（Inner 1200 とは別、ヘッダーは artboard 幅）
   margin-inline-start: auto;
   margin-inline-end: auto;
+  padding-inline-start: rem(56); // カンプ：artboard 左端 → ロゴ左端 56.37
+  padding-inline-end: rem(25); // カンプ：予約ボタン右端 → artboard 右端 24.98
+  column-gap: rem(25); // カンプ：nav 右端 → LINE 左端 25
 
-  @include pc {
-    padding-inline-start: rem(30);
-    padding-inline-end: rem(30);
-    column-gap: rem(25); // カンプ：nav 右端 → LINE 左端 25
-  }
   @include sp {
     padding-inline-start: rem(20, 14);
     padding-inline-end: rem(20, 14);
     justify-content: space-between;
+    column-gap: 0;
   }
 }
 
@@ -45,10 +42,8 @@
   margin-block-start: 0;
   margin-block-end: 0;
   margin-inline-end: auto; // ロゴを左端、以降を右端へ
+  inline-size: rem(165); // カンプ：ロゴ幅 164
 
-  @include pc {
-    inline-size: rem(165); // カンプ：ロゴ幅 164
-  }
   @include sp {
     inline-size: rem(110, 14); // カンプ：SP ロゴ幅 132 ≒ 110rem換算
   }
@@ -65,11 +60,10 @@
 
 // ナビ＋CTA をまとめるラッパー（SP ドロワー用）
 .HeaderEnd {
-  @include pc {
-    display: flex;
-    align-items: center;
-    column-gap: rem(25); // カンプ：nav → LINE 25
-  }
+  display: flex;
+  align-items: center;
+  column-gap: rem(25); // カンプ：nav → LINE 25
+
   @include sp {
     // SP では非表示。ハンバーガー押下時に .is-open を Header に付与で表示
     display: none;
@@ -94,25 +88,18 @@
   }
 }
 
-// ナビゲーション
-.HeaderNav {
-  // PC: HeaderEnd 内で flex 横並び
-  // SP: ドロワー内で縦並び
-}
-
 .HeaderNavList {
   list-style: none;
   margin-block-start: 0;
   margin-block-end: 0;
   padding-inline-start: 0;
   display: flex;
+  column-gap: rem(20); // カンプ：nav 各リンク間隔 ≒ 19-25 → 20 に統一
 
-  @include pc {
-    column-gap: rem(20); // カンプ：nav 各リンク間隔 ≒ 19-25 → 20 に統一
-  }
   @include sp {
     flex-direction: column;
     align-items: center;
+    column-gap: 0;
     row-gap: rem(20, 14);
   }
 }
@@ -127,12 +114,12 @@
   display: inline-block;
   font-weight: 500;
   white-space: nowrap;
+  font-size: rem(13); // カンプ：FOT-Rodin ProN DB 12.94pt
+  letter-spacing: 0.05em; // カンプ：tracking 50
 
-  @include pc {
-    font-size: rem(14); // カンプ：nav text 14px
-  }
   @include sp {
     font-size: rem(16, 14);
+    letter-spacing: 0.05em;
   }
 }
 
@@ -143,12 +130,11 @@
 // CTA エリア
 .HeaderCtas {
   display: flex;
+  column-gap: rem(14); // カンプ：LINE → 予約 14
 
-  @include pc {
-    column-gap: rem(14); // カンプ：LINE → 予約 14
-  }
   @include sp {
     flex-direction: column;
+    column-gap: 0;
     row-gap: rem(12, 14);
     inline-size: 100%;
     max-inline-size: rem(260, 14);
@@ -166,13 +152,12 @@
   border-radius: 9999px; // non-comp: mask（ピル形状の技術的マスク）
   font-family: $font-body;
   font-weight: 700;
+  column-gap: rem(8);
+  block-size: rem(50); // カンプ：ボタン高さ 49
+  inline-size: rem(175); // カンプ：ボタン幅 174
+  font-size: rem(11); // カンプ：FOT-Rodin ProN DB 10.81pt
+  letter-spacing: 0.1em; // カンプ：tracking 100
 
-  @include pc {
-    column-gap: rem(8);
-    block-size: rem(50); // カンプ：ボタン高さ 49
-    inline-size: rem(175); // カンプ：ボタン幅 174
-    font-size: rem(15);
-  }
   @include sp {
     column-gap: rem(8, 14);
     block-size: rem(50, 14);
@@ -185,10 +170,8 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  inline-size: rem(24); // カンプ：LINE アイコン幅 23
 
-  @include pc {
-    inline-size: rem(24); // カンプ：LINE アイコン幅 23
-  }
   @include sp {
     inline-size: rem(24, 14);
   }
@@ -206,13 +189,12 @@
   border-radius: 9999px; // non-comp: mask
   font-family: $font-body;
   font-weight: 700;
+  column-gap: rem(8);
+  block-size: rem(50);
+  inline-size: rem(175);
+  font-size: rem(11); // カンプ：FOT-Rodin ProN DB 10.81pt
+  letter-spacing: 0.1em; // カンプ：tracking 100
 
-  @include pc {
-    column-gap: rem(8);
-    block-size: rem(50);
-    inline-size: rem(175);
-    font-size: rem(15);
-  }
   @include sp {
     column-gap: rem(8, 14);
     block-size: rem(50, 14);
@@ -225,10 +207,8 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  inline-size: rem(20); // カンプ：カレンダー幅 20
 
-  @include pc {
-    inline-size: rem(20); // カンプ：カレンダー幅 20
-  }
   @include sp {
     inline-size: rem(20, 14);
   }
@@ -242,10 +222,8 @@
   padding-inline: 0;
   cursor: pointer;
   position: relative;
+  display: none; // PC は非表示
 
-  @include pc {
-    display: none;
-  }
   @include sp {
     display: block;
     inline-size: rem(30, 14);
