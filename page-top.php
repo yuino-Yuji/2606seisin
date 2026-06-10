@@ -108,5 +108,35 @@ Template Name: トップページ
     </div>
   </section>
 
+  <!-- ============================================
+       Concept — 妊活中の身体づくりに、自分をいたわる時間を。
+       ============================================ -->
+  <section class="Concept" id="concept">
+    <div class="ConceptInner">
+      <div class="ConceptPhoto" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" srcset="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/concept/concept-image-sp.webp">
+          <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/concept/concept-image.webp" alt="" width="397" height="298">
+        </picture>
+      </div>
+
+      <div class="ConceptBody">
+        <h2 class="ConceptTitle">妊活中の身体づくりに、<br class="sp">自分をいたわる時間を。</h2>
+
+        <div class="ConceptText">
+          <p>Sakuraは、妊活をがんばる方の身体づくりをサポートしたいという想いから、酸素カプセルを活用したサロン運営を行っています。</p>
+          <p>妊活中は、身体のことだけでなく、気持ちの面でも不安や焦りを感じやすい時期です。</p>
+          <p>だからこそ、Sakuraでは、無理に頑張るケアではなく、ゆっくり休みながら身体を整える時間を大切にしています。</p>
+          <p>酸素カプセルで過ごす静かな時間が、日々の緊張をゆるめ、自分の身体と向き合うきっかけになるように。</p>
+          <p>そんな想いで、妊活中のコンディションづくりをやさしくサポートします。</p>
+        </div>
+      </div>
+
+      <div class="ConceptCtas">
+        <?php get_template_part('template-parts/cta-pair'); ?>
+      </div>
+    </div>
+  </section>
+
 </main>
 <?php get_footer(); ?>

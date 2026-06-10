@@ -1,0 +1,62 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+// ============================================
+// CtaPair / CtaButton — 2 ボタンセット（LINE で相談する / 初回予約をする）
+// template-parts/cta-pair.php と連動。カンプ：SP Concept・Closing 等で複数回使い回し。
+// ベーススタイル（pill 形状・色・font）はここで定義し、サイズ（inline / block / font-size）は
+// 各セクションの親 context（.Concept, .Fv 等）で override する設計。
+// ============================================
+.CtaPair {
+  list-style: none; // non-comp: reset
+  margin-block: 0;
+  margin-inline: 0;
+  padding-inline-start: 0; // non-comp: reset
+  display: flex;
+  flex-direction: column;
+  gap: 0; // カンプ：SP Concept LINE bottom -4919.5 = 初回予約 top -4919.5（pill 形状の curve で視覚 gap が出る）
+}
+
+.CtaPair__Item {
+  list-style: none; // non-comp: reset
+}
+
+.CtaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none; // non-comp: reset（a 要素の下線除去）
+  border-radius: 999px; // カンプ：path segment 8（角丸 pill）。高さに対する半径で完全 pill を保証
+  box-shadow: 0 0 rem(4) rgba(5, 1, 1, 0.1); // カンプ：FV CTA と同パターン（drop-shadow stdDev=2 → blur ≒ 4, #050101 opacity 0.1）
+  font-family: $font-body; // カンプ：FOT-Rodin ProN DB → Noto Sans JP 500 代替
+  font-weight: 700;
+  column-gap: rem(10);
+  inline-size: 100%; // 親 wrapper（.CtaPair の親）の幅にフィット
+}
+
+.CtaButton--line {
+  background-color: #38b34c; // カンプ uuid 1758 fill rgb(0.220, 0.702, 0.298) = #38B34C
+  color: #fff;               // カンプ uuid 1768 text fill #FFFFFF
+}
+
+.CtaButton--reserve {
+  background-color: #fff;                 // カンプ uuid 1775 fill rgb(1,1,1) = #FFFFFF
+  color: $color-accent;                   // カンプ uuid 1778 text fill = accent #D69A91
+  border: 0.75px solid $color-accent;     // カンプ uuid 1775 stroke #D69A91 / width 0.75
+}
+
+.CtaButton__Icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; // non-comp: layout-tool（アイコンを縮ませない）
+}
+
+.CtaButton__Icon img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.CtaButton__Text {
+  // tracking は location 側で指定（カンプ：LINE 0.1em / 初回予約 0.2em と異なる。location ごとに override）
+}

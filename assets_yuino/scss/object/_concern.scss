@@ -13,11 +13,11 @@
   display: flow-root; // non-comp: layout-tool（子の margin-block-start が Concern matrix top に collapsing しないように遮断）
   background-color: $color-bg-pink; // カンプ実測：rgb(251,240,242) ≒ #FBF0F2
   padding-block-start: 0; // カンプ：Concern 矩形 top -3979.5 → タイトル top -3987.5 = -8（タイトル ascender が矩形上端よりわずか上にはみ出す）。padding を 0 にして ConcernTitle margin で微調整
-  padding-block-end: rem(125); // カンプ：リード文下端 -3524 → Concern 下端 -3399 = 125（次セクションへの margin 込み）
+  padding-block-end: rem(41); // カンプ：リード文下端 -3524 → Concern bg 下端 -3483 = 41（次セクションとの白余白は Concept padding-block-start 側に分離）
 
   @include sp {
     padding-block-start: rem(40, 14);
-    padding-block-end: rem(80, 14);
+    padding-block-end: rem(28, 14); // カンプ：SP リード文下端 -5825.49 → Concern bg(uuid 1566) 下端 -5797.36 = 28.13
   }
 }
 
