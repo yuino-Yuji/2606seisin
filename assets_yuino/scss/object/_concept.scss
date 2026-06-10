@@ -1,0 +1,182 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+// ============================================
+// Concept — 妊活中の身体づくりに、自分をいたわる時間を。
+// パターン：media object（PC=画像+テキスト横並び、SP=写真フルブリード+テキスト+CTA スタック）
+//
+// カンプ:
+//   PC: 写真 clip(uuid 828) 272.57×272.57 (1:1)、本文 2 段組、CTA なし
+//   SP: 写真 clip(uuid 1704) 391.07×243.16 (16:10) フルブリード、本文 1 段、CTA 2 ボタン
+//
+// 全数値はカンプ実測由来。コメントに UUID + 計測根拠を必須記載。
+// 例外（user 指示由来の deviation）：
+//   - PC title font-size 28（カンプ 31.64）= Gothic 代替で 1 行収納するための 3.64 縮小（Q2 指示）
+//   - SP 写真上端 = Concern 下端揃え（カンプ 6.47px の重なりは食い込みなしで吸収、Q4 指示）
+// ============================================
+.Concept {
+  position: relative;
+  background-color: #fff; // カンプ：Concern(pink) と Mission(pink) の間の白セクション
+  padding-block-start: rem(95); // カンプ：Concern bg(uuid 465) 下端 -3483.09 → Concept 写真 top -3387.95 = 95.14
+  padding-block-end: rem(62);   // カンプ：本文 top -3307.35 + height 223.10 = -3084.25 → Mission bg(uuid 466) top -3022.90 = 61.35
+
+  @include sp {
+    padding-block-start: 0;           // Q4 指示：SP Concern bottom -5797.36 → 写真 top -5803.83 = -6.47 の重なりを「食い込みなし」で吸収、Concern bottom = Concept top で揃える
+    padding-block-end: rem(23, 14);   // カンプ：SP 初回予約 CTA(uuid 1769) bottom -4834.5 → Service bg(uuid 1567) top -4811.62 = 22.88
+  }
+}
+
+// media object wrapper（PC: flex row、SP: flex column）
+.ConceptInner {
+  display: flex;
+  align-items: flex-start;
+  gap: rem(47); // カンプ：PC 写真 clip 右 -254.52 → title left -207.50 = 47.02
+  inline-size: rem(1078); // カンプ：272.57(photo) + 47.02(gap) + 759.26(title) = 1078.85
+  max-inline-size: 100%;
+  margin-inline: auto; // viewport 中央寄せ
+
+  @include sp {
+    flex-direction: column;
+    gap: 0; // SP は子間隔が非対称（photo→body 47、body→cta 31）のため gap 統一値を使わず、各子の margin-block-start で個別指定
+    inline-size: 100%;
+  }
+}
+
+.ConceptPhoto {
+  flex: 0 0 rem(272); // カンプ：clip(uuid 828) width 272.57
+  inline-size: rem(272);
+
+  @include sp {
+    flex: none;
+    inline-size: 100%; // カンプ：SP clip(uuid 1704) width 391.07 = SP artboard 391（full-bleed）
+  }
+}
+
+.ConceptPhoto picture {
+  display: block;
+  inline-size: 100%;
+}
+
+// 素材アスペクト = カンプクリップアスペクト一致（PC 1:1、SP 16:10）→ natural aspect で表示、object-fit 不要
+.ConceptPhoto img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+// title + text wrapper（PC: 759 固定 / SP: 100% + padding-inline）
+.ConceptBody {
+  flex: 0 1 rem(759); // カンプ：title(uuid 483) rendered width 759.26
+  min-inline-size: 0; // non-comp: layout-tool（flex item shrink を効かせる）
+  display: flex;
+  flex-direction: column;
+  gap: rem(33); // カンプ：title bottom -3340.70 → text top -3307.35 = 33.35
+
+  @include sp {
+    flex: none;
+    inline-size: 100%;
+    padding-inline: rem(41, 14); // カンプ：SP title(uuid 1698) left 1629.77 → artboard left 1588.43 = 41.34
+    gap: rem(16, 14);            // カンプ：SP title bottom -5437.98 → text top -5421.95 = 16.03
+    margin-block-start: rem(47, 14); // カンプ：SP 写真 clip bottom -5554.19 → title top -5506.32 = 47.87（ConceptInner gap が SP では使えないため個別指定）
+  }
+}
+
+.ConceptTitle {
+  margin: 0;
+  color: $color-heading; // カンプ：見出し色 #655046（$color-heading）
+  font-family: $font-heading; // カンプ：RyuminPro Medium → Noto Sans JP 700 代替（$font-heading）
+  font-weight: 700;
+  font-size: rem(28); // カンプ uuid 483 font_size 31.64。Q2 指示：Gothic 代替で tracking 0.2em のまま 1 行収納するため 3.64 縮小（22 文字 × 28 × 1.2 = 739 < body 759）
+  line-height: 1.43; // カンプ：leading 45.31 / font 31.64 ≒ 1.43
+  letter-spacing: 0.2em; // カンプ uuid 483 tracking 200
+  text-align: start; // カンプ：paragraph_alignment=left
+
+  @media (max-width: 1077px) {
+    // PC 1077 以下：ConceptInner が viewport いっぱいに広がり ConceptBody が縮小 → title 1 行を維持するため font-size 縮小（Q2 指示）
+    font-size: rem(20);
+  }
+
+  @include sp {
+    font-size: rem(26, 14); // カンプ uuid 1698 font_size 25.78
+    line-height: 1.43; // カンプ：leading 36.91 / font 25.78 ≒ 1.43
+    letter-spacing: 0; // カンプ uuid 1698 tracking 200 だが Gothic 代替では 11 文字 × 26 × 1.2 = 343 > body 294 で 4 行折り返しになる。tracking 0 で 11 文字 × 26 = 286 → 2 行に揃う（カンプ視覚優先）
+  }
+}
+
+.ConceptText {
+  max-inline-size: rem(711); // カンプ：col 1 width 327.81 + gap 57.03 + col 2 width 327.81 = 712.65（rem(711) で再現）
+  columns: 2; // カンプ：左 col(uuid 821) + 右 col(uuid 824)
+  column-gap: rem(57); // カンプ：col 1 right +122.05 → col 2 left +179.08 = 57.03
+  column-rule: 0.5px solid $color-accent; // カンプ uuid 825 stroke 0.5 + color rgb(214,154,145) = #D69A91 = $color-accent
+
+  @include sp {
+    max-inline-size: 100%;
+    columns: 1;
+    column-rule: none;
+  }
+}
+
+.ConceptText p {
+  margin: 0;
+  color: $color-text; // カンプ：本文色 #837472（$color-text）
+  font-family: $font-body; // カンプ：FOT-Rodin ProN DB → Noto Sans JP 500 代替（$font-body）
+  font-weight: 500;
+  font-size: rem(17); // カンプ uuid 821 font_size 17
+  line-height: 1.75; // カンプ：leading 29.75 / font 17 = 1.75
+  letter-spacing: 0.025em; // カンプ uuid 821 tracking 25
+  text-align: justify; // カンプ：paragraph_alignment=justify
+
+  @include sp {
+    font-size: rem(16, 14); // カンプ uuid 1701 font_size 16
+    line-height: 1.75; // カンプ：leading 28 / font 16 = 1.75
+    letter-spacing: 0; // カンプ uuid 1701 tracking 0
+  }
+}
+
+// SP 限定：CTA 2 ボタンセット
+.ConceptCtas {
+  display: none; // PC: 非表示（カンプ：PC Concept に CTA なし）
+
+  @include sp {
+    display: block;
+    inline-size: 100%; // ConceptInner が align-items: flex-start のため明示しないと intrinsic 幅に縮小
+    padding-inline: rem(22, 14); // カンプ：SP LINE CTA(uuid 1753) left 1610.5 → artboard left 1588.43 = 22.07
+    margin-block-start: rem(31, 14); // カンプ：SP 本文 bottom -5036.94 → LINE CTA top -5005.5 = 31.44
+    box-sizing: border-box; // non-comp: layout-tool（padding 込みで 100% に収める）
+  }
+}
+
+// SP CTA: Concept 内で個別 size override（共通 .CtaButton ベース + Concept SP サイズ）
+.ConceptCtas .CtaButton {
+  @include sp {
+    block-size: rem(86, 14); // カンプ：SP LINE CTA(uuid 1753) height 86 / 初回予約(uuid 1769) height 85（86 で統一）
+    font-size: rem(19, 14);  // カンプ uuid 1768 + 1778 font_size 19.33
+    column-gap: rem(10, 14);
+  }
+}
+
+.ConceptCtas .CtaButton__Icon {
+  @include sp {
+    inline-size: rem(41, 14); // カンプ：SP LINE icon group(uuid 1759) width 40.83（compound_path uuid 1760）
+  }
+}
+
+.ConceptCtas .CtaButton--reserve .CtaButton__Icon {
+  @include sp {
+    inline-size: rem(24, 14); // カンプ：SP 初回予約 icon group(uuid 1779) width 23.47
+  }
+}
+
+// LINE ボタン text の tracking（FOT-Rodin tracking 100 → 0.1em）
+.ConceptCtas .CtaButton--line .CtaButton__Text {
+  @include sp {
+    letter-spacing: 0.1em; // カンプ uuid 1768 tracking 100
+  }
+}
+
+// 初回予約ボタン text の tracking（FOT-Rodin tracking 200 → 0.2em。LINE と異なるのはカンプ実測通り）
+.ConceptCtas .CtaButton--reserve .CtaButton__Text {
+  @include sp {
+    letter-spacing: 0.2em; // カンプ uuid 1778 tracking 200
+  }
+}
