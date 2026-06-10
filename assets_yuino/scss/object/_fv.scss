@@ -13,25 +13,40 @@
 // ============================================
 .Fv {
   position: relative;
+  z-index: 1; // non-comp: stacking（overflow-x: clip が stacking context を生成するため、Concern の背景に潜る現象を回避するため body level で前面化）
   background-color: #fff;
-  // カンプ：写真は artboard top（ヘッダー裏）から、artboard 中心 -50px に左端を置く。viewport 拡縮に追従
-  background-image: url('../img/FV/top-FV.webp');
-  background-repeat: no-repeat;
-  background-position: top right;
-  background-size: vw1280(720) auto; // カンプ：写真 inline-size 720（artboard 1280 基準で 56.25vw）
-  overflow-x: hidden; // non-comp: mask（写真が画面右にはみ出すため）
-  isolation: isolate; // non-comp: stacking
-  min-block-size: rem(1013); // カンプ：ヘッダー底〜FV 底 ≒ 1013
+  overflow-x: clip; // non-comp: mask（X 方向のみクリップ。hidden だと overflow-y が auto に変わってスクロール発生するため clip を使用）
+  min-block-size: rem(870); // カンプ実測：ヘッダー底 rel 151 → Concern矩形 top rel 1021 = FV body 高さ 870
 
   @include sp {
-    // SP は別画像（top-FV-sp.webp 783×829）。100vw 表示で高さ ≒ 100 * 829/783 = 105.87vw
-    background-image: url('../img/FV/top-FV-sp.webp');
-    background-position: center 0;
-    background-size: 100vw auto;
     min-block-size: auto;
     // FvInner 位置を維持するためヘッダー + 画像分の余白を確保
     padding-block-start: calc(#{rem($header-height-sp, 14)} + 105.87vw);
   }
+}
+
+// FV メインビジュアル（店舗内装写真、円弧クリップ済み webp を絶対配置）
+// カンプ：写真は artboard 右上から下方向に伸び、Concern にもはみ出す。
+// background-image をやめ <img> + position: absolute で配置することで、画面幅縮小時もアスペクト比追従＝写真下に空白が出ない
+.FvHero {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inline-size: vw1280(720); // カンプ：写真表示 inline-size 720（artboard 1280 基準）
+  pointer-events: none; // non-comp: a11y（装飾、操作対象外）
+  z-index: 0; // non-comp: stacking（FvInner z=1 より背面、Concern::before z=2 より背面）
+
+  @include sp {
+    inset-block-start: rem($header-height-sp, 14); // SP は SP 用画像を画面 100% で表示
+    inset-inline-end: 0;
+    inline-size: 100%;
+  }
+}
+
+.FvHero img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto; // 元アスペクト比 1361:1739 で自動算出（width 720 → height 920）。空白が出ない
 }
 
 // Inner

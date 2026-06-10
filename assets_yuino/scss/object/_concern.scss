@@ -1,0 +1,318 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+// ============================================
+// Concern — 妊活中、こんなお悩みはありませんか？
+// カンプ：PC artboard 1280×Concernセクション高さ ≒ 504（矩形 465: top=-3979.5 / height=496.4）
+// 上端境界は波形（uuid 715: top=-4223.5 / width=1018 / height=243.97）で FV 領域に 244px 食い込む。
+// 下端は直線で次セクション Concept に切り替わる。
+// 左 6 枚 + 右 4 枚の花びら（leaf01〜10）を上から順に散らし配置。
+// ============================================
+.Concern {
+  position: relative;
+  display: flow-root; // non-comp: layout-tool（子の margin-block-start が Concern matrix top に collapsing しないように遮断）
+  background-color: $color-bg-pink; // カンプ実測：rgb(251,240,242) ≒ #FBF0F2
+  padding-block-start: 0; // カンプ：Concern 矩形 top -3979.5 → タイトル top -3987.5 = -8（タイトル ascender が矩形上端よりわずか上にはみ出す）。padding を 0 にして ConcernTitle margin で微調整
+  padding-block-end: rem(125); // カンプ：リード文下端 -3524 → Concern 下端 -3399 = 125（次セクションへの margin 込み）
+
+  @include sp {
+    padding-block-start: rem(40, 14);
+    padding-block-end: rem(80, 14);
+  }
+}
+
+// 上端の波形オーバーレイ（FV 領域に -244px はみ出して食い込む）
+// カンプ：波形パス viewBox 1018×244、artboard 左端から 1018 で右端に届かず（右端 1280 まで 262 余白）
+.Concern::before {
+  content: ''; // non-comp: layout-tool（波形は装飾、テキスト要素ではない）
+  position: absolute;
+  inset-block-start: vw1280(-244); // カンプ：波形 top -4223.5 = Concern矩形 top -3979.5 − 244
+  inset-inline-start: 0;
+  inline-size: vw1280(1018); // カンプ実測：波形 width=1018.14
+  block-size: vw1280(244); // カンプ実測：波形 height=243.97
+  background-image: url('../img/concern/wave-top.svg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  mix-blend-mode: multiply; // カンプ：波形 (uuid 715) は blend_mode=multiply。下層の FV 写真と乗算合成してピンクが透ける見た目
+  pointer-events: none; // non-comp: a11y（装飾は操作対象外）
+  z-index: 2; // non-comp: stacking（カンプ：波形が FV 写真・FvInner より z 上位。FvInner z=1 を超えるため z=2）
+
+  @include sp {
+    display: none; // カンプ SP：波形なし、直線境界
+  }
+}
+
+// Inner
+.ConcernInner {
+  position: relative;
+  z-index: 1; // non-comp: stacking（花びら装飾より前面）
+  max-inline-size: rem(1280); // カンプ：PC artboard 1280
+  margin-inline: auto;
+  padding-inline: rem(20); // 画面端余白（max-inline-size 未満時）
+
+  @include sp {
+    padding-inline: rem(20, 14);
+  }
+}
+
+// セクションタイトル（カンプ実測：タイトル left -468.8、card left -476.5 → タイトルはカード左端から +7.7 で配置 = 左寄り）
+.ConcernTitle {
+  color: $color-heading; // カンプ実測：rgb(101,80,70) = #655046
+  font-family: $font-heading; // カンプ実測：RyuminPro Medium → Noto Sans JP 700 代替
+  font-weight: 700;
+  letter-spacing: 0.2em; // カンプ実測：tracking 200 = 0.2em
+  line-height: 1.43; // カンプ実測：leading 52.64 / font 36.76 ≒ 1.43
+  margin-block-end: 0;
+  margin-block-start: rem(-8); // カンプ実測：タイトル top -3987.5 − Concern矩形 top -3979.5 = -8（ascender が矩形上端より 8px はみ出す）
+  margin-inline: auto;
+  max-inline-size: rem(967); // カンプ：カード幅と揃える
+  padding-inline-start: rem(8); // カンプ実測：title left -468.8 − card left -476.5 = 7.7（カード左端からタイトルが少し内側）
+  font-size: rem(37); // カンプ実測：font-size 36.76
+  text-align: start; // カンプ：左寄せ（中央寄せではない）
+
+  @include sp {
+    margin-block-start: 0; // SP では矩形上端からの食み出しなし
+    font-size: rem(24, 14);
+    letter-spacing: 0.1em; // SP は折り返し許容のため tracking 抑制
+    line-height: 1.5;
+    padding-inline-start: 0;
+  }
+}
+
+// 白いリストカード
+.ConcernCard {
+  position: relative;
+  background-color: #fff; // カンプ実測：矩形 720 fill #FFFFFF
+  border: 1px solid rgba(5, 1, 1, 0.1); // カンプ：アピアランス上はドロップシャドウ (#050101 / opacity 0.1 / blur 2) だが、デザイナー意図は「ボーダー」として実装（薄い縁取り）
+  border-radius: rem(10); // カンプ実測：変形効果「角を丸める」rx=10.21 / ry=10.21
+  margin-block-start: rem(33); // カンプ実測：タイトル下端 -3942.7 → カード top -3909.5 = 33
+  margin-inline: auto;
+  padding-block: rem(57); // カンプ実測：カード top -3909.5 → 最上段リスト top -3852.5 = 57
+  padding-inline: rem(40); // カンプ実測 57.6 を、代替フォント Zen Maru Gothic の字幅増（約 5%）を吸収するため 40 に縮める
+  inline-size: rem(967); // カンプ実測：矩形 720 width=967（max-inline-size 1200 内に収まる）
+  max-inline-size: 100%;
+  box-sizing: border-box; // non-comp: layout-tool（padding 込みで inline-size 制御）
+
+  @include sp {
+    margin-block-start: rem(28, 14);
+    padding-block: rem(30, 14);
+    padding-inline: rem(24, 14);
+    inline-size: auto;
+  }
+}
+
+// リスト本体（PC: 2 列ジグザグ、左右が y で互い違いに半ステップずれる / SP: 1 列）
+// HTML DOM 順は y 上→下：左1, 右1, 左2, 右2, 左3, 右3, 左4
+// PC: :nth-child(odd) を左カラム、:nth-child(even) を右カラム + translateY で半ステップ下げる
+.ConcernList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  list-style: none; // non-comp: reset
+  margin-block: 0;
+  padding-inline-start: 0; // non-comp: reset
+  // padding-block-end は付けない。カンプ：左4「まずは気軽に〜」bottom (-3659.7) → カード bottom (-3603.5) = 56。
+  // この 56 は ConcernCard padding-block-end: rem(57) 単独で実現。
+  // 右3 transform translateY(rem(32)) の描画はみ出しは カード padding 57 内に収まるため別途吸収不要
+  column-gap: rem(30);
+  row-gap: rem(36); // カンプ実測：左カラム項目 top 差 57 − 行高 21.5 = 35.5
+
+  @include sp {
+    grid-template-columns: 1fr;
+    row-gap: rem(18, 14);
+    padding-block-end: 0;
+  }
+}
+
+.ConcernListItem {
+  display: flex;
+  align-items: flex-start;
+  column-gap: rem(10); // カンプ実測：チェック四角 right → text left = 9.83
+  color: $color-text; // カンプ実測：rgb(131,116,114) = #837472
+  font-family: $font-tag; // カンプ実測：FOT-Seurat ProN DB → Zen Maru Gothic 500 代替
+  font-weight: 500;
+  letter-spacing: 0; // カンプ実測 0.05em。代替フォント Zen Maru Gothic の字幅増（約 5%）を完全吸収するため tracking を 0 に補正（視覚差ほぼ無し）
+  line-height: 1.75; // カンプ実測：leading 31.62 / font 18.07 ≒ 1.75
+  font-size: rem(18); // カンプ実測：font-size 18.07
+}
+
+// PC のみ：奇数=左カラム / 偶数=右カラム + 互い違い半ステップ下げ
+.ConcernListItem:nth-child(odd) {
+  grid-column: 1;
+}
+
+.ConcernListItem:nth-child(even) {
+  grid-column: 2;
+  transform: translateY(#{rem(32)}); // カンプ実測：左1 top -3852.5 → 右1 top -3820.8 = 31.7（互い違い半ステップ）
+
+  @include sp {
+    transform: none;
+  }
+}
+
+@include sp {
+  .ConcernListItem {
+    font-size: rem(15, 14);
+    column-gap: rem(10, 14);
+  }
+  .ConcernListItem:nth-child(odd),
+  .ConcernListItem:nth-child(even) {
+    grid-column: 1; // SP は 1 列に統一
+  }
+}
+
+// チェック四角（::before で実装：濃いピンク背景 + 中央チェック✓）
+.ConcernListItem::before {
+  content: '✓'; // non-comp: layout-tool（チェック記号として代用）
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; // non-comp: layout-tool（テキスト折り返し時に縮ませない）
+  background-color: #d18b82; // カンプ実測：rgb(209,139,130) = #D18B82（$color-accent より少し濃い独自色）
+  border-radius: rem(4); // カンプ実測：チェック四角は薄く角丸、SVG 上は直角だが視覚的に rem(4) 程度
+  color: $color-bg-pink; // カンプ実測：チェックマーク内側 fill #FBF0F2
+  font-family: $font-body;
+  font-weight: 700;
+  inline-size: rem(22); // カンプ実測：チェック四角 width=21.49
+  block-size: rem(22); // カンプ実測：チェック四角 height=21.49
+  font-size: rem(14);
+  margin-block-start: rem(4); // カンプ：文字 ascender に合わせて少し下げる
+
+  @include sp {
+    inline-size: rem(22, 14);
+    block-size: rem(22, 14);
+    font-size: rem(12, 14);
+    margin-block-start: rem(3, 14);
+  }
+}
+
+// カード下のリード文
+.ConcernLead {
+  color: $color-text; // カンプ実測：rgb(131,116,114) = #837472
+  font-family: $font-body; // カンプ実測：FOT-Rodin ProN DB → Noto Sans JP 500 代替
+  font-weight: 500;
+  letter-spacing: 0.2em; // カンプ実測：tracking 200 = 0.2em
+  line-height: 1.75; // カンプ実測：leading 33.82 / font 19.33 ≒ 1.75
+  margin-block: 0;
+  margin-block-start: rem(25); // カンプ実測：カード下端 -3603.5 → リード top -3578.8 = 25
+  font-size: rem(19); // カンプ実測：font-size 19.33
+  text-align: center;
+
+  @include sp {
+    margin-block-start: rem(28, 14);
+    font-size: rem(15, 14);
+    letter-spacing: 0.1em;
+  }
+}
+
+// ============================================
+// 花びら装飾（左 6 枚 + 右 4 枚 = leaf01〜10）
+// ユーザー指示：左クラスター上から leaf01〜06、右クラスター上から leaf07〜10
+// カンプ Y 順（タイトル top 基準 = アートボード相対 1013）に従って番号順に配置
+// ============================================
+.ConcernLeavesLeft,
+.ConcernLeavesRight {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none; // non-comp: a11y（装飾は操作対象外）
+  z-index: 2; // non-comp: stacking（カンプ：花がカード・タイトル・リード文の前面に乗る。ConcernInner z=1 を超える）
+}
+
+.ConcernLeaf {
+  position: absolute;
+  display: block;
+}
+
+.ConcernLeaf img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+// 左クラスター（上から順、カンプ Y 順を leaf01〜06 に割り当て）
+.ConcernLeaf01 { // カンプ uuid 759: top=-4155.8 / 50.9×31.8 (左クラスター最上端)
+  inset-block-start: vw1280(-168);
+  inset-inline-start: vw1280(8);
+  inline-size: vw1280(51);
+  block-size: vw1280(32);
+}
+
+.ConcernLeaf02 { // カンプ uuid 758: top=-4065.5 / 43.1×35
+  inset-block-start: vw1280(-78);
+  inset-inline-start: vw1280(197);
+  inline-size: vw1280(43);
+  block-size: vw1280(35);
+}
+
+.ConcernLeaf03 { // カンプ uuid 760: top=-4050.0 / 39.4×31.2
+  inset-block-start: vw1280(-62);
+  inset-inline-start: vw1280(107);
+  inline-size: vw1280(39);
+  block-size: vw1280(31);
+}
+
+.ConcernLeaf04 { // カンプ uuid 763: top=-4024.6 / 63.9×84.2
+  inset-block-start: vw1280(-37);
+  inset-inline-start: vw1280(-9);
+  inline-size: vw1280(64);
+  block-size: vw1280(84);
+}
+
+.ConcernLeaf05 { // カンプ uuid 762: top=-3961.5 / 47×42
+  inset-block-start: vw1280(26);
+  inset-inline-start: vw1280(118);
+  inline-size: vw1280(47);
+  block-size: vw1280(42);
+}
+
+.ConcernLeaf06 { // カンプ uuid 771: top=-3905.4 / 99.8×99.9 (左クラスター最下端、大花)
+  inset-block-start: vw1280(82);
+  inset-inline-start: vw1280(-19);
+  inline-size: vw1280(100);
+  block-size: vw1280(100);
+}
+
+// 右クラスター（上から順、inset-inline-end でアンカー）
+.ConcernLeaf07 { // カンプ uuid 761: top=-3983.2 / 54.1×39.3 (右クラスター最上端、画面右端からはみ出し)
+  inset-block-start: vw1280(4);
+  inset-inline-end: vw1280(-6);
+  inline-size: vw1280(54);
+  block-size: vw1280(39);
+}
+
+.ConcernLeaf08 { // カンプ uuid 756: top=-3888.4 / 48.2×32.5
+  inset-block-start: vw1280(99);
+  inset-inline-end: vw1280(52);
+  inline-size: vw1280(48);
+  block-size: vw1280(33);
+}
+
+.ConcernLeaf09 { // カンプ uuid 757: top=-3745.1 / 40.2×34.5
+  inset-block-start: vw1280(242);
+  inset-inline-end: vw1280(59);
+  inline-size: vw1280(40);
+  block-size: vw1280(35);
+}
+
+.ConcernLeaf10 { // カンプ uuid 795: top=-3654.9 / 89.1×89.4 (右クラスター最下端、大花)
+  inset-block-start: vw1280(333);
+  inset-inline-end: vw1280(77);
+  inline-size: vw1280(89);
+  block-size: vw1280(89);
+}
+
+// SP 専用：花びらは右上・左上・右下にカンプ SP に近い疎な配置に間引く
+@include sp {
+  .ConcernLeaf01 { display: none; }
+  .ConcernLeaf02 { display: none; }
+  .ConcernLeaf03 { inset-block-start: rem(40, 14); inset-inline-start: rem(-10, 14); inline-size: rem(40, 14); block-size: rem(32, 14); }
+  .ConcernLeaf04 { inset-block-start: rem(10, 14); inset-inline-start: rem(20, 14); inline-size: rem(32, 14); block-size: rem(42, 14); }
+  .ConcernLeaf05 { display: none; }
+  .ConcernLeaf06 { inset-block-start: rem(80, 14); inset-inline-start: rem(-15, 14); inline-size: rem(60, 14); block-size: rem(60, 14); }
+  .ConcernLeaf07 { display: none; }
+  .ConcernLeaf08 { inset-block-start: auto; inset-block-end: rem(180, 14); inset-inline-end: rem(20, 14); inline-size: rem(36, 14); block-size: rem(24, 14); }
+  .ConcernLeaf09 { inset-block-start: auto; inset-block-end: rem(80, 14); inset-inline-end: rem(40, 14); inline-size: rem(28, 14); block-size: rem(24, 14); }
+  .ConcernLeaf10 { inset-block-start: auto; inset-block-end: rem(40, 14); inset-inline-end: rem(-15, 14); inline-size: rem(80, 14); block-size: rem(80, 14); }
+}
