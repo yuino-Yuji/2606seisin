@@ -49,6 +49,7 @@
   max-inline-size: rem(1280); // カンプ：PC artboard 1280
   margin-inline: auto;
   padding-inline: rem(20); // 画面端余白（max-inline-size 未満時）
+  // padding-block-start: rem(42);
 
   @include sp {
     padding-inline: rem(20, 14);
@@ -59,23 +60,23 @@
 .ConcernTitle {
   color: $color-heading; // カンプ実測：rgb(101,80,70) = #655046
   font-family: $font-heading; // カンプ実測：RyuminPro Medium → Noto Sans JP 700 代替
-  font-weight: 700;
-  letter-spacing: 0.2em; // カンプ実測：tracking 200 = 0.2em
+  font-weight: 400;
+  letter-spacing: 2px; // カンプ実測：tracking 200 = 0.2em
   line-height: 1.43; // カンプ実測：leading 52.64 / font 36.76 ≒ 1.43
-  margin-block-end: 0;
-  margin-block-start: rem(-8); // カンプ実測：タイトル top -3987.5 − Concern矩形 top -3979.5 = -8（ascender が矩形上端より 8px はみ出す）
+  // margin-block-end: 0;
+  // margin-block-start: rem(-8); // カンプ実測：タイトル top -3987.5 − Concern矩形 top -3979.5 = -8（ascender が矩形上端より 8px はみ出す）
   margin-inline: auto;
   max-inline-size: rem(967); // カンプ：カード幅と揃える
-  padding-inline-start: rem(8); // カンプ実測：title left -468.8 − card left -476.5 = 7.7（カード左端からタイトルが少し内側）
+  // padding-inline-start: rem(8); // カンプ実測：title left -468.8 − card left -476.5 = 7.7（カード左端からタイトルが少し内側）
   font-size: rem(37); // カンプ実測：font-size 36.76
-  text-align: start; // カンプ：左寄せ（中央寄せではない）
+  // text-align: start; // カンプ：左寄せ（中央寄せではない）
 
   @include sp {
-    margin-block-start: 0; // SP では矩形上端からの食み出しなし
+    // margin-block-start: 0; // SP では矩形上端からの食み出しなし
     font-size: rem(24, 14);
-    letter-spacing: 0.1em; // SP は折り返し許容のため tracking 抑制
+    // letter-spacing: 0.1em; // SP は折り返し許容のため tracking 抑制
     line-height: 1.5;
-    padding-inline-start: 0;
+    // padding-inline-start: 0;
   }
 }
 
@@ -89,7 +90,7 @@
   margin-inline: auto;
   padding-block: rem(57); // カンプ実測：カード top -3909.5 → 最上段リスト top -3852.5 = 57
   padding-inline: rem(40); // カンプ実測 57.6 を、代替フォント Zen Maru Gothic の字幅増（約 5%）を吸収するため 40 に縮める
-  inline-size: rem(967); // カンプ実測：矩形 720 width=967（max-inline-size 1200 内に収まる）
+  inline-size: rem(968); // カンプ実測：矩形 720 width=967（max-inline-size 1200 内に収まる）
   max-inline-size: 100%;
   box-sizing: border-box; // non-comp: layout-tool（padding 込みで inline-size 制御）
 

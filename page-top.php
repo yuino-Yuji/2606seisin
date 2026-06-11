@@ -124,17 +124,147 @@ Template Name: トップページ
         <h2 class="ConceptTitle">妊活中の身体づくりに、<br class="sp">自分をいたわる時間を。</h2>
 
         <div class="ConceptText">
-          <p>Sakuraは、妊活をがんばる方の身体づくりをサポートしたいという想いから、酸素カプセルを活用したサロン運営を行っています。</p>
-          <p>妊活中は、身体のことだけでなく、気持ちの面でも不安や焦りを感じやすい時期です。</p>
-          <p>だからこそ、Sakuraでは、無理に頑張るケアではなく、ゆっくり休みながら身体を整える時間を大切にしています。</p>
-          <p>酸素カプセルで過ごす静かな時間が、日々の緊張をゆるめ、自分の身体と向き合うきっかけになるように。</p>
-          <p>そんな想いで、妊活中のコンディションづくりをやさしくサポートします。</p>
+          <p>Sakuraは、妊活をがんばる方の身体づくりをサポートしたいという想いから、<br>酸素カプセルを活用したサロン運営を行っています。
+          <br>妊活中は、身体のことだけでなく、気持ちの面でも不安や焦りを感じやすい時期です。
+          <br>だからこそ、Sakuraでは、無理に頑張るケアではなく、ゆっくり休みながら身体を整える時間を大切にしています。
+          <br>酸素カプセルで過ごす静かな時間が、日々の緊張をゆるめ、自分の身体と向き合うきっかけになるように。
+          <br>そんな想いで、妊活中のコンディションづくりをやさしくサポートします。</p>
         </div>
       </div>
 
-      <div class="ConceptCtas">
+      <div class="ConceptCtas sp">
         <?php get_template_part('template-parts/cta-pair'); ?>
       </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Service — 酸素カプセルで、リラックスしながらコンディションづくり。
+       ============================================ -->
+  <section class="Service" id="service">
+    <div class="ServiceInner">
+      <div class="ServiceLeftCol">
+        <h2 class="ServiceTitle">酸素カプセルで、<br>リラックスしながら<br>コンディションづくり。</h2>
+
+        <p class="ServiceLead">
+          酸素カプセルは、高気圧環境の中でゆったりと過ごすことで、身体を休めながらコンディションを整えるための設備です。
+          <br>Sakuraでは、冷えが気になる方、疲れを感じやすい方、妊活中の身体づくりに取り組みたい方に向けて、
+          <br>リラックスできるケアのひとつとしてご提案しています。
+          <br>横になって過ごすだけなので、初めての方でも気軽にご利用いただけます。
+        </p>
+      </div>
+
+      <div class="ServiceCard">
+        <h3 class="ServiceCardTitle">こんな方におすすめです</h3>
+
+        <ul class="ServiceList">
+          <li class="ServiceItem ServiceItem--01">
+            <span class="ServiceItemIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/service/service-icon01.webp" alt="" width="60" height="54"></span>
+            <p class="ServiceItemLabel">冷えが気になる方</p>
+          </li>
+          <li class="ServiceItem ServiceItem--02">
+            <span class="ServiceItemIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/service/service-icon02.webp" alt="" width="62" height="67"></span>
+            <p class="ServiceItemLabel">疲れやすさを<br>感じている方</p>
+          </li>
+          <li class="ServiceItem ServiceItem--03">
+            <span class="ServiceItemIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/service/service-icon03.webp" alt="" width="54" height="47"></span>
+            <p class="ServiceItemLabel">妊活中の<br>コンディションを<br>整えたい方</p>
+          </li>
+          <li class="ServiceItem ServiceItem--04">
+            <span class="ServiceItemIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/service/service-icon04.webp" alt="" width="52" height="57"></span>
+            <p class="ServiceItemLabel">忙しい毎日の中で、<br>身体を休める時間が<br>ほしい方</p>
+          </li>
+          <li class="ServiceItem ServiceItem--05">
+            <span class="ServiceItemIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/service/service-icon05.webp" alt="" width="62" height="67"></span>
+            <p class="ServiceItemLabel">ストレスを<br>感じやすい方</p>
+          </li>
+          <li class="ServiceItem ServiceItem--06">
+            <span class="ServiceItemIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/service/service-icon06.webp" alt="" width="66" height="61"></span>
+            <p class="ServiceItemLabel">リラックスしながら<br>身体と向き合いたい方</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Mission — Sakuraが大切にしているのは、「妊娠させる」ではなく、「身体を整える」サポートです。
+       ============================================ -->
+  <section class="Mission" id="mission">
+    <div class="MissionInner">
+      <div class="MissionPhoto" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" srcset="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/mission/mission-image-sp.webp">
+          <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/mission/mission-image.webp" alt="" width="373" height="373">
+        </picture>
+      </div>
+
+      <div class="MissionBody">
+        <h2 class="MissionTitle">Sakuraが大切にしているのは、<br>「妊娠させる」ではなく、<br>「身体を整える」サポートです。</h2>
+
+        <div class="MissionText">
+          <p>Sakuraの酸素カプセルは、医療行為や治療を目的としたものではありません。
+          <br>妊娠を保証したり、不妊を改善すると断定するものではなく、妊活中の方が自分の身体をいたわり、
+          <br>日々のコンディションづくりに取り組むためのサポートとしてご利用いただいています。
+          <br>冷えや疲れ、ストレスが気になるとき。
+          <br>少し立ち止まって、自分の身体を大切にする時間をつくること。
+          <br>Sakuraは、その時間に寄り添うサロンでありたいと考えています。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Point — 妊活中の方にも選ばれる、Sakuraの安心ポイント
+       ============================================ -->
+  <section class="Point" id="point">
+    <div class="PointLeavesLeft" aria-hidden="true">
+      <span class="PointLeaf PointLeaf01"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf01.webp" alt="" width="43" height="35"></span>
+      <span class="PointLeaf PointLeaf02"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf02.webp" alt="" width="39" height="31"></span>
+      <span class="PointLeaf PointLeaf03"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf03.webp" alt="" width="64" height="84"></span>
+      <span class="PointLeaf PointLeaf04"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf04.webp" alt="" width="47" height="42"></span>
+      <span class="PointLeaf PointLeaf05"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf05.webp" alt="" width="100" height="100"></span>
+    </div>
+
+    <div class="PointInner">
+      <h2 class="PointTitle">妊活中の方にも選ばれる、<br class="sp">Sakuraの安心ポイント</h2>
+
+      <ul class="PointCards">
+        <li class="PointCard">
+          <div class="PointCardImage">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-image01.webp" alt="" width="268" height="178">
+          </div>
+          <h3 class="PointCardTitle">完全予約制の<br>プライベート空間</h3>
+          <p class="PointCardBody">周りを気にせず、落ち着いた空間でゆっくりとお過ごしいただけます。妊活中のデリケートなお悩みも、安心してご相談いただける環境を整えています。</p>
+        </li>
+        <li class="PointCard">
+          <div class="PointCardImage">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-image02.webp" alt="" width="268" height="178">
+          </div>
+          <h3 class="PointCardTitle">LINEで気軽に<br>相談できる</h3>
+          <p class="PointCardBody">「自分でも利用できるのかな」「どんな流れで予約すればいいのかな」そんな不安がある方も、まずはLINEからお気軽にご相談いただけます。</p>
+        </li>
+        <li class="PointCard">
+          <div class="PointCardImage">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-image03.webp" alt="" width="268" height="178">
+          </div>
+          <h3 class="PointCardTitle">酸素カプセルで、<br>休みながら身体を整える</h3>
+          <p class="PointCardBody">横になって過ごすだけなので、身体への負担が少なく、リラックスしながらコンディションづくりを始められます。</p>
+        </li>
+        <li class="PointCard">
+          <div class="PointCardImage">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-image04.webp" alt="" width="268" height="178">
+          </div>
+          <h3 class="PointCardTitle">藤が丘エリアで<br>通いやすい</h3>
+          <p class="PointCardBody">継続的な身体づくりには、通いやすさも大切です。Sakuraは、お仕事帰りやお出かけの合間にも立ち寄りやすいサロンです。</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="PointLeavesRight" aria-hidden="true">
+      <span class="PointLeaf PointLeaf06"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf06.webp" alt="" width="48" height="33"></span>
+      <span class="PointLeaf PointLeaf07"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf07.webp" alt="" width="40" height="35"></span>
+      <span class="PointLeaf PointLeaf08"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf08.webp" alt="" width="89" height="89"></span>
     </div>
   </section>
 

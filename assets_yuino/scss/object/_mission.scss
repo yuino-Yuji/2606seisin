@@ -1,0 +1,127 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+// ============================================
+// Mission — Sakuraが大切にしているのは、「妊娠させる」ではなく、「身体を整える」サポートです。
+// パターン：media object（PC=左 square photo / 右 title + 2-col body、SP=縦 stack で photo は full-bleed top）
+//
+// カンプ:
+//   PC: 白セクション（bg なし）/ photo clip(uuid 833) 372.91×372.91 1:1 / title(uuid 489) 31.64 / body 2-col (uuid 874/877) 17 + 0.5px accent rule
+//   SP: 白セクション / photo clip(uuid 1707) 391×243.16 full-bleed / title(uuid 1996) 18.62 / body(uuid 2003) 16 single col
+//
+// Inner 判定:
+//   - bg なし。photo PC は inner 内に left col 配置、SP は full-bleed top。
+//   - PC は photo 左 inset 43 / body 右 inset 50 が非対称のため、標準 Inner を踏襲せず padding-inline 73/80 で固有設定。
+// ============================================
+.Mission {
+  background-color: #fff;
+  padding-block-start: rem(93); // カンプ：Service bg bottom -2402.15 → photo top -2308.64 = 93.51
+  padding-block-end: rem(89);   // カンプ：body bottom -1919.55 → Point bg top -1830.90 = 88.65
+
+  @include sp {
+    padding-block-start: 0;          // SP: photo top -3908.81 ≈ Service bg bottom -3903.08（5.7px の微小オーバーラップは photo の負 margin で吸収せず ≈ 0 扱い）
+    padding-block-end: rem(28, 14);  // SP: body bottom -3170.12 → Point bg top -3142.96 = 27.16
+  }
+}
+
+// PC: media object 横並び。SP: 縦 stack（photo は MissionInner の外へ full-bleed として escape）
+.MissionInner {
+  max-inline-size: rem(1200);
+  margin-inline: auto;
+  padding-inline: rem(42); // カンプ：photo left -527.09 → Inner content left -570 = 42.91 → 標準 30 + 43 = 73
+  // padding-inline-end: rem(80);   // カンプ：body right 519.11 → Inner content right 570 = 50.89 → 標準 30 + 50 = 80
+  display: flex;
+  align-items: flex-start;
+  gap: rem(64); // カンプ：photo right -154.18 → title/body left -90.23 = 63.95
+
+  @include sp {
+    padding-inline-start: rem(49, 14); // カンプ：SP title left 1637.24 → artboard left 1588.43 = 48.81
+    padding-inline-end: rem(44, 14);   // カンプ：SP body right 1933.37 → artboard right 1979.50 = 46.13 ≒ 44
+    display: block;
+  }
+}
+
+// Photo: PC = square left col / SP = full-bleed top（Inner padding を escape）
+.MissionPhoto {
+  flex: 0 0 auto;
+  inline-size: rem(373); // カンプ：clip(uuid 833) width 372.91
+  aspect-ratio: 1 / 1; // カンプ：clip 372.91×372.91 = 正方形
+
+  @include sp {
+    aspect-ratio: 391 / 243; // カンプ：SP clip(uuid 1707) 391.07×243.16 = 1.608
+    inline-size: 100vw;      // SP: full-bleed
+    margin-inline: calc(50% - 50vw); // Inner padding を escape して viewport 端まで延伸
+  }
+}
+
+.MissionPhoto picture {
+  display: block;
+  block-size: 100%;
+  inline-size: 100%;
+}
+
+.MissionPhoto img {
+  display: block;
+  block-size: 100%;
+  inline-size: 100%;
+  object-fit: cover; // non-comp: mask（natural image 747×747 / SP 783×487 と clip aspect 一致のため実害なし、防御的に指定）
+}
+
+// Body: title + 2-col text（SP は 1-col）
+.MissionBody {
+  flex: 0 1 auto;
+  // inline-size: rem(610); // カンプ：body 左 col 左 -91.07 → 右 col 右 519.11 = 610.18
+  min-inline-size: 0; // non-comp: layout-tool（flex item shrink を効かせる）
+  // padding-block-start: rem(4); // カンプ：bg top → title top 97.03 − photo top 93.51 = 3.52 → title は photo より 4px 下から開始
+
+  @include sp {
+    inline-size: 100%;
+    padding-block-start: 0;
+    margin-block-start: rem(32, 14); // カンプ：SP photo bottom -3665.65 → title top -3633.71 = 31.94
+  }
+}
+
+.MissionTitle {
+  margin: 0;
+  color: $color-heading; // カンプ uuid 489 fill rgb(101,80,70) = #655046
+  font-family: $font-heading;
+  font-weight: 400;
+  font-size: rem(28); // カンプ uuid 489 font_size 31.64。Gothic 代替で 3 行収納（Concept/Service と同パターン）
+  line-height: 1.43;  // カンプ：leading 45.31 / font 31.64 ≒ 1.43
+  letter-spacing: 0.05em; // カンプ tracking 100 (0.1em) だが Gothic 代替で行の収まりを優先（Service と同パターン）
+
+  @include sp {
+    font-size: rem(19, 14); // カンプ uuid 1996 font_size 18.62
+    line-height: 1.43;      // カンプ：leading 26.67 / font 18.62 ≒ 1.43
+    letter-spacing: 0.05em; // カンプ tracking 200 (0.2em) だが Gothic 代替で 14 文字（最長行）× 19 × 1.2 = 319 > body 298 で折り返し。0.05em で 14 × 19 × 1.05 = 279 → 3 行収納
+  }
+}
+
+.MissionText {
+  margin-block-start: rem(33); // カンプ：title bottom -2175.92 → body top -2142.86 = 33.06
+  columns: 2; // カンプ：左 col(uuid 874) + 右 col(uuid 877)
+  column-gap: rem(49); // カンプ：左 col 右 189.77 → 右 col 左 238.44 = 48.67
+  column-rule: 0.5px solid $color-accent; // カンプ uuid 878 stroke 0.5 + color rgb(214,154,145) = #D69A91
+
+  @include sp {
+    columns: 1;
+    column-rule: none;
+    margin-block-start: rem(24, 14); // カンプ：SP title bottom -3557.67 → body top -3533.20 = 24.47
+  }
+}
+
+.MissionText p {
+  margin: 0;
+  color: $color-text; // カンプ uuid 874/877 fill rgb(131,116,114) = #837472
+  font-family: $font-body;
+  font-size: rem(17); // カンプ：font_size 17
+  line-height: 1.75;  // カンプ：leading 29.75 / font 17 = 1.75
+  letter-spacing: 0.025em; // カンプ：tracking 25
+  text-align: justify;     // カンプ：paragraph_alignment=justify
+
+  @include sp {
+    font-size: rem(16, 14); // カンプ uuid 2003 font_size 16
+    line-height: 1.75;      // カンプ：leading 28 / font 16 = 1.75
+    letter-spacing: 0;      // カンプ：tracking 0
+  }
+}
