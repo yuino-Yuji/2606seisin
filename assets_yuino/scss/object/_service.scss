@@ -1,0 +1,263 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+// ============================================
+// Service — 酸素カプセルで、リラックスしながらコンディションづくり。
+// パターン：media object（PC=左 title+body / 右 white card + sub-card grid、SP=縦 stack）
+//
+// カンプ:
+//   PC: bg(uuid 466) #FCF9F6 / title(uuid 486) 31.64 / body(uuid 839) 17 / card(uuid 844) 741×462 / sub-cards 3col×2row
+//   SP: bg(uuid 1567) / title(uuid 1919) 25.78 / body(uuid 1926) 16 / card(uuid 1927) 304×413 / sub-cards 2col×3row
+//
+// Inner 判定:
+//   - bg は full-bleed → Section element に bg。
+//   - PC では Inner 内に title 17px インデント + media object → 標準 Inner(1200/30) を踏襲しつつ
+//     padding-inline-start を 47 にしてタイトル位置をカンプ実測に合わせる。
+//   - SP は full-width 縦並び、card は本文末尾の直下に置き、padding-inline 44/43 でカンプに合わせる。
+// ============================================
+.Service {
+  background-color: #FCF9F6; // カンプ uuid 466 fill rgb(252,249,246) = #FCF9F6（クリーム）
+  padding-block-start: rem(81); // カンプ：bg top -3022.90 → card top -2941.50 = 81.40
+  padding-block-end: rem(33);   // カンプ：body bottom -2435.70 → bg bottom -2402.15 = 33.55
+
+  @include sp {
+    padding-block-start: rem(28, 14); // カンプ：SP bg top -4811.62 → title top -4783.39 = 28.23
+    padding-block-end: rem(47, 14);   // カンプ：SP card outer bottom -3950.75 → bg bottom -3903.08 = 47.67
+  }
+}
+
+// PC: media object 横並び。 SP: 縦並び stack。
+.ServiceInner {
+  max-inline-size: rem(1200); // 標準 Inner 規格に合わせる（_base.scss .Inner と同じ）
+  margin-inline: auto;
+  padding-inline-start: rem(47); // カンプ：title left -553.15 → Inner content left -570 = 16.85 → 標準 padding 30 + 17 = 47
+  padding-inline-end: rem(30);   // カンプ：card right 569.50 → Inner content right 570 = 0.50 → 標準 padding 30
+  display: flex;
+  align-items: flex-start;
+  gap: rem(56); // カンプ：title right -227.95 → card outer left -171.50 = 56.45
+
+  @include sp {
+    padding-inline-start: rem(44, 14); // カンプ：SP title left 1633.15 → artboard left 1588.43 = 44.72
+    padding-inline-end: rem(43, 14);   // カンプ：SP card right 1936.54 → artboard right 1979.50 = 42.96
+    display: block; // 縦 stack（media object を解除）
+  }
+}
+
+// LeftCol: title + body（PC のみ独立カラム、SP では full-width）
+.ServiceLeftCol {
+  inline-size: rem(325); // カンプ：title(uuid 486) width 325.20
+  flex: 0 0 auto;
+  padding-block-start: rem(6); // カンプ：bg top → title top 87.01 − card top 81.40 = 5.61 → title は card より 6px 下から開始
+
+  @include sp {
+    inline-size: 100%;
+    padding-block-start: 0;
+  }
+}
+
+.ServiceTitle {
+  margin: 0;
+  color: $color-heading; // カンプ uuid 486 fill rgb(101,80,70) = #655046 = $color-heading
+  font-family: $font-heading; // カンプ：RyuminPro Medium → Noto Sans JP 700 代替
+  font-weight: 400;
+  font-size: rem(28); // カンプ uuid 486 font_size 31.64。Gothic 代替で 3 行収納（11 文字 × 28 × 1.05 = 323 < title 325）
+  line-height: 1.43; // カンプ：leading 45.31 / font 31.64 ≒ 1.43
+  letter-spacing: 0.05em; // カンプ uuid 486 tracking 100 (0.1em) だが Gothic 代替では 11 文字 × 32 × 1.1 = 352 > 325 で 4 行折り返しになる。tracking 0.05em で 3 行に揃える（カンプ視覚優先）
+
+  @include sp {
+    font-size: rem(26, 14); // カンプ uuid 1919 font_size 25.78
+    line-height: 1.43; // カンプ：leading 36.91 / font 25.78 ≒ 1.43
+    letter-spacing: 0; // カンプ uuid 1919 tracking 200 (0.2em) だが Gothic 代替では 11 文字 × 26 × 1.2 = 343 > body 289 で 4 行折り返しになる。tracking 0 で 11 文字 × 26 = 286 → 3 行に揃う（カンプ視覚優先）
+  }
+}
+
+.ServiceLead {
+  margin: 0;
+  margin-block-start: rem(28); // カンプ：title bottom -2806.69 → body top -2778.59 = 28.10
+  color: $color-text; // カンプ uuid 839 fill rgb(131,116,114) = #837472 = $color-text
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: rem(17); // カンプ uuid 839 font_size 17
+  line-height: 1.75; // カンプ：leading 29.75 / font 17 = 1.75
+  // letter-spacing: 0.025em; // カンプ uuid 839 tracking 25 = 0.025em
+  text-align: justify; // カンプ uuid 839 paragraph_alignment=justify
+
+  @include sp {
+    margin-block-start: rem(17, 14); // カンプ：SP title bottom -4678.14 → body top -4660.85 = 17.29
+    font-size: rem(16, 14); // カンプ uuid 1926 font_size 16
+    line-height: 1.75; // カンプ：leading 28 / font 16 = 1.75
+    letter-spacing: 0; // カンプ uuid 1926 tracking 0
+  }
+}
+
+// RightCol: white card containing "こんな方におすすめです" + sub-cards grid
+.ServiceCard {
+  inline-size: rem(741); // カンプ：card(uuid 844) width 741
+  flex: 0 1 auto;
+  background-color: #fff; // カンプ uuid 844 fill rgb(1,1,1) = #FFFFFF
+  padding-block-start: rem(36); // カンプ：card top -2941.50 → card title top -2905.59 = 35.91
+  padding-block-end: rem(28);   // カンプ：grid row2 bottom -2507.86 → card bottom -2479.50 = 27.64
+  padding-inline: rem(34);      // カンプ：grid left -135.76 → card outer left -171.50 = 35.74 / 右側 33.69 ≒ 34
+  border-radius: rem(8);
+  border: 1px solid rgba(5, 1, 1, 0.1); // カンプ：アピアランス上はドロップシャドウ (#050101 / opacity 0.1 / blur 2) だが、デザイナー意図は「ボーダー」として実装（薄い縁取り）
+
+  @include sp {
+    inline-size: 100%;
+    margin-block-start: rem(35, 14); // カンプ：本文視覚末尾 → SP card top（body text-frame は overflow 値を含む。視覚的余白を 35 で安定化）
+    padding-block-start: rem(29, 14); // カンプ：SP card top -4364.39 → card title top -4334.98 = 29.41
+    padding-block-end: rem(31, 14);   // カンプ：SP grid bottom -3981.95 → card bottom -3950.75 = 31.20
+    padding-inline: rem(23, 14);      // カンプ：SP grid left 1655.45 → card outer left 1632.24 = 23.21
+  }
+}
+
+.ServiceCardTitle {
+  margin: 0;
+  color: $color-heading; // カンプ uuid 847 fill rgb(101,80,70) = #655046 = $color-heading
+  font-family: $font-body; // カンプ：FOT-Rodin DB → Noto Sans JP 500/700 代替
+  font-weight: 700;
+  font-size: rem(19); // カンプ uuid 847 font_size 19.33
+  line-height: 1.75; // カンプ：leading 33.82 / font 19.33 ≒ 1.75
+  letter-spacing: 0.2em; // カンプ uuid 847 tracking 200 = 0.2em
+  text-align: center; // カンプ uuid 847 paragraph_alignment=center
+  text-box-trim: trim-both;
+
+  @include sp {
+    font-size: rem(19, 14); // カンプ uuid 1993 font_size 19.33（SP も同サイズ）
+    letter-spacing: 0.1em; // カンプ uuid 1993 tracking 200 (0.2em) だが Gothic 代替では 11 文字 × 19 × 1.2 = 251 > card content 243 で折り返す。0.1em で 11 × 19 × 1.1 = 230 → 1 行収納
+  }
+}
+
+// Sub-card grid（PC: 3col×2row / SP: 2col×3row）
+.ServiceList {
+  list-style: none; // non-comp: reset
+  margin: 0;
+  margin-block-start: rem(30); // カンプ：card title 視覚 bottom → row1 top
+  padding-inline-start: 0; // non-comp: reset
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: rem(23); // カンプ：horizontal 23.00 / vertical 23.86 ≒ 23
+
+
+  @include sp {
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(12, 14); // カンプ：horizontal 13.41 / vertical 12.33 ≒ 12
+    margin-block-start: rem(10, 14);
+  }
+}
+
+// Sub-card: pink bg, icon top + label below。aspect-ratio で全カード等高。
+// 内部は flex column + justify-content: center で icon と text を中央寄せ。
+// カンプ：icon top が card top から 14-40 でばらつく（行数に応じて designer が手動調整）が、
+// CSS で per-card padding 制御すると煩雑。justify-content: center で視覚的に近似。
+.ServiceItem {
+  list-style: none; // non-comp: reset
+  background-color: $color-bg-pink; // カンプ uuid 850 fill rgb(251,240,242) = #FBF0F2 = $color-bg-pink
+  aspect-ratio: 208.59 / 164.73; // カンプ：sub-card 208.59×164.73（PC）/ 122.13×96.45（SP）= 同比率 1.266
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: rem(15); // カンプ：icon bottom → text top ≒ 16
+  // padding-inline: rem(8); // 行数の多いラベルが両端ギリギリにならないよう余白
+  border-radius: rem(8);
+
+  @include sp {
+    gap: rem(8, 14);
+    padding-inline: rem(4, 14);
+  }
+}
+
+.ServiceItemIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; // non-comp: layout-tool（icon を縮めない）
+}
+
+.ServiceItemIcon img {
+  display: block;
+  // size は parent .ServiceItem の modifier (--01〜06) で個別指定（カンプ実測値）
+}
+
+// --- 各アイコンのカンプ実寸 ---
+// 01 冷え: PC uuid 1374 60.26×54.31 / SP uuid 1944 35.28×31.80
+.ServiceItem--01 .ServiceItemIcon img {
+  inline-size: rem(60); // カンプ uuid 1374 width 60.26
+  block-size: rem(54);  // カンプ uuid 1374 height 54.31
+
+  @include sp {
+    inline-size: rem(35, 14); // カンプ uuid 1944 width 35.28
+    block-size: rem(32, 14);  // カンプ uuid 1944 height 31.80
+  }
+}
+
+// 02 疲れ: PC uuid 1448 61.70×67.34 / SP uuid 1962 36.12×39.43
+.ServiceItem--02 .ServiceItemIcon img {
+  inline-size: rem(62); // カンプ uuid 1448 width 61.70
+  block-size: rem(67);  // カンプ uuid 1448 height 67.34
+
+  @include sp {
+    inline-size: rem(36, 14); // カンプ uuid 1962 width 36.12
+    block-size: rem(39, 14);  // カンプ uuid 1962 height 39.43
+  }
+}
+
+// 03 妊活: PC uuid 1464 54.12×46.93 / SP uuid 1988 31.69×27.48
+.ServiceItem--03 .ServiceItemIcon img {
+  inline-size: rem(54); // カンプ uuid 1464 width 54.12
+  block-size: rem(47);  // カンプ uuid 1464 height 46.93
+
+  @include sp {
+    inline-size: rem(32, 14); // カンプ uuid 1988 width 31.69
+    block-size: rem(27, 14);  // カンプ uuid 1988 height 27.48
+  }
+}
+
+// 04 忙しい: PC uuid 1369 51.98×57.38 / SP uuid 1934 30.43×33.59
+.ServiceItem--04 .ServiceItemIcon img {
+  inline-size: rem(52); // カンプ uuid 1369 width 51.98
+  block-size: rem(57);  // カンプ uuid 1369 height 57.38
+
+  @include sp {
+    inline-size: rem(30, 14); // カンプ uuid 1934 width 30.43
+    block-size: rem(34, 14);  // カンプ uuid 1934 height 33.59
+  }
+}
+
+// 05 ストレス: PC uuid 1456 61.70×67.34 / SP uuid 1975 36.12×39.43
+.ServiceItem--05 .ServiceItemIcon img {
+  inline-size: rem(62); // カンプ uuid 1456 width 61.70
+  block-size: rem(67);  // カンプ uuid 1456 height 67.34
+
+  @include sp {
+    inline-size: rem(36, 14); // カンプ uuid 1975 width 36.12
+    block-size: rem(39, 14);  // カンプ uuid 1975 height 39.43
+  }
+}
+
+// 06 リラックス: PC uuid 1411 66.21×60.80 / SP uuid 1953 38.77×35.60
+.ServiceItem--06 .ServiceItemIcon img {
+  inline-size: rem(66); // カンプ uuid 1411 width 66.21
+  block-size: rem(61);  // カンプ uuid 1411 height 60.80
+
+  @include sp {
+    inline-size: rem(39, 14); // カンプ uuid 1953 width 38.77
+    block-size: rem(36, 14);  // カンプ uuid 1953 height 35.60
+  }
+}
+
+.ServiceItemLabel {
+  margin: 0;
+  color: $color-accent; // カンプ uuid 866 fill rgb(214,154,145) = #D69A91 = $color-accent
+  font-family: $font-body;
+  font-weight: 700;
+  font-size: rem(19); // カンプ uuid 866 font_size 19.33
+  line-height: 1.29; // カンプ：leading 25 / font 19.33 ≒ 1.29
+  letter-spacing: 0; // カンプ uuid 866 tracking 0
+  text-align: center;
+
+  @include sp {
+    font-size: rem(11, 14); // カンプ uuid 1943 font_size 11.32
+    line-height: 1.29; // カンプ：leading 14.64 / font 11.32 ≒ 1.29
+  }
+}

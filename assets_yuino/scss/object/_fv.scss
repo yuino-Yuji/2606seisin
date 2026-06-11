@@ -16,7 +16,7 @@
   z-index: 1; // non-comp: stacking（overflow-x: clip が stacking context を生成するため、Concern の背景に潜る現象を回避するため body level で前面化）
   background-color: #fff;
   overflow-x: clip; // non-comp: mask（X 方向のみクリップ。hidden だと overflow-y が auto に変わってスクロール発生するため clip を使用）
-  min-block-size: rem(870); // カンプ実測：ヘッダー底 rel 151 → Concern矩形 top rel 1021 = FV body 高さ 870
+  // min-block-size: rem(870); // カンプ実測：ヘッダー底 rel 151 → Concern矩形 top rel 1021 = FV body 高さ 870
 
   @include sp {
     min-block-size: auto;
@@ -29,16 +29,18 @@
 // カンプ：写真は artboard 右上から下方向に伸び、Concern にもはみ出す。
 // background-image をやめ <img> + position: absolute で配置することで、画面幅縮小時もアスペクト比追従＝写真下に空白が出ない
 .FvHero {
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline-end: 0;
+
+  // position: absolute;
+  // inset-block-start: 0;
+  // inset-inline-end: 0;
   inline-size: vw1280(720); // カンプ：写真表示 inline-size 720（artboard 1280 基準）
-  pointer-events: none; // non-comp: a11y（装飾、操作対象外）
-  z-index: 0; // non-comp: stacking（FvInner z=1 より背面、Concern::before z=2 より背面）
+  // pointer-events: none; // non-comp: a11y（装飾、操作対象外）
+  margin-inline-start: auto;
+  // z-index: 0; // non-comp: stacking（FvInner z=1 より背面、Concern::before z=2 より背面）
 
   @include sp {
     inset-block-start: rem($header-height-sp, 14); // SP は SP 用画像を画面 100% で表示
-    inset-inline-end: 0;
+    // inset-inline-end: 0;
     inline-size: 100%;
   }
 }
@@ -52,6 +54,9 @@
 // Inner
 .FvInner {
   position: relative;
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   z-index: 1; // non-comp: stacking
   max-inline-size: ($vw_standard_width); // カンプ：PC artboard 1280
   margin-inline: auto;

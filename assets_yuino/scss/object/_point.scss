@@ -1,0 +1,236 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+// ============================================
+// Point — 妊活中の方にも選ばれる、Sakuraの安心ポイント
+// パターン：card grid（PC: 4col × 1row / SP: 2col × 2row）+ 花びら装飾
+// カンプ：PC bg(uuid 467) #FBF0F2 = $color-bg-pink（Concern と同色）、SP bg(uuid 1568)
+// 花びら 8 枚を Section の左右にクラスター配置（Concern 同パターン）
+// ============================================
+.Point {
+  position: relative;
+  background-color: $color-bg-pink; // カンプ uuid 467 fill rgb(251,240,242) = #FBF0F2
+  padding-block-start: rem(53); // カンプ：bg top -1830.90 → title top -1777.40 = 53.50
+  padding-block-end: rem(65);   // カンプ：card bottom -1275.50 → bg bottom -1210.15 = 65.35
+
+  @include sp {
+    padding-block-start: rem(35, 14); // カンプ：SP bg top -3142.96 → title top -3107.53 = 35.43
+    padding-block-end: rem(25, 14);   // カンプ：SP card row2 bottom -2414.21 → bg bottom -2389.19 = 25.02
+  }
+}
+
+.PointInner {
+  position: relative;
+  z-index: 1; // non-comp: stacking（花びら装飾より前面）
+  max-inline-size: rem(1200); // 標準 Inner 規格
+  margin-inline: auto;
+  padding-inline: rem(30);
+
+  @include sp {
+    padding-inline-start: rem(18, 14); // カンプ：SP card 1 left 1606.79 → artboard left 1588.43 = 18.36
+    padding-inline-end: rem(22, 14);   // カンプ：SP card 2 right 1957.79 → artboard right 1979.50 = 21.71
+  }
+}
+
+.PointTitle {
+  margin: 0;
+  text-align: center;
+  color: $color-heading; // カンプ：見出し色 #655046
+  font-family: $font-heading;
+  font-weight: 400;
+  font-size: rem(32); // カンプ uuid 492 font_size 31.64
+  line-height: 1.43; // カンプ：leading 45.31 / font 31.64 ≒ 1.43
+  letter-spacing: 0.1em; // カンプ tracking 100
+
+  @include sp {
+    font-size: rem(25, 14); // カンプ uuid 2013 font_size 24.75
+    line-height: 1.43; // カンプ：leading 35.45 / font 24.75 ≒ 1.43
+    letter-spacing: 0.05em; // カンプ tracking 200 (0.2em) だが Gothic 代替で SP container 内に 2 行収納するため調整
+  }
+}
+
+// カード 4 枚グリッド
+// カンプ実視覚値：card content width = 268（image clip 268.25）/ card gap = 16（image 間 16.36）
+// 旧実装は card 矩形 AABB（282 wide / 3-4px gap）を採用していたが、視覚的に正しいのは clip 値。
+.PointCards {
+  margin-block-start: rem(33); // カンプ：title bottom -1738.83 → card top -1705.50 = 33.33
+  display: grid;
+  grid-template-columns: repeat(4, rem(268)); // カンプ：image clip 268.25
+  column-gap: rem(16); // カンプ：image 間水平 gap 16.36（実視覚値）
+  justify-content: center; // Inner content (1140) 内に総幅 1120 を中央寄せ
+  list-style: none; // non-comp: reset
+  padding-inline-start: 0; // non-comp: reset
+
+  @include sp {
+    grid-template-columns: 1fr 1fr;
+    column-gap: rem(1, 14); // カンプ：SP card 水平 gap 0.99 ≒ 1
+    row-gap: rem(9, 14);    // カンプ：SP card 垂直 gap 9.00
+    margin-block-start: rem(19, 14); // カンプ：SP title bottom -3041.91 → card top -3023.21 = 18.70
+  }
+}
+
+.PointCard {
+  list-style: none; // non-comp: reset
+  background-color: #fff; // カンプ uuid 883/901/919/937 fill rgb(1,1,1) = #FFFFFF
+  border-radius: rem(10);
+  border: 1px solid rgba(5, 1, 1, 0.1); // カンプ：ドロップシャドウをボーダーで再現（Concern と同方針）
+  overflow: hidden; // non-comp: mask（image を border-radius でクリップして角を丸める）
+  padding-block-start: 0; // image は card top 端から（user 指示：image は card に対して inline-size 100%、上下左右余白なし）
+  padding-block-end: rem(23);  // カンプ：body bottom -1298.22 → card bottom -1275.5 = 22.72
+  display: flex;
+  flex-direction: column;
+}
+
+.PointCardImage {
+  inline-size: 100%; // user 指示：image は card に対して 100%（左右余白なし）
+  aspect-ratio: 268.25 / 178.10; // カンプ：image clip 268.25 × 178.10 のアスペクト比を維持
+}
+
+.PointCardImage img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover; // non-comp: mask（natural image size と aspect-ratio 違いを吸収）
+}
+
+.PointCardTitle {
+  margin: 0;
+  margin-block-start: rem(40); // カンプ：image bottom -1520.52 → title top -1480.42 = 40.10
+  padding-inline: rem(27); // カンプ：body left -537.88 → card left -565.5 = 27.62
+  text-align: center;
+  color: $color-accent; // カンプ uuid 886 fill — 推定（pink accent）
+  font-family: $font-body;
+  font-weight: 700;
+  font-size: rem(19); // カンプ uuid 886 font_size 19.33
+  line-height: 1.29; // カンプ：leading 25 / font 19.33 ≒ 1.29
+  letter-spacing: 0; // カンプ tracking 0
+
+  @include sp {
+    margin-block-start: rem(14, 14); // カンプ：SP image bottom -2891.68 → title top -2892.51 = -0.83（image top と title top はほぼ揃う）→ 実装は 14 で軽い余白
+    padding-inline: rem(12, 14);
+    font-size: rem(15, 14); // カンプ uuid 2021 font_size 15
+    line-height: 1.4; // カンプ：leading 21 / font 15 = 1.4
+  }
+}
+
+.PointCardBody {
+  margin: 0;
+  margin-block-start: rem(16); // カンプ：title bottom -1434.45 → body top -1418.38 = 16.07
+  padding-inline: rem(27); // body left padding（title と同じ）
+  color: $color-text; // カンプ uuid 893 fill rgb(131,116,114) = #837472
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: rem(15); // カンプ uuid 893 font_size 15
+  line-height: 1.67; // カンプ：leading 25 / font 15 ≒ 1.67
+  letter-spacing: 0; // カンプ tracking 0
+  text-align: justify; // カンプ：paragraph_alignment=justify
+
+  @include sp {
+    margin-block-start: rem(10, 14); // カンプ：SP title bottom -2855.23 → body top -2845.34 = 9.89
+    padding-inline: rem(12, 14);
+    font-size: rem(11, 14); // カンプ uuid 2028 font_size 11
+    line-height: 1.64; // カンプ：leading 18 / font 11 ≒ 1.64
+  }
+}
+
+// ============================================
+// 花びら装飾（左 5 枚 + 右 3 枚 = 計 8 枚、Concern と同パターン）
+// カンプ Y 順（top -> bottom）で番号付与。Section bg top の上方に -100px 程度はみ出る floating petals を含む。
+// 左クラスター: leaf01 (uuid 1268), 02 (1269), 03 (1271 茎付き), 04 (1270), 05 (1279 大花)
+// 右クラスター: leaf06 (uuid 1340), 07 (1341 中央右、artboard 右端から見切れ), 08 (1342 大花)
+// 重要: カンプ uuid 1280/1281/1282/1283/1284 は uuid 1279（大花）の子要素＝花弁であり、
+// 別々の leaf として配置しない（過去事案：機械判定で 5 個の petal を別 leaf と誤認した）
+// ============================================
+.PointLeavesLeft,
+.PointLeavesRight {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none; // non-comp: a11y
+  z-index: 2; // non-comp: stacking（花びらがカードの前面に乗る）
+}
+
+.PointLeaf {
+  position: absolute;
+  display: block;
+}
+
+.PointLeaf img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain; // non-comp: mask（画像 natural aspect とラッパー aspect の差異を吸収して stretch 防止）
+}
+
+// 左クラスター（5 枚、上から順）
+.PointLeaf01 { // カンプ uuid 1268: top -1935.73 / 43.09×35.04（最上空浮遊花弁、bg top の -105 上方）
+  inset-block-start: vw1280(-105);
+  inset-inline-start: vw1280(197); // カンプ実測：left -443.69 → artboard left -640.5 = 196.81
+  inline-size: vw1280(43);
+  block-size: vw1280(35);
+}
+
+.PointLeaf02 { // カンプ uuid 1269: top -1920.19 / 39.40×31.18（浮遊花弁、bg top の -89 上方）
+  inset-block-start: vw1280(-89);
+  inset-inline-start: vw1280(107); // カンプ実測：left -533.31 → artboard left = 107.19
+  inline-size: vw1280(39);
+  block-size: vw1280(31);
+}
+
+.PointLeaf03 { // カンプ uuid 1271: top -1894.77 / 63.85×84.15（緑茎付き leaf、bg top の -64 上方）
+  inset-block-start: vw1280(-64);
+  inset-inline-start: vw1280(-9);
+  inline-size: vw1280(64);
+  block-size: vw1280(84);
+}
+
+.PointLeaf04 { // カンプ uuid 1270: top -1831.66 / 47.04×41.99（bg top の境界に浮遊する花弁）
+  inset-block-start: vw1280(-1); // bg top -1830.90 → leaf top -1831.66 = -0.76
+  inset-inline-start: vw1280(117); // カンプ実測：left -523.01 → artboard left = 117.49
+  inline-size: vw1280(47);
+  block-size: vw1280(42);
+}
+
+.PointLeaf05 { // カンプ uuid 1279: top -1775.62 / 99.78×99.94（大型 cherry blossom）
+  inset-block-start: vw1280(55);
+  inset-inline-start: vw1280(-19);
+  inline-size: vw1280(100);
+  block-size: vw1280(100);
+}
+
+// 右クラスター（3 枚、上から順、inset-inline-end でアンカー）
+.PointLeaf06 { // カンプ uuid 1340: top -1777.86 / 48.19×32.55
+  inset-block-start: vw1280(53);
+  inset-inline-end: vw1280(35);
+  inline-size: vw1280(48);
+  block-size: vw1280(33);
+}
+
+.PointLeaf07 { // カンプ uuid 1341: top -1418.38 / 40.17×34.50（中央右、artboard 右端から -19 見切れ）
+  inset-block-start: vw1280(413); // カンプ：top -1418.38 - bg top -1830.90 = 412.52
+  inset-inline-end: vw1280(-19);  // カンプ：artboard right 640.5 → leaf right (619.42 + 40.17 = 659.59) = -19.09
+  inline-size: vw1280(40);
+  block-size: vw1280(35);
+}
+
+.PointLeaf08 { // カンプ uuid 1342: top -1297.34 / 89.08×89.41（右下大花）
+  inset-block-start: vw1280(534);
+  inset-inline-end: vw1280(39);
+  inline-size: vw1280(89);
+  block-size: vw1280(89);
+}
+
+// SP 専用：花びらは Concern 同様に疎な配置で間引く（PC の小型 leaf を非表示にして大花中心に残す）
+@include sp {
+  // SP は疎な配置で間引く（大花と一部の小花弁のみ残す）
+  .PointLeaf01 { display: none; } // 上空浮遊
+  .PointLeaf02 { inset-block-start: rem(-30, 14); inset-inline-start: rem(80, 14); inline-size: rem(28, 14); block-size: rem(22, 14); }
+  .PointLeaf03 { inset-block-start: rem(-50, 14); inset-inline-start: rem(-10, 14); inline-size: rem(45, 14); block-size: rem(60, 14); } // 茎付き leaf
+  .PointLeaf04 { display: none; }
+  .PointLeaf05 { inset-block-start: rem(30, 14); inset-inline-start: rem(-20, 14); inline-size: rem(70, 14); block-size: rem(70, 14); } // 大花
+  .PointLeaf06 { inset-block-start: rem(20, 14); inset-inline-end: rem(20, 14); inline-size: rem(40, 14); block-size: rem(27, 14); }
+  .PointLeaf07 { inset-block-start: auto; inset-block-end: rem(280, 14); inset-inline-end: rem(-15, 14); inline-size: rem(32, 14); block-size: rem(28, 14); }
+  .PointLeaf08 { inset-block-start: auto; inset-block-end: rem(40, 14); inset-inline-end: rem(-15, 14); inline-size: rem(70, 14); block-size: rem(70, 14); }
+}
