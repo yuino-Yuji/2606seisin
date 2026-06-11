@@ -268,5 +268,199 @@ Template Name: トップページ
     </div>
   </section>
 
+  <!-- ============================================
+       Use Case — こんなタイミングでご利用いただいています
+       ============================================ -->
+  <section class="Case" id="case">
+    <div class="CaseCtas sp">
+      <?php get_template_part('template-parts/cta-pair'); ?>
+    </div>
+
+    <div class="CaseInner">
+      <div class="CaseMain">
+        <h2 class="CaseTitle">こんなタイミングでご利用いただいています</h2>
+
+        <div class="CaseInfo">
+          <ul class="CaseTagsList">
+            <li class="CaseTag">妊活中の身体づくりを意識したいとき</li>
+            <li class="CaseTag">心身をゆっくり休めたいとき</li>
+            <li class="CaseTag">病院以外のセルフケアを探しているとき</li>
+            <li class="CaseTag">美容施術後のダウンタイムケアとして</li>
+            <li class="CaseTag">冷えや疲れが気になるとき</li>
+            <li class="CaseTag">仕事や家事で疲れがたまっているとき</li>
+            <li class="CaseTag">リラックスできる時間をつくりたいとき</li>
+          </ul>
+          <p class="CaseNote">目的やお身体の状態に合わせて、無理のない通い方をご提案します。</p>
+        </div>
+      </div>
+
+      <div class="CasePhoto" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" srcset="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/case/case-image-sp.webp">
+          <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/case/case-image.webp" alt="" width="234" height="234">
+        </picture>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Intro — 初めての方も、安心してご利用いただけます。
+       ============================================ -->
+  <section class="Intro" id="intro">
+    <div class="IntroInner">
+      <div class="IntroPhoto" aria-hidden="true">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/flow/use-image02.webp" alt="" width="373" height="373">
+      </div>
+
+      <div class="IntroBody">
+        <h2 class="IntroTitle">初めての方も、安心してご利用いただけます。</h2>
+
+        <p class="IntroLead">酸素カプセルが初めての方にも、事前に使い方や注意事項を丁寧にご案内します。</p>
+
+        <ul class="IntroQuotes">
+          <li>「どのくらいの頻度で通えばいいのか」</li>
+          <li>「妊活中でも利用できるのか」</li>
+          <li>「予約前に相談だけしてもいいのか」</li>
+        </ul>
+
+        <p class="IntroLead2">そんな不安がある方も、まずはLINEからお気軽にご相談ください。<br>無理なご案内ではなく、お一人おひとりの状態や目的に合わせて、<br>安心して始められる方法をご提案します。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Flow — ご利用の流れ
+       ============================================ -->
+  <section class="Flow" id="flow">
+    <div class="FlowInner">
+      <h2 class="FlowTitle">ご利用の流れ</h2>
+
+      <ul class="FlowCards">
+        <li class="FlowCard">
+          <div class="FlowStep">
+            <span class="FlowStepBadge">
+              <span class="FlowStepLabel">STEP</span>
+              <span class="FlowStepNum">01</span>
+            </span>
+            <span class="FlowArrow pc" aria-hidden="true"></span>
+          </div>
+          <div class="FlowIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/flow/flow-icon01.webp" alt="" width="42" height="56"></div>
+          <h3 class="FlowCardTitle">LINE登録・<br>お問い合わせ</h3>
+          <p class="FlowText">まずはLINEからお気軽にご相談ください。<br>気になることや不安なことがあれば、事前にご質問いただけます。</p>
+        </li>
+
+        <li class="FlowCard">
+          <div class="FlowStep">
+            <span class="FlowStepBadge">
+              <span class="FlowStepLabel">STEP</span>
+              <span class="FlowStepNum">02</span>
+            </span>
+            <span class="FlowArrow pc" aria-hidden="true"></span>
+          </div>
+          <div class="FlowIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/flow/flow-icon02.webp" alt="" width="52" height="57"></div>
+          <h3 class="FlowCardTitle">ご希望日時の確認</h3>
+          <p class="FlowText">ご希望の日時をお伺いし、ご予約を調整いたします。</p>
+        </li>
+
+        <li class="FlowCard">
+          <div class="FlowStep">
+            <span class="FlowStepBadge">
+              <span class="FlowStepLabel">STEP</span>
+              <span class="FlowStepNum">03</span>
+            </span>
+            <span class="FlowArrow pc" aria-hidden="true"></span>
+          </div>
+          <div class="FlowIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/flow/flow-icon03.webp" alt="" width="60" height="55"></div>
+          <h3 class="FlowCardTitle">ご来店・ご案内</h3>
+          <p class="FlowText">初めての方にも、酸素カプセルの使い方や注意事項を丁寧にご案内します。</p>
+        </li>
+
+        <li class="FlowCard">
+          <div class="FlowStep">
+            <span class="FlowStepBadge">
+              <span class="FlowStepLabel">STEP</span>
+              <span class="FlowStepNum">04</span>
+            </span>
+            <span class="FlowArrow pc" aria-hidden="true"></span>
+          </div>
+          <div class="FlowIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/flow/flow-icon04.webp" alt="" width="51" height="47"></div>
+          <h3 class="FlowCardTitle">酸素カプセルの<br>ご利用</h3>
+          <p class="FlowText">カプセル内で横になり、ゆっくりとお過ごしください。<br>読書や休息など、ご自身のペースでリラックスしていただけます。</p>
+        </li>
+
+        <li class="FlowCard">
+          <div class="FlowStep">
+            <span class="FlowStepBadge">
+              <span class="FlowStepLabel">STEP</span>
+              <span class="FlowStepNum">05</span>
+            </span>
+          </div>
+          <div class="FlowIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/flow/flow-icon05.webp" alt="" width="36" height="50"></div>
+          <h3 class="FlowCardTitle">今後の通い方を<br>ご相談</h3>
+          <p class="FlowText">目的やお身体の状態に合わせて、無理のない通い方をご提案します。</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Voice — ご利用いただいた方の声
+       ============================================ -->
+  <section class="Voice" id="voice">
+    <div class="VoiceLeavesLeft" aria-hidden="true">
+      <span class="VoiceLeaf VoiceLeaf01"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf01.webp" alt="" width="43" height="35"></span>
+      <span class="VoiceLeaf VoiceLeaf02"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf02.webp" alt="" width="39" height="31"></span>
+      <span class="VoiceLeaf VoiceLeaf03"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf03.webp" alt="" width="47" height="42"></span>
+    </div>
+
+    <div class="VoiceInner">
+      <h2 class="VoiceTitle">ご利用いただいた方の声</h2>
+
+      <ul class="VoiceCards">
+        <li class="VoiceCard">
+          <div class="VoiceCardHead">
+            <div class="VoiceIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-icon.webp" alt="" width="73" height="74"></div>
+            <div class="VoiceCardMeta">
+              <h3 class="VoiceCardTitle">ゆっくり休める時間が<br>できたことも嬉しいです。</h3>
+              <p class="VoiceCardAge">（30代 女性）</p>
+            </div>
+          </div>
+          <p class="VoiceCardBody">冷えが気になっていましたが、通うことで自分の身体を見直すきっかけになりました。<br>ゆっくり休める時間ができたことも嬉しいです。</p>
+        </li>
+
+        <li class="VoiceCard">
+          <div class="VoiceCardHead">
+            <div class="VoiceIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-icon.webp" alt="" width="73" height="74"></div>
+            <div class="VoiceCardMeta">
+              <h3 class="VoiceCardTitle">LINEで相談できたので、<br>初めてでも安心でした。</h3>
+              <p class="VoiceCardAge">（40代 女性）</p>
+            </div>
+          </div>
+          <p class="VoiceCardBody">妊活中は気持ちが不安定になることもありましたが、Sakuraで過ごす時間がリラックスにつながっています。LINEで相談できたので、初めてでも安心でした。</p>
+        </li>
+
+        <li class="VoiceCard">
+          <div class="VoiceCardHead">
+            <div class="VoiceIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-icon.webp" alt="" width="73" height="74"></div>
+            <div class="VoiceCardMeta">
+              <h3 class="VoiceCardTitle">完全予約制で落ち着いて<br>過ごせました。</h3>
+              <p class="VoiceCardAge">（50代 女性）</p>
+            </div>
+          </div>
+          <p class="VoiceCardBody">酸素カプセルは初めてでしたが、丁寧に説明してもらえたので不安なく利用できました。<br>完全予約制で落ち着いて過ごせるところも良かったです。</p>
+        </li>
+      </ul>
+
+      <p class="VoiceNote">※個人の感想であり、効果を保証するものではありません。</p>
+    </div>
+
+    <div class="VoiceLeavesRight" aria-hidden="true">
+      <span class="VoiceLeaf VoiceLeaf04"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf04.webp" alt="" width="39" height="31"></span>
+      <span class="VoiceLeaf VoiceLeaf05"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf05.webp" alt="" width="64" height="84"></span>
+      <span class="VoiceLeaf VoiceLeaf06"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf06.webp" alt="" width="47" height="42"></span>
+      <span class="VoiceLeaf VoiceLeaf07"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf07.webp" alt="" width="100" height="100"></span>
+    </div>
+  </section>
+
 </main>
 <?php get_footer(); ?>

@@ -1,0 +1,222 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+// ============================================
+// Use Case — こんなタイミングでご利用いただいています
+// パターン：media object（PC=左 title+タグ群+補足 / 右 square photo、SP=stack：CTA→title→tags→note→full-bleed photo）
+//
+// カンプ:
+//   PC: 白 / title(uuid 502) 19.33 / タグ×7 ピル形状 bg #FBF0F2 / text #D69A91 / photo clip(uuid 967) 234.21×234.21 / 補足(uuid 505) 15 justify
+//   SP: 白 / CTA pair（uuid 1794/1810）/ title(uuid 2088) 24.75 / タグ×7 単縦並び全幅統一 / photo clip(uuid 1710) 391×243 full-bleed
+//
+// Inner 判定:
+//   PC: title left viewport 82 / photo right viewport 68 → 非対称 padding → 固有 CaseInner（padding-inline-start rem(42) / end rem(28)）
+//   SP: title left viewport 35 ≒ 全幅。photo は full-bleed のため Inner 外。
+// ============================================
+.Case {
+  background-color: #fff;
+  padding-block-start: rem(87); // カンプ：Point bg bottom -1210.15 → title top -1123.31 = 86.84
+  padding-block-end: rem(85);   // カンプ：補足 bottom -876.26 → 次セクション bg top -791.26 = 85.00
+
+  @include sp {
+    padding-block-start: rem(16, 14); // カンプ：SP Point bg bottom -2389.19 → CTA top -2373.5 = 15.69
+    padding-block-end: 0;             // カンプ：写真 visible bottom -1451.07 ≒ 次セクション bg top -1459.54（写真は次セクション bg と 8 overlap、padding 0）
+  }
+}
+
+// PC: 媒体オブジェクト横並び（main + photo）
+// SP: block（CaseInner の中の縦並びは sp 内で個別調整）
+.CaseInner {
+  max-inline-size: rem(1200);
+  margin-inline: auto;
+  padding-inline-start: rem(42); // カンプ：title left viewport 82 - Inner left viewport 40 = 42
+  padding-inline-end: rem(28);   // カンプ：photo right viewport 68.39 - Inner right viewport 40 = 28
+  display: flex;
+  align-items: flex-start;
+  gap: rem(116); // カンプ：tag 2col 右端 max viewport(1280-223.65 と artboard right の関係)→photo left 337.90 = 114.25
+
+  @include sp {
+    max-inline-size: none;
+    padding-inline: 0; // SP は CaseMain で独自 padding、photo は full-bleed
+    padding-block-start: rem(13, 14); // カンプ：SP CTA bottom -2202.50 → title top -2189.56 = 12.94
+    display: block;
+  }
+}
+
+// CaseMain: PC = title + 補足を含むコンテンツ左カラム / SP = section 全幅 で title+tags+note の縦並び
+.CaseMain {
+  flex: 0 1 auto;
+  min-inline-size: 0; // non-comp: layout-tool（flex item の shrink を効かせる）
+
+  @include sp {
+    padding-inline: rem(14, 14); // カンプ：SP tag bg left 1609.36 → artboard left 1588.43 = 20.93。viewport 391 想定だが scrollbar 込みでも 18 文字 tag が 1 行収納できるよう 14 に圧縮
+  }
+}
+
+.CaseTitle {
+  margin: 0;
+  color: $color-heading; // カンプ uuid 502 fill rgb(101,80,70) = #655046
+  font-family: $font-heading;
+  font-weight: 400;
+  font-size: rem(19); // カンプ uuid 502 font_size 19.33
+  line-height: 1.1;   // カンプ：visible bounds.height 21.07 / font 19.33 = 1.09。1 行 title のため visible 高さに揃える
+  letter-spacing: 0.1em; // カンプ uuid 502 tracking 100
+
+  @include sp {
+    font-size: rem(24, 14); // カンプ uuid 2088 font_size 24.75
+    line-height: 1.43;      // カンプ：leading 35.45 / font 24.75 = 1.43（2 行 title のため auto leading）
+    letter-spacing: 0.1em;  // カンプ uuid 2088 tracking 200 (0.2em) だが Gothic 代替で 2 行収納のため 0.1em に調整
+  }
+}
+
+// CaseInfo: PC = タグ 7 個 + 補足を 2col×4row grid で配置（grid-auto-flow: column）
+//   → タグ1〜4 が列1 (タグ1-4 行)、タグ5〜7 が列2 (タグ5-7行)、補足が列2 4行目
+// SP = 1 col 縦並び（tag, tag, ..., note）
+.CaseInfo {
+  margin-block-start: rem(27); // カンプ：title bottom -1102.24 → tag1 bg top -1075.32 = 26.92
+  display: grid;
+  grid-template-columns: max-content max-content; // 各列の内容最大幅
+  grid-template-rows: repeat(4, auto);
+  grid-auto-flow: column;
+  column-gap: rem(55); // カンプ：tag1 列 右端 -200.49 → tag5 列 左端 -145.92 = 54.57
+  row-gap: rem(20);    // カンプ：tag1 bottom -1039.72 → tag2 top -1017.39 = 22.33（平均 ~20）
+  align-items: center;
+
+  @include sp {
+    margin-block-start: rem(19, 14); // カンプ：SP title bottom -2123.94 → tag1 bg top -2105.10 = 18.84
+    grid-template-columns: 1fr; // SP は単縦並び
+    grid-template-rows: none;
+    grid-auto-flow: row;
+    row-gap: rem(18, 14); // カンプ：SP tag1 bottom -2069.50 → tag2 top -2051.30 = 18.20
+  }
+}
+
+// CaseTagsList: display: contents で ul を grid から外し、li を直接 CaseInfo の grid item に
+// 規約：list-style/padding は non-comp: reset
+.CaseTagsList {
+  display: contents;
+  list-style: none; // non-comp: reset
+  padding-inline-start: 0; // non-comp: reset
+  margin: 0; // non-comp: reset
+}
+
+.CaseTag {
+  list-style: none; // non-comp: reset
+  background-color: $color-bg-pink; // カンプ uuid 951 fill rgb(251,240,242) = #FBF0F2
+  color: $color-accent; // カンプ uuid 952 fill rgb(214,154,145) = #D69A91
+  padding-block: rem(5);  // カンプ：bg height 35.60 - text content (font 19.33 × line-height 1.29 = 24.94) = 10.66、÷2 = 5.33
+  padding-inline: rem(13); // カンプ：tag text left -543.48 → bg left -556.51 = 13.03
+  border-radius: 9999px; // non-comp: mask（ピル形状。bg height/2 = 17.8 で完全な丸み）
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: rem(19); // カンプ uuid 952 font_size 19.33
+  line-height: 1.29;  // カンプ：leading 25 / font 19.33 = 1.29
+  letter-spacing: 0.05em; // カンプ uuid 952 tracking 50
+  inline-size: max-content; // 内容最大幅で伸縮
+  justify-self: start; // 各 li を grid cell の左に寄せる
+
+  @include sp {
+    padding-block: rem(6, 14);
+    padding-inline: rem(14, 14); // カンプ：SP tag text と bg の左右余白（カンプ平均 ~26 だが、viewport 391 想定で 18 文字 tag を 1 行収納するため 14 に圧縮）
+    inline-size: 100%; // SP は全幅統一（カンプ：全 tag bg width 356.02 で固定）
+    justify-self: stretch;
+    text-align: center; // カンプ：SP tag text は bg 内で中央寄せ（text padding 左右ほぼ対称）
+    font-size: rem(16, 14); // カンプ：SP tag text height 19.40。Gothic 代替 17px だと最長行（妊活中の身体づくりを意識したいとき 17 文字）が 1 行に収まらず折り返すため 16 に
+    line-height: 1.29;
+    letter-spacing: 0.05em;
+  }
+}
+
+.CaseNote {
+  margin: 0;
+  color: $color-text; // カンプ uuid 505 fill rgb(131,116,114) = #837472
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: rem(15); // カンプ uuid 505 font_size 15
+  line-height: 1.67;  // カンプ：leading 25 / font 15 = 1.67
+  letter-spacing: 0;  // カンプ uuid 505 tracking 0
+  text-align: justify; // カンプ：paragraph_alignment=justify
+
+  @include sp {
+    margin-block-start: 0; // SP: CaseInfo grid の row-gap 18 でカンプ 16.18 を表現（margin 追加で重複加算を防ぐ）
+    font-size: rem(11, 14); // カンプ uuid 2091 font_size 12.01。Gothic 代替で 12px だと 31 文字が viewport 391 内側で 1 行に収まらず折り返すため 11 に縮小
+    line-height: 1.67;      // カンプ：leading 20.02 / font 12.01 = 1.67
+    text-align: center;     // カンプ：SP 補足は中央寄せ
+  }
+}
+
+.CasePhoto {
+  flex: 0 0 rem(234); // カンプ：clip path uuid 967 width 234.21
+  aspect-ratio: 1 / 1; // カンプ：clip 234.21×234.21 = 正方形
+  margin-block-start: rem(10); // カンプ：title top -1123.31 → photo top -1113.55 = 9.76
+
+  @include sp {
+    flex: none;
+    aspect-ratio: 391 / 243; // カンプ：SP clip uuid 1710 391.07×243.16
+    inline-size: 100vw; // SP: full-bleed
+    margin-inline: calc(50% - 50vw); // CaseInner padding を escape して viewport 端まで
+    margin-block-start: rem(23, 14); // カンプ：SP 補足 bottom -1717.46 → photo visible top -1694.23 = 23.23
+  }
+}
+
+.CasePhoto picture {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.CasePhoto img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover; // non-comp: mask（natural image と clip aspect の差異吸収）
+}
+
+// ============================================
+// SP 限定：CTA 2 ボタンセット（Concept SP と同パターン）
+// カンプ:
+//   SP LINE CTA(uuid 1794): left 1610.5 / top -2373.5 / w 347 / h 85
+//   SP 初回予約(uuid 1810): left 1610.5 / top -2288.5 / w 347 / h 86
+// ============================================
+.CaseCtas {
+  display: none; // PC: 非表示（カンプ：PC Use Case に CTA なし）
+
+  @include sp {
+    display: block;
+    inline-size: 100%;
+    padding-inline: rem(22, 14); // カンプ：SP CTA left 1610.5 → artboard left 1588.43 = 22.07
+    box-sizing: border-box; // non-comp: layout-tool（padding 込みで 100% に収める）
+  }
+}
+
+.CaseCtas .CtaButton {
+  @include sp {
+    block-size: rem(86, 14); // カンプ：SP CTA height 85〜86（86 で統一）
+    font-size: rem(19, 14);
+    column-gap: rem(10, 14);
+  }
+}
+
+.CaseCtas .CtaButton__Icon {
+  @include sp {
+    inline-size: rem(41, 14);
+  }
+}
+
+.CaseCtas .CtaButton--reserve .CtaButton__Icon {
+  @include sp {
+    inline-size: rem(24, 14);
+  }
+}
+
+.CaseCtas .CtaButton--line .CtaButton__Text {
+  @include sp {
+    letter-spacing: 0.1em;
+  }
+}
+
+.CaseCtas .CtaButton--reserve .CtaButton__Text {
+  @include sp {
+    letter-spacing: 0.2em;
+  }
+}
