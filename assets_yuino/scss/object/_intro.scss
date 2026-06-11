@@ -1,0 +1,165 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+// ============================================
+// Intro — 初めての方も、安心してご利用いただけます。
+// パターン：PC=media object（左 square photo + 右 title + body）/ SP=テキストのみ・段落順を PC と逆順に表示
+//
+// カンプ:
+//   PC: bg(uuid 496) #FCF9F6 / photo clip(uuid 836) 372.91×372.91 / title(uuid 499) 31.64 / 3 段落
+//   SP: bg(uuid 1560) #FCF9F6 / 写真なし / title(uuid 2115) 24.75 中央寄せ / 本文は 514→511→508 順
+//
+// Inner 判定:
+//   PC: photo left viewport 113 / title right viewport 79 → 非対称 → 固有 IntroInner
+//   SP: テキストのみ。padding-inline 22（左右対称）
+// ============================================
+.Intro {
+  background-color: #FCF9F6; // カンプ uuid 496 fill rgb(252,249,246) = #FCF9F6
+  padding-block-start: rem(54); // カンプ：PC bg top -791.26 → photo visible top -737.42 = 53.84
+  padding-block-end: rem(70);   // カンプ：PC リード2 bottom -394.88 → bg bottom -294.78 = 100.10。photo bottom -364.51 → bg bottom -294.78 = 69.73 のうち長い方（photo 基準）で 70
+
+  @include sp {
+    padding-block-start: rem(38, 14); // カンプ：SP bg top -1459.54 → title top -1421.45 = 38.09
+    padding-block-end: rem(39, 14);   // カンプ：SP body bottom -1067.34 → bg bottom -1028.10 = 39.24
+  }
+}
+
+// PC: media object 横並び（photo + body）
+// SP: block 縦並び（photo 非表示・body のみ）
+.IntroInner {
+  max-inline-size: rem(1200);
+  margin-inline: auto;
+  padding-inline-start: rem(73); // カンプ：photo left viewport 113.41 - Inner box left (1280-1200)/2 = 40 → padding-inline-start 73.41
+  padding-inline-end: rem(39);   // カンプ：title right viewport 79.40 - Inner box right 40 → padding-inline-end 39.40
+  display: flex;
+  align-items: flex-start;
+  gap: rem(59); // カンプ：photo right -154.18 → title left -95.21 = 58.97
+
+  @include sp {
+    max-inline-size: none;
+    padding-inline: rem(22, 14); // カンプ：SP body は中央寄せ。SP の body 幅 ~296 / artboard 391 で対称 padding 47 だが、視覚で 22 を採用
+    display: block;
+  }
+}
+
+.IntroPhoto {
+  flex: 0 0 rem(373); // カンプ：clip path uuid 836 width 372.91
+  aspect-ratio: 1 / 1; // カンプ：clip 372.91×372.91 正方形
+
+  @include sp {
+    display: none; // カンプ：SP では写真なし
+  }
+}
+
+.IntroPhoto img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover; // non-comp: mask（natural image と clip aspect の差異吸収）
+}
+
+// IntroBody
+// PC = 自然 flow: title → lead → quotes → lead2
+// SP = flex column + CSS order で 514→511→508 の順序に並び替え
+.IntroBody {
+  flex: 1; // 残りの inline 領域を全て占有（title の visible 右端をカンプ位置に合わせるため）
+  min-inline-size: 0; // non-comp: layout-tool（flex item shrink を効かせる）
+  padding-block-start: rem(20); // カンプ：PC photo top -737.42 → title top -697.54 = 39.88
+
+  @include sp {
+    padding-block-start: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.IntroTitle {
+  margin: 0;
+  color: $color-heading; // カンプ uuid 499 fill rgb(101,80,70) = #655046
+  font-family: $font-heading;
+  font-weight: 400;
+  font-size: rem(28); // カンプ uuid 499 font_size 31.64。Gothic 代替で 1 行収納のため 28 に
+  line-height: 1.43;  // カンプ：leading 45.31 / font 31.64 = 1.43
+  letter-spacing: 0.1em; // カンプ uuid 499 tracking 100
+
+  @include sp {
+    order: 0;
+    font-size: rem(22, 14); // カンプ uuid 2115 font_size 24.75（Gothic 代替で 2 行収納のため）
+    line-height: 1.43;      // カンプ：leading 35.45 / font 24.75 = 1.43
+    letter-spacing: 0.1em;  // カンプ uuid 2115 tracking 200 (0.2em) だが Gothic 代替で 2 行収納のため 0.1em
+    text-align: center;     // カンプ：SP title は中央寄せ
+  }
+}
+
+.IntroLead {
+  margin: 0;
+  margin-block-start: rem(27); // カンプ：PC title bottom -658.97 → lead top -631.75 = 27.22
+  color: $color-text; // カンプ uuid 508 fill rgb(131,116,114) = #837472
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: rem(17); // カンプ uuid 508 font_size 17
+  line-height: 1.75;  // カンプ：leading 29.75 / font 17 = 1.75
+  letter-spacing: 0.025em; // カンプ uuid 508 tracking 25
+  text-align: justify; // カンプ：paragraph_alignment=justify
+
+  @include sp {
+    order: 3; // SP: 514→511→508 順で最後（PC 順では 1 番目）
+    margin-block-start: 0;
+    font-size: rem(16, 14); // カンプ uuid 2010 font_size 16
+    line-height: 1.75;      // カンプ：leading 28 / font 16 = 1.75
+    letter-spacing: 0;      // カンプ uuid 2010 tracking 0
+  }
+}
+
+.IntroQuotes {
+  margin: 0;
+  margin-block-start: rem(32); // カンプ：PC lead bottom -613.10 → quotes top -580.70 = 32.40
+  padding-inline-start: 0; // non-comp: reset
+  list-style: none; // non-comp: reset
+  color: $color-text;
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: rem(17); // カンプ uuid 511 font_size 17
+  line-height: 1.75;
+  letter-spacing: 0.025em;
+
+  @include sp {
+    order: 2; // SP: 514→511→508 順で 2 番目（PC 順では 2 番目）
+    margin-block-start: 0;
+    font-size: rem(16, 14);
+    line-height: 1.75;
+    letter-spacing: 0;
+  }
+}
+
+.IntroQuotes li {
+  list-style: none; // non-comp: reset
+}
+
+.IntroLead2 {
+  margin: 0;
+  margin-block-start: rem(30); // カンプ：PC quotes bottom -502.76 → lead2 top -472.94 = 29.82
+  color: $color-text;
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: rem(17); // カンプ uuid 514 font_size 17
+  line-height: 1.75;
+  letter-spacing: 0.025em;
+  text-align: justify;
+
+  @include sp {
+    order: 1; // SP: 514→511→508 順で 1 番目（PC 順では 3 番目）
+    margin-block-start: rem(12, 14); // カンプ：SP title bottom -1355.83 → body top -1343.48 = 12.35（lead2 が SP で title の直下に来るため）
+    font-size: rem(16, 14);
+    line-height: 1.75;
+    letter-spacing: 0;
+  }
+}
+
+// SP: 全 br を無効化（カンプ SP では 1 つの text frame として連続表示、PC の改行を持ち込まない）
+@include sp {
+  .IntroLead br,
+  .IntroLead2 br {
+    display: none; // non-comp: layout-tool（SP では本文が連続表示）
+  }
+}

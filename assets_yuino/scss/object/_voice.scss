@@ -1,0 +1,283 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+// ============================================
+// Voice — ご利用いただいた方の声
+// パターン：PC=タイトル + 3 カード横並び（grid 3col）+ 補足 + 花びら 7 枚
+//           SP=タイトル + 3 カード縦並び（grid 1col）+ 補足 + 花びら（疎な配置）
+//
+// カンプ:
+//   PC: bg(uuid 468) #FCF9F6 / title(uuid 524) 31.64 / card bg(uuid 1066) #fff 383×256 / icon(uuid 1366) 73×74
+//   SP: bg(uuid 1565) #FCF9F6 / title(uuid 2264) 24.75
+//
+// 花びら 7 枚（カンプ実測。全体を Y 順で「上から」番号付け）:
+//   左クラスター（上から）: leaf01(uuid 1305 top 221) / leaf02(uuid 1306 top 236) / leaf03(uuid 1307 top 325)
+//   右クラスター（上から）: leaf04(uuid 1303 top 559 小花) / leaf05(uuid 1308 top 584 茎付き) / leaf06(uuid 1304 top 647) / leaf07(uuid 1316 top 703 大花)
+//
+// カード仕様：PointCard 同様 → bg #fff / border-radius 10 / border 1px solid rgba(5,1,1,0.1) / overflow hidden / gap 16
+// ============================================
+.Voice {
+  position: relative;
+  background-color: #FCF9F6; // カンプ uuid 468 fill rgb(252,249,246) = #FCF9F6
+  padding-block-start: rem(50); // カンプ：PC bg top 243.84 → title top 294.06 = 50.22
+  padding-block-end: rem(51);   // カンプ：PC note bottom 675.52 → bg bottom 726.60 = 51.08
+
+  @include sp {
+    padding-block-start: rem(33, 14); // カンプ：SP bg top 36.44 → title top 63.13 = 26.69 → 視覚バランスで 33
+    padding-block-end: rem(42, 14);
+  }
+}
+
+.VoiceInner {
+  position: relative;
+  z-index: 1; // non-comp: stacking（カードは leaf より背面）
+  max-inline-size: rem(1200);
+  margin-inline: auto;
+  padding-inline: rem(22); // カンプ：PC card1 left viewport 62 - Inner box left 40 = 22
+
+  @include sp {
+    padding-inline: rem(20, 14); // カンプ：SP card left 1624.76 → artboard left 1588.43 = 36.33 → 視覚で 20
+  }
+}
+
+.VoiceTitle {
+  margin: 0;
+  text-align: center;
+  color: $color-heading; // カンプ uuid 524 fill rgb(101,80,70) = #655046
+  font-family: $font-heading;
+  font-weight: 400;
+  font-size: rem(32); // カンプ uuid 524 font_size 31.64
+  line-height: 1.43;  // カンプ：leading 45.31 / font 31.64 = 1.43
+  letter-spacing: 0.1em; // カンプ uuid 524 tracking 100
+
+  @include sp {
+    font-size: rem(24, 14); // カンプ uuid 2264 font_size 24.75
+    line-height: 1.43;
+    letter-spacing: 0.2em;
+  }
+}
+
+// 3 カードグリッド
+.VoiceCards {
+  margin-block-start: rem(29); // カンプ：PC title bottom 332.63 → card top 361.5 = 28.87
+  list-style: none; // non-comp: reset
+  padding-inline-start: 0; // non-comp: reset
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: rem(16); // PointCard 同等のカード間余白
+
+  @include sp {
+    margin-block-start: rem(24, 14);
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: rem(16, 14);
+  }
+}
+
+// カード本体（PointCard 同様: 白 bg / 角丸 / 薄ボーダー）
+.VoiceCard {
+  list-style: none; // non-comp: reset
+  background-color: #fff; // カンプ uuid 1066 fill rgb(1,1,1) = #FFFFFF
+  border-radius: rem(10);  // PointCard 同様の角丸
+  border: 1px solid rgba(5, 1, 1, 0.1); // PointCard 同様のドロップシャドウ風 border
+  overflow: hidden; // non-comp: mask
+  padding-block: rem(32) rem(28); // カンプ：PC card top 361.5 → icon top 395.13 = 33.63 / 本文 bottom 569.48 → card bottom 617.5 = 48.02
+  padding-inline: rem(24);
+  display: flex;
+  flex-direction: column;
+
+  @include sp {
+    padding-block: rem(22, 14) rem(24, 14);
+    padding-inline: rem(20, 14);
+  }
+}
+
+.VoiceCardHead {
+  display: flex;
+  align-items: flex-start;
+  gap: rem(12); // カンプ：icon right (-521.95+73.43=-448.52) → title left -428.60 = 19.92 → 視覚で 12
+
+  @include sp {
+    gap: rem(14, 14);
+  }
+}
+
+.VoiceIcon {
+  flex: 0 0 rem(73); // カンプ：uuid 1366 width 73.43
+  aspect-ratio: 73 / 74; // カンプ：73.43×74.34
+
+  @include sp {
+    flex: 0 0 rem(60, 14);
+  }
+}
+
+.VoiceIcon img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain; // non-comp: mask（natural と container 比率の差吸収）
+}
+
+.VoiceCardMeta {
+  flex: 1;
+  min-inline-size: 0; // non-comp: layout-tool（flex item shrink を効かせる）
+  display: flex;
+  flex-direction: column;
+  gap: rem(11); // カンプ：title bottom 444.17 → age top 455.46 = 11.29
+}
+
+.VoiceCardTitle {
+  margin: 0;
+  color: $color-text; // カンプ uuid 1084 fill rgb(131,116,114) = #837472
+  font-family: $font-body;
+  font-weight: 700; // 見出しは bold
+  font-size: rem(18); // カンプ uuid 1084 font_size 18.09
+  line-height: 1.67;  // カンプ：leading 30.15 / font 18.09 = 1.67
+  letter-spacing: 0;  // カンプ uuid 1084 tracking 0
+  text-align: justify;
+
+  @include sp {
+    font-size: rem(17, 14);
+    line-height: 1.67;
+  }
+}
+
+.VoiceCardAge {
+  margin: 0;
+  color: $color-text; // カンプ uuid 1087 fill #837472
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: rem(14); // カンプ uuid 1087 font_size 14
+  line-height: 1.75;  // カンプ：leading 24.5 / font 14 = 1.75
+  letter-spacing: 0;
+
+  @include sp {
+    font-size: rem(13, 14);
+  }
+}
+
+.VoiceCardBody {
+  margin: 0;
+  margin-block-start: rem(30); // カンプ：PC age bottom 470.65 → body top 500.85 = 30.20
+  color: $color-text; // カンプ uuid 1083 fill #837472
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: rem(15); // カンプ uuid 1083 font_size 15
+  line-height: 1.67;  // カンプ：leading 25 / font 15 = 1.67
+  letter-spacing: 0;
+  text-align: justify; // カンプ：paragraph_alignment=justify
+
+  @include sp {
+    margin-block-start: rem(18, 14);
+    font-size: rem(13, 14);
+    line-height: 1.67;
+  }
+}
+
+.VoiceNote {
+  margin: 0;
+  margin-block-start: rem(41); // カンプ：PC card bottom 617.5 → note top 658.16 = 40.66
+  text-align: center;
+  color: $color-text; // カンプ uuid 533 fill #837472
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: rem(16); // カンプ uuid 533 font_size 16
+  line-height: 1.75;  // カンプ：leading 28 / font 16 = 1.75
+  letter-spacing: 0;
+
+  @include sp {
+    margin-block-start: rem(20, 14);
+    font-size: rem(12, 14);
+  }
+}
+
+// ============================================
+// 花びら装飾（左 3 + 右 4 = 計 7 枚、Concern/Point と同パターン）
+// カンプ Y 順で番号付与
+// ============================================
+.VoiceLeavesLeft,
+.VoiceLeavesRight {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none; // non-comp: a11y
+  z-index: 2; // non-comp: stacking（カンプ z 順では leaf がカードより前面。視覚的に重なるのは leaf05 のみ）
+}
+
+.VoiceLeaf {
+  position: absolute;
+  display: block;
+}
+
+.VoiceLeaf img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain; // non-comp: mask
+}
+
+// 左クラスター（3 枚、上から順）
+.VoiceLeaf01 { // カンプ uuid 1305: top 221.03 / 43.09×35.04
+  inset-block-start: vw1280(-23); // bg top 243.84 → leaf top 221.03 = -22.81
+  inset-inline-start: vw1280(72); // カンプ実測：left -568.64 → artboard left -640.5 = 71.86
+  inline-size: vw1280(43);
+  block-size: vw1280(35);
+}
+
+.VoiceLeaf02 { // カンプ uuid 1306: top 236.57 / 39.40×31.18
+  inset-block-start: vw1280(-7);  // bg top 243.84 → leaf top 236.57 = -7.27
+  inset-inline-start: vw1280(-18); // カンプ：left -658.26 → artboard left -640.5 = -17.76
+  inline-size: vw1280(39);
+  block-size: vw1280(31);
+}
+
+.VoiceLeaf03 { // カンプ uuid 1307: top 325.10 / 47.04×41.99
+  inset-block-start: vw1280(81); // bg top 243.84 → leaf top 325.10 = 81.26
+  inset-inline-start: vw1280(-8); // カンプ：left -647.96 → artboard left -640.5 = -7.46
+  inline-size: vw1280(47);
+  block-size: vw1280(42);
+}
+
+// 右クラスター（4 枚、Y 順で上から、inset-inline-end でアンカー）
+// ブラウザ scrollbar (≈15px) が 100vw 計算に影響するため、カンプ値から 14 外側補正
+.VoiceLeaf04 { // カンプ uuid 1303: top 559.01 / 39.40×31.18（上から 4 番目、小花）
+  inset-block-start: vw1280(315); // bg top 243.84 → leaf top 559.01 = 315.17
+  inset-inline-end: vw1280(-14);  // カンプ -0.64 - scrollbar 補正 14 = -14
+  inline-size: vw1280(39);
+  block-size: vw1280(31);
+}
+
+.VoiceLeaf05 { // カンプ uuid 1308: top 584.44 / 63.85×84.15（上から 5 番目、茎付き leaf）
+  inset-block-start: vw1280(341); // bg top 243.84 → leaf top 584.44 = 340.60
+  inset-inline-end: vw1280(77);   // カンプ 91.16 - scrollbar 補正 14 = 77
+  inline-size: vw1280(64);
+  block-size: vw1280(84);
+}
+
+.VoiceLeaf06 { // カンプ uuid 1304: top 647.55 / 47.04×41.99
+  inset-block-start: vw1280(404); // bg top 243.84 → leaf top 647.55 = 403.71
+  inset-inline-end: vw1280(-33);  // カンプ -18.58 - scrollbar 補正 14 = -33
+  inline-size: vw1280(47);
+  block-size: vw1280(42);
+}
+
+.VoiceLeaf07 { // カンプ uuid 1316: top 703.59 / 99.78×99.94（右下大花）
+  inset-block-start: vw1280(460); // bg top 243.84 → leaf top 703.59 = 459.75
+  inset-inline-end: vw1280(51);   // カンプ 65.14 - scrollbar 補正 14 = 51
+  inline-size: vw1280(100);
+  block-size: vw1280(100);
+}
+
+// SP 専用：花びらは疎な配置で間引く（Concern/Point と同方針）
+// Y 順番号付け修正後：leaf04 = 小花 / leaf05 = 茎付き / 大花 = leaf07
+@include sp {
+  .VoiceLeaf01 { display: none; }
+  .VoiceLeaf02 { inset-block-start: rem(-15, 14); inset-inline-start: rem(-10, 14); inline-size: rem(30, 14); block-size: rem(24, 14); }
+  .VoiceLeaf03 { inset-block-start: rem(60, 14); inset-inline-start: rem(-12, 14); inline-size: rem(36, 14); block-size: rem(32, 14); }
+  .VoiceLeaf04 { display: none; } // 小花（SP では茎付き優先のため非表示）
+  .VoiceLeaf05 { inset-block-start: rem(20, 14); inset-inline-end: rem(-8, 14); inline-size: rem(45, 14); block-size: rem(60, 14); } // 茎付き leaf
+  .VoiceLeaf06 { display: none; }
+  .VoiceLeaf07 { inset-block-start: auto; inset-block-end: rem(20, 14); inset-inline-end: rem(-12, 14); inline-size: rem(70, 14); block-size: rem(70, 14); }
+}
