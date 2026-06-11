@@ -22,7 +22,7 @@ $reserve_href = $args['reserve_href'] ?? '#';
   <li class="CtaPair__Item">
     <a class="CtaButton CtaButton--reserve" href="<?php echo esc_url($reserve_href); ?>">
       <span class="CtaButton__Icon">
-        <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/header/reserve-icon.webp" alt="" width="40" height="52">
+        <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/header/sp-icon.webp" alt="" width="52" height="52">
       </span>
       <span class="CtaButton__Text">初回予約をする</span>
     </a>

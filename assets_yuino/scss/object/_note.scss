@@ -1,0 +1,159 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+// ============================================
+// Note — ご利用前にご確認ください
+// パターン：PC=左寄せ title + アイコン (80×80) と本文の横並びリスト 3 行 / SP=左寄せ title + アイコン (55×55) と本文の横並びリスト 3 行
+//           BG はクリームピンク #FCF9F6 の全幅帯。アイコン 1/2 は円枠、アイコン 3 はスマホシルエットのみ
+//
+// カンプ:
+//   PC: bg(uuid 515) #FCF9F6 / title(uuid 530) 31.64 left -535.30 / icon circle 80 stroke #D69A91 5px
+//       text body uuid 1233/1235/1236 Rodin 19.33 / 強調 uuid 1234 23.57 #D69A91
+//   SP: title(uuid 2450) 30.17 left 1618.40 / icon circle 55 / phone icon 25×40 / title→body gap 17
+// ============================================
+
+.Note {
+  position: relative;
+  background-color: #FCF9F6; // カンプ uuid 515 fill rgb(252,249,246) = #FCF9F6
+  padding-block-start: rem(56); // カンプ：bg top 1506.45 → title top 1562.62 = 56.17
+  padding-block-end: rem(79);   // カンプ：text 1236 bottom 1857.25 → bg bottom 1935.95 = 78.70
+
+  @include sp {
+    padding-block-start: rem(36, 14);
+    padding-block-end: rem(48, 14);
+  }
+}
+
+.NoteInner {
+  // 標準 .Inner を使わずカスタム。
+  // カンプ：title left -535.30, longest text right 487.70 → inner width 1023, viewport 1280 中央寄せで padding-inline 128
+  max-inline-size: rem(1072);
+  margin-inline: auto;
+  padding-inline: rem(20); // 画面狭時のセーフ余白
+
+  @include sp {
+    padding-inline: rem(30, 14); // カンプ：SP title left 1618.40 → artboard left 1588.43 = 29.97
+    max-inline-size: 550px;
+  }
+}
+
+.NoteTitle {
+  margin: 0;
+  color: $color-heading; // カンプ uuid 530 fill #655046
+  font-family: $font-heading; // カンプ：RyuminPro Medium → Noto Sans JP 700 代替
+  font-weight: 700;
+  font-size: rem(32); // カンプ uuid 530 font_size 31.64
+  line-height: 1.43;
+  letter-spacing: 0.1em; // カンプ tracking 100
+  text-align: start;
+
+  @include sp {
+    font-size: rem(22, 14); // カンプ uuid 2450 font_size ≈ 30.17 → SP 視認性で 22
+    line-height: 1.43;
+    letter-spacing: 0.1em;
+  }
+}
+
+// ============================================
+// リスト 3 行（icon + body）
+// ============================================
+.NoteList {
+  margin: 0; // non-comp: reset
+  margin-block-start: rem(31); // カンプ：title bottom 1601.19 → row1 icon top 1632.35 = 31.16
+  padding-inline-start: 0; // non-comp: reset
+  list-style: none; // non-comp: reset
+  display: flex;
+  flex-direction: column;
+  row-gap: rem(15); // カンプ：row1 text bottom 1722.98 → row2 text top 1737.83 = 14.85
+
+  @include sp {
+    margin-block-start: rem(22, 14);
+    row-gap: rem(16, 14);
+  }
+}
+
+.NoteItem {
+  display: flex;
+  // align-items: flex-start;
+  align-items: center;
+  gap: rem(10); // カンプ：icon right -442.69 → text left -432.55 = 10.14
+
+  @include sp {
+    gap: rem(17, 14); // カンプ：SP icon right 1675.67 → text left 1692.71 = 17.04
+    align-items: center;
+  }
+}
+
+// アイコン列（固定幅 80px）：円枠 icon は 80×80、phone icon (no circle) は中央寄せ
+.NoteIcon {
+  flex: 0 0 rem(80); // カンプ：icon circle width 79.5
+  block-size: rem(80);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include sp {
+    flex: 0 0 rem(55, 14); // カンプ：SP icon circle width 54.86
+    block-size: rem(55, 14);
+  }
+}
+
+.NoteIcon img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain; // non-comp: mask（NoteIcon--circle と --phone でアスペクトが異なるため fit で吸収）
+}
+
+// phone icon は元画像が縦長矩形。固定 width にせず block-size 内に収める
+.NoteIcon--phone img {
+  inline-size: auto;
+  block-size: 70%; // カンプ：phone icon h 56.78 / icon column 80 = 71%
+
+  @include sp {
+    block-size: 73%; // カンプ：SP phone icon h 39.18 / column 54.86 = 71.4%
+  }
+}
+
+.NoteBody {
+  flex: 1;
+  min-inline-size: 0; // non-comp: layout-tool
+  display: flex;
+  flex-direction: column;
+  row-gap: rem(6); // カンプ：row2 heading bottom 1763.40 → sub top 1769.91 = 6.51
+
+  @include sp {
+    row-gap: rem(8, 14);
+  }
+}
+
+.NoteText {
+  margin: 0;
+  color: $color-heading; // カンプ uuid 1233/1235/1236 fill #655046
+  font-family: $font-body; // カンプ：FOT-Rodin ProN DB → Noto Sans JP 500 代替
+  font-weight: 500;
+  font-size: rem(19); // カンプ uuid 1233 font_size 19.33
+  line-height: 1.55;  // カンプ：leading 30 / font 19.33 = 1.55
+  // letter-spacing: 0.05em; // カンプ tracking 50
+
+  @include sp {
+    font-size: rem(13, 14);
+    line-height: 1.7;
+  }
+}
+
+// row2 強調見出し（カンプ uuid 1234 font 23.57 / 色 #D69A91）
+.NoteTextHeading {
+  margin: 0;
+  color: $color-accent; // カンプ uuid 1234 fill rgb(214,154,145) = #D69A91
+  font-family: $font-body;
+  font-weight: 700; // 強調行は太字
+  font-size: rem(24); // カンプ uuid 1234 font_size 23.57
+  line-height: 1.3;  // カンプ：leading 30.49 / font 23.57 = 1.29
+  letter-spacing: 0.05em; // カンプ tracking 50
+
+  @include sp {
+    font-size: rem(15, 14); // SP カンプ uuid 2451 font_size 23.57 → 視認性で 15
+    line-height: 1.4;
+  }
+}

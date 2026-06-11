@@ -160,49 +160,34 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-//FAQのアコーディオン
-// document.addEventListener("DOMContentLoaded", function () {
-//   // 全てのfaqAnswer要素を初期状態で閉じる
-//   document.querySelectorAll(".faqAnswer").forEach(function (answer) {
-//     answer.classList.add("hidden");
-//   });
+// FAQ アコーディオン
+// - 画面ロード時は全て閉じる（[data-open] 属性なし）
+// - 一つ開いたら他は閉じる（単一展開）
+// - 開閉トランジションは SCSS の grid-template-rows 0fr→1fr と矢印 transform: rotate
+document.addEventListener("DOMContentLoaded", function () {
+  const items = document.querySelectorAll(".FaqItem");
+  if (!items.length) return;
 
-//   document.querySelectorAll(".faqQuestion").forEach(function (question) {
-//     question.addEventListener("click", function () {
-//       // 他のfaqAnswer要素を閉じる
-//       document.querySelectorAll(".faqAnswer").forEach(function (answer) {
-//         if (answer !== question.nextElementSibling) {
-//           answer.classList.add("hidden");
-//         }
-//       });
+  items.forEach((item) => {
+    const summary = item.querySelector(".FaqSummary");
+    if (!summary) return;
 
-//       document.querySelectorAll(".faqQuestion").forEach(function (q) {
-//         if (q !== question) {
-//           q.classList.remove("open");
-//         }
-//       });
+    summary.addEventListener("click", () => {
+      const isOpen = item.hasAttribute("data-open");
 
-//       // クリックされた要素をトグル
-//       const answer = question.nextElementSibling;
-//       if (answer.classList.contains("hidden")) {
-//         answer.classList.remove("hidden");
-//         question.classList.add("open");
-//       } else {
-//         answer.classList.add("hidden");
-//         question.classList.remove("open");
-//       }
-//     });
-//   });
+      items.forEach((other) => {
+        other.removeAttribute("data-open");
+        const otherSummary = other.querySelector(".FaqSummary");
+        if (otherSummary) otherSummary.setAttribute("aria-expanded", "false");
+      });
 
-//   document.querySelectorAll(".faqAnswer").forEach(function (answer) {
-//     answer.addEventListener("click", function () {
-//       answer.classList.add("hidden");
-//       document.querySelectorAll(".faqQuestion").forEach(function (q) {
-//         q.classList.remove("open");
-//       });
-//     });
-//   });
-// });
+      if (!isOpen) {
+        item.setAttribute("data-open", "");
+        summary.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+});
 
 //パンくずリストの文字数制限
 // document.addEventListener("DOMContentLoaded", function () {

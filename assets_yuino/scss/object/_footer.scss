@@ -3,53 +3,55 @@
 
 // ============================================
 // Footer — 店舗情報＋ロゴ（背景アクセント色）
+// パターン：PC=ロゴ左 + 店舗情報 2 列を右寄せ（justify-content space-between） / SP=ロゴ中央 + 店舗情報 1 列縦並び中央寄せ
+//
+// カンプ:
+//   PC: bg(uuid 521) #D69A91 h=159.86 / logo(uuid 1515) 164.43×78.44 left -591.91 / address text uuid 542 w=215 / col2 uuid 1267 w=244 col gap 50
+//   SP: bg #D69A91 / logo(uuid 2566) 221.73×106.60 / address text(uuid 2503) 6 行縦並び w=244 h=141
+//   text: Rodin DB 15px white leading 25 tracking 0 → Noto Sans 500
 // ============================================
+
 .Footer {
-  background-color: $color-accent; // カンプ：アクセント #D69A91
-  color: #fff;
+  background-color: $color-accent; // カンプ uuid 521 fill rgb(214,154,145) = #D69A91
+  color: #fff;                     // カンプ uuid 542/1267 text fill #FFFFFF
   font-family: $font-body;
 
-  @include pc {
-    padding-block-start: rem(28); // カンプ：BG 上余白 ≒ 28
-    padding-block-end: rem(28);
-  }
+  padding-block-start: rem(35); // カンプ：bg top 2385.04 → logo top 2420.45 = 35.41
+  padding-block-end: rem(46);   // カンプ：logo bottom 2498.89 → bg bottom 2544.90 = 46.01
+
   @include sp {
-    padding-block-start: rem(50, 14);
+    padding-block-start: rem(50, 14); // カンプ：SP bg top? → logo top 3092.17（おおよそ 50）
     padding-block-end: rem(50, 14);
   }
 }
 
 .FooterInner {
-  max-inline-size: ($vw-base * 1px);
-  margin-inline-start: auto;
-  margin-inline-end: auto;
+  // bg は full-viewport（カンプ 1280）。Inner は max-width せず、padding-inline で直接アンカー
+  padding-inline-start: rem(48); // カンプ：logo left viewport 48.09 → footer 左端 0 = 48
+  padding-inline-end: rem(68);   // カンプ：address col2 right viewport 1212 → footer 右端 1280 = 68
 
-  @include pc {
-    display: flex;
-    align-items: center;
-    column-gap: rem(50);
-    padding-inline-start: rem(30);
-    padding-inline-end: rem(30);
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between; // ロゴ左、店舗情報を右へ押す
+  column-gap: rem(40);
+
   @include sp {
-    display: flex;
     flex-direction: column;
     align-items: center;
-    row-gap: rem(28, 14);
-    padding-inline-start: rem(20, 14);
-    padding-inline-end: rem(20, 14);
+    justify-content: flex-start;
+    column-gap: 0;
+    row-gap: rem(35, 14); // カンプ：SP logo bottom 3198.77 → text top 3232.92 = 34.15
+    padding-inline: rem(20, 14);
   }
 }
 
-// フッターロゴ
+// ロゴ（黒原稿の Sakura ロゴをフィルターで白へ反転）
 .FooterLogo {
   flex-shrink: 0;
+  inline-size: rem(165); // カンプ：PC logo width 164.43
 
-  @include pc {
-    inline-size: rem(165); // カンプ：ロゴ幅 164
-  }
   @include sp {
-    inline-size: rem(220, 14); // カンプ：SP ロゴ幅 222
+    inline-size: rem(222, 14); // カンプ：SP logo width 221.73
   }
 }
 
@@ -58,52 +60,58 @@
   inline-size: 100%;
 }
 
-// 店舗情報リスト
-.FooterInfoList {
-  margin-block-start: 0;
-  margin-block-end: 0;
-  font-family: $font-body;
+.FooterLogoImage img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
 
-  @include pc {
-    // PC: 2 列 × 3 行（左：住所/アクセス/営業時間、右：定休日/予約方法/電話番号）
-    // 論理順を保ったまま列方向に流すため grid-auto-flow: column を使用
-    display: grid;
-    grid-template-rows: repeat(3, auto);
-    grid-auto-flow: column;
-    grid-auto-columns: auto;
-    column-gap: rem(70); // カンプ：列間 ≒ 70
-    row-gap: rem(6); // カンプ：行間 ≒ 6
-    font-size: rem(15); // カンプ：本文 15px
-  }
+// 店舗情報リスト
+// PC: 2 列 × 3 行（左：住所/アクセス/営業時間、右：定休日/予約方法/電話番号）
+// 論理順を保ったまま列方向に流すため grid-auto-flow: column を使用
+.FooterInfoList {
+  margin: 0; // non-comp: reset
+  font-family: $font-body;
+  font-size: rem(15); // カンプ uuid 542 font_size 15
+  line-height: lh(25, 15); // カンプ：leading 25 / font 15 = 1.67
+  letter-spacing: 0; // カンプ tracking 0
+
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  grid-auto-flow: column;
+  grid-auto-columns: auto;
+  column-gap: rem(50); // カンプ：col1 right 277.88 → col2 left 326.85 = 48.97
+  row-gap: 0; // カンプ：leading 25 で各行高が決まる。row-gap は付けない
+
   @include sp {
-    display: grid;
+    grid-template-rows: none; // SP は単一列に
     grid-template-columns: 1fr;
-    row-gap: rem(6, 14);
+    grid-auto-flow: row;
+    column-gap: 0;
+    inline-size: auto;
     font-size: rem(15, 14);
-    inline-size: 100%;
-    max-inline-size: rem(260, 14);
+    line-height: lh(25, 15);
+    text-align: start;
   }
 }
 
 // 各情報項目（dt + dd を横並び）
 .FooterInfoItem {
   display: flex;
-  column-gap: rem(2);
+  column-gap: 0;
 }
 
 .FooterInfoLabel {
-  margin-block-start: 0;
-  margin-block-end: 0;
+  margin: 0; // non-comp: reset
   font-weight: 500;
 }
 
 .FooterInfoLabel::after {
-  content: '：';
+  content: '：'; // ラベル後ろにコロン（カンプ：'住所：' の形式）
 }
 
 .FooterInfoValue {
-  margin-block-start: 0;
-  margin-block-end: 0;
-  margin-inline-start: 0;
+  margin: 0; // non-comp: reset
+  margin-inline-start: 0; // non-comp: reset（dd デフォルトの margin-inline-start: 40px を消す）
   font-weight: 500;
 }

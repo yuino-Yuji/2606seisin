@@ -1,0 +1,270 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+// ============================================
+// FAQ — よくあるご質問
+// パターン：PC=タイトル + 2 列マサニー（左右独立フロー、奇数=左 / 偶数=右） / SP=単一縦並び
+//           アコーディオン：grid-template-rows 0fr→1fr スムーズ展開、矢印 180° 回転
+//
+// カンプ:
+//   PC: title(uuid 527) 31.64 / card outer w=552 h=115 / 2 列 column-gap 39 row-gap 24
+//       opened Q.1 outer(uuid 1118) 553×292 white / inner pink rect 539×102.53
+//   SP: title(uuid 2328) 24.75 tracking 200 / card outer w=321 h=68 / row gap 14
+//       opened Q.1 outer(uuid 2333) 321×170 / inner pink rect 313.34×59.59
+// ============================================
+
+.Faq {
+  background-color: #fff; // カンプ：Voice 帯 bottom 726.6 → Notes 帯 top 1506.45 の白地。タイトル/カードはこの上に乗る
+  padding-block-start: rem(60); // カンプ：Voice bg bottom 726.6 → FAQ title top 786.58 = 59.98
+  padding-block-end: rem(66);   // カンプ：FAQ 最終カード bottom 1440.5 (opened Q.1 想定) → Notes bg top 1506.45 = 65.95
+
+  @include sp {
+    padding-block-start: rem(40, 14);
+    padding-block-end: rem(44, 14);
+  }
+}
+
+.FaqInner {
+  max-inline-size: rem(1200);
+  margin-inline: auto;
+  padding-inline: rem(30); // .Inner と同じ horizontal padding
+
+  @include sp {
+    padding-inline: rem(35, 14); // カンプ：SP card left 1630.01 → artboard left 1588.43 = 41.58、視覚バランスで 35
+    max-inline-size: 550px;
+  }
+}
+
+.FaqTitle {
+  margin: 0;
+  text-align: center;
+  color: $color-heading; // カンプ uuid 527 fill #655046
+  font-family: $font-heading; // カンプ：RyuminPro Medium → Noto Sans JP 700 代替
+  font-weight: 700;
+  font-size: rem(32); // カンプ uuid 527 font_size 31.64
+  line-height: 1.43;  // カンプ：leading 45.31 / font 31.64 = 1.43
+  letter-spacing: 0.1em; // カンプ uuid 527 tracking 100
+
+  @include sp {
+    font-size: rem(25, 14); // カンプ uuid 2328 font_size 24.75
+    line-height: 1.43;
+    letter-spacing: 0.2em; // カンプ uuid 2328 tracking 200
+  }
+}
+
+// ============================================
+// 2 列マサニー（左右独立フロー）
+// PC: 2 列。左 col=奇数 Q (Q1,Q3,Q5) / 右 col=偶数 Q (Q2,Q4,Q6)
+//     カンプ：Q1 が opened でも Q4 (右 col 2 番目) は Q2 終端から 24px 後に始まる
+// SP: 単一縦並び。display:contents で 2 UL をフラット化し、--i で文書順を Q1〜Q6 に整列
+// ============================================
+.FaqColumns {
+  margin-block-start: rem(44); // カンプ：PC title bottom 825.15 → cards top 869.5 = 44.35
+  display: flex;
+  column-gap: rem(39); // カンプ：Q.1 right -25.5 → Q.2 left 13.5 = 39
+
+  @include sp {
+    margin-block-start: rem(28, 14); // カンプ：SP title bottom 1089.61 → cards top 1128 = 38.39 → 視覚バランスで 28
+    flex-direction: column;
+    column-gap: 0;
+  }
+}
+
+.FaqList {
+  list-style: none; // non-comp: reset
+  padding-inline-start: 0; // non-comp: reset
+  margin: 0; // non-comp: reset
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: rem(24); // カンプ：Q.4 top 1008.5 - Q.2 bottom 984.5 = 24
+
+  @include sp {
+    // 2 UL を 1 つの flow にフラット化（document order を維持）
+    display: contents;
+  }
+}
+
+@include sp {
+  .FaqItem {
+    order: var(--i); // 左 UL→ 0, 2, 4 / 右 UL→ 1, 3, 5 で Q1〜Q6 順に整列
+    margin-block-start: rem(14, 14); // カンプ：SP card 間 gap 14（Q1 bottom → Q2 top）
+
+    &:first-child {
+      // .FaqList--left の最初の li (=Q1) のみ margin-block-start 0
+      // ただし order で並び替わるため :nth-child(1) は document order 上の最初を指す
+    }
+  }
+
+  // order: 0 (=Q1) のみ margin-block-start: 0
+  .FaqColumns > .FaqList > .FaqItem[style*="--i: 0"] {
+    margin-block-start: 0;
+  }
+}
+
+.FaqItem {
+  position: relative;
+}
+
+// 質問（pink summary 部 = 常時表示）
+.FaqSummary {
+  list-style: none; // non-comp: reset
+  appearance: none; // non-comp: reset
+  cursor: pointer;
+  inline-size: 100%;
+  min-block-size: rem(102); // カンプ uuid 1142 pink rect h=102.53（Mincho→Noto 代替で label の visual height が縮む分を吸収）
+  background-color: $color-bg-pink; // カンプ uuid 1142 fill #FBF0F2
+  border: none; // non-comp: reset
+  border-radius: rem(20); // カンプ視覚：カード角丸（ピンク Q rect）
+  padding-block: rem(20); // 内側のレイアウトは min-block-size + align-items center に任せる
+  padding-inline: rem(56) rem(36); // カンプ：Q label left 75 − rect left 19.5 = 55.5 / chevron right 60 - 24 ≈ 36
+  display: flex;
+  align-items: center;
+  gap: rem(10); // カンプ：Q4 label right 133.3 → Q text left 142.84 = 9.54
+  text-align: start; // non-comp: reset
+
+  @include sp {
+    min-block-size: rem(60, 14); // カンプ uuid 2357 pink rect h=59.59
+    border-radius: rem(14, 14);
+    padding-block: rem(10, 14);
+    padding-inline: rem(33, 14) rem(20, 14); // カンプ：SP Q label left 1665.81 − rect left 1633.67 = 32.14
+    gap: rem(6, 14); // カンプ：SP Q label right 1699.98 → Q text left 1705.33 = 5.35
+  }
+
+  &:focus-visible {
+    outline: rem(2) solid $color-accent; // non-comp: a11y
+    outline-offset: rem(2);
+  }
+}
+
+.FaqQLabel {
+  flex-shrink: 0; // non-comp: layout-tool（label 折返し禁止）
+  color: $color-accent; // カンプ uuid 1126 fill #D69A91
+  font-family: $font-heading; // カンプ：RyuminPro Medium → Noto Sans JP 700 代替
+  font-weight: 700;
+  font-size: rem(35); // カンプ uuid 1126 font_size 34.97
+  line-height: 1;
+  letter-spacing: 0.05em; // カンプ tracking 100、見た目で 0.05em に絞る
+
+  @include sp {
+    font-size: rem(20, 14); // カンプ uuid 2341 font_size 20.32
+  }
+}
+
+.FaqQText {
+  flex: 1;
+  color: $color-heading; // カンプ uuid 1129 fill #655046
+  font-family: $font-body; // カンプ：FOT-Rodin ProN DB → Noto Sans JP 500 代替
+  font-weight: 500;
+  font-size: rem(19); // カンプ uuid 1129 font_size 19.33
+  line-height: 1.3;  // カンプ：leading 25 / font 19.33 = 1.29
+  letter-spacing: 0;
+
+  @include sp {
+    font-size: rem(14, 14); // カンプ uuid 2344 font_size 12.82 → 視認性で 14
+    line-height: 1.5;
+  }
+}
+
+.FaqArrow {
+  flex-shrink: 0; // non-comp: layout-tool
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: rem(20);
+  block-size: rem(12);
+  color: $color-heading; // カンプ uuid 1130 stroke #655046
+  transition: transform 0.3s ease; // non-comp: animation-state（開閉時 180° 回転）
+
+  svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  @include sp {
+    inline-size: rem(12, 14);
+    block-size: rem(8, 14);
+  }
+}
+
+.FaqItem[data-open] .FaqArrow {
+  transform: rotate(180deg); // 開いた時 180° 回転（ユーザー要件）
+}
+
+// 回答（白 answer 部 = 開閉時アニメーション）
+// grid-template-rows: 0fr → 1fr で auto-height をスムーズに展開
+// 構造: .FaqAnswer (grid container) > .FaqAnswerBox (grid item, overflow hidden) > .FaqAnswerInner (実コンテンツ + padding)
+// 理由: padding を grid item に直接付けると min-content height が padding 分だけ残り、0fr で潰れない
+.FaqAnswer {
+  display: grid;
+  grid-template-rows: 0fr; // animation-state: 初期値（閉）
+  transition: grid-template-rows 0.35s ease, margin-block-start 0.35s ease; // non-comp: animation-state
+  margin-block-start: 0;
+}
+
+.FaqItem[data-open] .FaqAnswer {
+  grid-template-rows: 1fr; // animation-state: 終端値（開）
+  margin-block-start: rem(8); // カンプ視覚：pink Q bottom → white A top の僅かな gap
+
+  @include sp {
+    margin-block-start: rem(6, 14);
+  }
+}
+
+// grid item: padding を持たず、ただ高さを 0 → コンテンツ実高さに変える役割
+.FaqAnswerBox {
+  overflow: hidden; // non-comp: mask
+  min-block-size: 0; // non-comp: layout-tool（grid 子の縮小許可）
+}
+
+// 実コンテンツ（padding と背景はここ）
+.FaqAnswerInner {
+  background-color: #fff; // カンプ uuid 1118 fill #FFFFFF
+  border-radius: rem(20); // カンプ視覚：角丸
+  box-shadow: 0 rem(4) rem(12) rgba(101, 80, 70, 0.08); // non-comp: a11y / 視覚アクセント。カンプ uuid 1118 周辺の soft shadow
+  padding-block: rem(28) rem(40); // カンプ：A label top 1040.92 - card outer top + answer text bottom 1117.3 → outer bottom 1161.5 = 44
+  padding-inline: rem(56); // カンプ：A label left -516.31 - outer left -578.5 = 62.19、Q.label と揃え 56
+  display: flex;
+  align-items: flex-start;
+  gap: rem(10); // カンプ：A. label right -482.17 → A text left -442.15 = 40 / 視覚で 10
+
+  @include sp {
+    padding-block: rem(16, 14) rem(20, 14);
+    padding-inline: rem(33, 14);
+    gap: rem(6, 14);
+    border-radius: rem(14, 14);
+  }
+}
+
+.FaqALabel {
+  flex-shrink: 0; // non-comp: layout-tool
+  color: $color-accent; // カンプ uuid 1121 fill #D69A91
+  font-family: $font-heading;
+  font-weight: 700;
+  font-size: rem(35); // カンプ uuid 1121 font_size 34.97
+  line-height: 1;
+  letter-spacing: 0.05em;
+
+  @include sp {
+    font-size: rem(20, 14); // カンプ uuid 2336 font_size 20.32
+  }
+}
+
+.FaqAText {
+  flex: 1;
+  margin: 0;
+  margin-block-start: rem(8); // 視覚バランス：A label baseline と A text 1 行目を合わせる
+  color: $color-text; // カンプ uuid 1232 fill #837472
+  font-family: $font-body;
+  font-weight: 500;
+  font-size: rem(15); // カンプ uuid 1232 font_size 15
+  line-height: 1.67;  // カンプ：leading 25 / font 15 = 1.67
+  letter-spacing: 0;
+  text-align: justify; // カンプ：paragraph_alignment=justify
+
+  @include sp {
+    margin-block-start: rem(6, 14);
+    font-size: rem(13, 14); // カンプ uuid 2447 font_size 10 → 視認性で 13
+    line-height: 1.7;       // カンプ：leading 17 / font 10 = 1.7
+  }
+}

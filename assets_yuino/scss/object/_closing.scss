@@ -1,0 +1,165 @@
+@use '../foundation/setting' as *;
+@use '../foundation/mixin' as *;
+
+// ============================================
+// Closing — 妊活中の身体づくりに、まずは"整える時間"を。
+// パターン：PC=左 photo + 右コラム（title + lead + CTA 横並び 2 個） / SP=画像上 + コンテンツ下に縦並び（CtaPair デフォルト縦）
+//
+// カンプ:
+//   PC: photo placed(uuid 460) 650×487 left -647.23 / title(uuid 536) 31.64 left 38.20 / lead(uuid 539) 14.37 / LINE rect(uuid 1237) 333×72 fill #38B34C / Reserve rect(uuid 1248) 334×73 fill #fff stroke #D69A91
+//   SP: photo clip(uuid 2563) 408×306 / title(uuid 2497) ≈30 / lead(uuid 2500) ≈14
+// ============================================
+
+.Closing {
+  position: relative;
+  padding-block-start: 0; // photo は section 上端まで full bleed（カンプ：photo top 1911.04 ≒ section 上端）
+  // padding-block-end: rem(50); // カンプ：button bottom 2333.83 → footer 帯 top 2382.05 = 48.22
+
+  @include sp {
+    padding-block-start: 0;
+    padding-block-end: rem(36, 14);
+  }
+}
+
+.ClosingInner {
+  position: relative;
+  max-inline-size: rem(1280); // PC は full-viewport (1280) ベース。Inner はカンプ全幅
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); // カンプ：photo 視覚比率 ≒ 45% / content 55%
+  column-gap: rem(48); // カンプ：photo right ≈ 3 → title left 38 = 35。視覚で 48
+
+  @include sp {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: rem(32, 14);
+    padding-inline: 0; // photo は SP も full-bleed
+  }
+}
+
+// ============================================
+// Photo（左ブロック）
+// PC：高さは content に追従しつつ object-fit: cover
+// SP：上に積み上げ、横は full-bleed
+// ============================================
+.ClosingPhoto {
+  align-self: stretch; // non-comp: layout-tool（content に高さ追従）
+  overflow: hidden; // non-comp: mask
+  min-block-size: rem(360);
+
+  @include sp {
+    aspect-ratio: 391 / 240; // カンプ：SP photo (uuid 2563) 407.62 × 305.72 ≒ 4:3 → 視覚で 391:240 を採用
+    min-block-size: auto;
+  }
+}
+
+.ClosingPhoto picture,
+.ClosingPhoto img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover; // non-comp: mask（コンテナサイズに合わせてトリミング）
+}
+
+// ============================================
+// Body（右ブロック）：title + lead + CTA
+// ============================================
+.ClosingBody {
+  padding-block: rem(72) rem(20); // カンプ：section top 1911.04 → title top 1993.56 = 82.52、button bottom 2333.83 → padding-block-end 連携
+  padding-inline-end: rem(70); // カンプ：reserve button right 570.89 → artboard right 639.5 = 68.61
+  display: flex;
+  flex-direction: column;
+  row-gap: rem(28); // カンプ：title bottom 2077.45 → lead top 2106.81 = 29.36
+
+  @include sp {
+    padding-block: 0 0;
+    padding-inline: rem(30, 14);
+    row-gap: rem(20, 14);
+    align-items: center; // SP は中央寄せ
+    text-align: center;
+  }
+}
+
+.ClosingTitle {
+  margin: 0;
+  color: $color-heading; // カンプ uuid 536 fill #655046
+  font-family: $font-heading; // カンプ：RyuminPro Medium → Noto Sans JP 700 代替
+  font-weight: 700;
+  font-size: rem(32); // カンプ uuid 536 font_size 31.64
+  line-height: 1.43;  // カンプ：leading 45.31 / font 31.64 = 1.43
+  letter-spacing: 0.1em; // カンプ tracking 100
+
+  @include sp {
+    font-size: rem(24, 14); // カンプ uuid 2497 font_size ≈ 30 → SP 視認性で 24
+    line-height: 1.5;
+  }
+}
+
+.ClosingLead {
+  margin: 0;
+  color: $color-text; // カンプ uuid 539 fill #837472
+  font-family: $font-body; // カンプ：FOT-Rodin ProN DB → Noto Sans JP 500 代替
+  font-weight: 500;
+  font-size: rem(15); // カンプ uuid 539 font_size 14.37 → 視認性で 15
+  line-height: 1.75;  // カンプ：leading 25.15 / font 14.37 = 1.75
+  letter-spacing: 0.05em; // カンプ tracking 100 → 視覚で 0.05em
+
+  @include sp {
+    font-size: rem(13, 14);
+    line-height: 1.85;
+  }
+}
+
+// ============================================
+// CTA: PC は LINE / Reserve を横並び、SP は CtaPair デフォルト縦並び
+// ============================================
+.ClosingCtas {
+  margin-block-start: rem(10); // カンプ：lead bottom 2223 → button top 2261.26 = 38（lead と最終段落の row-gap 28 + 10）
+
+  @include sp {
+    margin-block-start: rem(4, 14);
+    inline-size: 100%;
+    max-inline-size: rem(320, 14); // SP button max-width
+  }
+}
+
+// CtaPair（横並び override）
+.ClosingCtas .CtaPair {
+  flex-direction: row; // カンプ：PC は 2 ボタン横並び
+  column-gap: rem(31); // カンプ：LINE rect right 205.83 → Reserve rect left 236.67 = 30.84
+
+  @include sp {
+    flex-direction: column; // SP デフォルトに戻す
+    row-gap: 0;
+    column-gap: 0;
+  }
+}
+
+.ClosingCtas .CtaPair__Item {
+  flex: 1; // PC：均等幅で 2 ボタン
+}
+
+// pill ボタンサイズを Closing context で override
+.ClosingCtas .CtaButton {
+  min-block-size: rem(72); // カンプ：LINE rect h 72.20
+  padding-inline: rem(30);
+  font-size: rem(19); // カンプ uuid 1247 font_size 19.33
+  letter-spacing: 0.1em; // カンプ：LINE tracking 100
+
+  @include sp {
+    min-block-size: rem(60, 14);
+    font-size: rem(16, 14);
+  }
+}
+
+.ClosingCtas .CtaButton--reserve {
+  letter-spacing: 0.2em; // カンプ uuid 1251 tracking 200
+}
+
+.ClosingCtas .CtaButton__Icon {
+  inline-size: rem(40); // カンプ icon w 23.47-40 →視覚で 40 統一
+
+  @include sp {
+    inline-size: rem(32, 14);
+  }
+}

@@ -65,7 +65,7 @@
           </a>
           <a class="HeaderCtaReserve" href="#">
             <span class="HeaderCtaReserveIcon">
-              <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/header/reserve-icon.webp" alt="" width="40" height="52">
+              <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/header/sp-icon.webp" alt="" width="52" height="52">
             </span>
             <span class="HeaderCtaReserveText">初回予約をする</span>
           </a>

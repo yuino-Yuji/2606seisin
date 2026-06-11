@@ -40,7 +40,7 @@ Template Name: トップページ
             <span class="FvBadgeLabel">藤が丘駅徒歩圏内</span>
           </li>
           <li class="FvBadge">
-            <span class="FvBadgeIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/header/reserve-icon.webp" alt="" width="40" height="52"></span>
+            <span class="FvBadgeIcon FvBadgeIcon--sp"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/header/sp-icon.webp" alt="" width="52" height="52"></span>
             <span class="FvBadgeLabel">完全予約制</span>
           </li>
           <li class="FvBadge">
@@ -58,7 +58,7 @@ Template Name: トップページ
           </a>
           <a class="FvCtaReserve" href="#">
             <span class="FvCtaReserveIcon">
-              <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/header/reserve-icon.webp" alt="" width="40" height="52">
+              <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/header/sp-icon.webp" alt="" width="52" height="52">
             </span>
             <span class="FvCtaReserveText">初回予約をする</span>
           </a>
@@ -459,6 +459,133 @@ Template Name: トップページ
       <span class="VoiceLeaf VoiceLeaf05"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf05.webp" alt="" width="64" height="84"></span>
       <span class="VoiceLeaf VoiceLeaf06"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf06.webp" alt="" width="47" height="42"></span>
       <span class="VoiceLeaf VoiceLeaf07"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf07.webp" alt="" width="100" height="100"></span>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FAQ — よくあるご質問
+       ============================================ -->
+  <section class="Faq" id="faq">
+    <div class="FaqInner">
+      <h2 class="FaqTitle">よくあるご質問</h2>
+
+      <?php
+        $faq_items = [];
+        if (have_rows('faq_field')) {
+          while (have_rows('faq_field')) {
+            the_row();
+            $faq_items[] = [
+              'q' => (string) get_sub_field('faq_question'),
+              'a' => (string) get_sub_field('faq_answer'),
+            ];
+          }
+        }
+        $faq_left  = [];
+        $faq_right = [];
+        foreach ($faq_items as $i => $item) {
+          $item['_n'] = $i + 1;
+          if ($i % 2 === 0) $faq_left[]  = $item;
+          else              $faq_right[] = $item;
+        }
+      ?>
+
+      <?php if (!empty($faq_items)) : ?>
+        <div class="FaqColumns">
+          <?php foreach (['left' => $faq_left, 'right' => $faq_right] as $col_key => $col_items) : ?>
+            <ul class="FaqList FaqList--<?php echo $col_key; ?>">
+              <?php foreach ($col_items as $item) :
+                $n  = $item['_n'];
+                $id = 'faq-' . $n;
+              ?>
+                <li class="FaqItem" style="--i: <?php echo $n - 1; ?>;">
+                  <button class="FaqSummary" type="button" aria-expanded="false" aria-controls="<?php echo esc_attr($id); ?>">
+                    <span class="FaqQLabel">Q<?php echo $n; ?>.</span>
+                    <span class="FaqQText"><?php echo nl2br(esc_html($item['q'])); ?></span>
+                    <span class="FaqArrow" aria-hidden="true">
+                      <svg viewBox="0 0 16 10" width="16" height="10" fill="none">
+                        <polyline points="1.5,1.5 8,8 14.5,1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="FaqAnswer" id="<?php echo esc_attr($id); ?>" role="region" aria-labelledby="<?php echo esc_attr($id); ?>-q">
+                    <div class="FaqAnswerBox">
+                      <div class="FaqAnswerInner">
+                        <span class="FaqALabel">A.</span>
+                        <p class="FaqAText"><?php echo nl2br(esc_html($item['a'])); ?></p>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              <?php endforeach; ?>
+            </ul>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Note — ご利用前にご確認ください
+       ============================================ -->
+  <section class="Note" id="note">
+    <div class="NoteInner">
+      <h2 class="NoteTitle">ご利用前にご確認ください</h2>
+
+      <ul class="NoteList">
+        <li class="NoteItem">
+          <span class="NoteIcon NoteIcon--circle">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/note/note-icon01.webp" alt="" width="80" height="80">
+          </span>
+          <div class="NoteBody">
+            <p class="NoteText">酸素カプセルは、医療行為・治療を目的としたものではありません。<br>妊娠を保証するもの、不妊症の改善を保証するものではありません。</p>
+          </div>
+        </li>
+
+        <li class="NoteItem">
+          <span class="NoteIcon NoteIcon--circle">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/note/note-icon02.webp" alt="" width="80" height="80">
+          </span>
+          <div class="NoteBody">
+            <p class="NoteTextHeading">妊娠中の方はご利用いただけません。</p>
+            <p class="NoteText">また、持病をお持ちの方、通院中の方、体調に不安がある方は、事前に医師へご相談のうえご利用ください。</p>
+          </div>
+        </li>
+
+        <li class="NoteItem">
+          <span class="NoteIcon NoteIcon--phone">
+            <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/note/note-icon03.webp" alt="" width="36" height="57">
+          </span>
+          <div class="NoteBody">
+            <p class="NoteText">ご不明な点がある場合は、LINEよりお気軽にお問い合わせください。</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Closing — 妊活中の身体づくりに、まずは「整える時間」を。
+       ============================================ -->
+  <section class="Closing" id="closing">
+    <div class="ClosingInner">
+      <div class="ClosingPhoto" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" srcset="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/closing/bottom-image-sp.webp">
+          <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/closing/bottom-image.webp" alt="" width="650" height="488">
+        </picture>
+      </div>
+
+      <div class="ClosingBody">
+        <h2 class="ClosingTitle">妊活中の身体づくりに、<br>まずは&ldquo;整える時間&rdquo;を。</h2>
+
+        <p class="ClosingLead">冷えや疲れ、ストレスが気になる毎日に。<br>Sakuraでは、酸素カプセルを通じて、<br>妊活中のコンディションづくりをやさしくサポートしています。</p>
+
+        <p class="ClosingLead">まずはLINEから、今のお悩みやご希望をお気軽にご相談ください。</p>
+
+        <div class="ClosingCtas">
+          <?php get_template_part('template-parts/cta-pair'); ?>
+        </div>
+      </div>
     </div>
   </section>
 
