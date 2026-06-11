@@ -207,10 +207,10 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  inline-size: rem(20); // カンプ：カレンダー幅 20
+  inline-size: rem(26); // sp-icon.webp（622×619 ≒ 1:1）。旧 reserve(0.77 portrait) 比で visual height を維持するため 20 → 26 にアップ
 
   @include sp {
-    inline-size: rem(20, 14);
+    inline-size: rem(26, 14);
   }
 }
 

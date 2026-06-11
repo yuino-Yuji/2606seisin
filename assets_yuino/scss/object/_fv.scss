@@ -248,6 +248,16 @@
   }
 }
 
+// sp-icon は 1:1 square のため、portrait の pin/key より visual height が下がる。
+// 周辺アイコンと visible height を揃えるため width をアップ
+.FvBadgeIcon--sp {
+  inline-size: rem(29); // pin/key (0.68 ratio) で 20×29 表示 → 1:1 で 29×29 にして高さ揃え
+
+  @include sp {
+    inline-size: rem(46, 14); // SP pin/key 34×50 → sp は 46×46 で高さ揃え（rem 46/14）
+  }
+}
+
 .FvBadgeIcon img {
   display: block;
   inline-size: 100%;
