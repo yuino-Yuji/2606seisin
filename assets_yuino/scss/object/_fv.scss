@@ -4,6 +4,9 @@
 .main {
   // padding-block-start: rem(151);
   padding-block-start: rem($header-height-pc);
+  @include sp {
+    padding-block-start: rem($header-height-sp, 14);
+  }
 }
 
 // ============================================
@@ -21,7 +24,7 @@
   @include sp {
     min-block-size: auto;
     // FvInner 位置を維持するためヘッダー + 画像分の余白を確保
-    padding-block-start: calc(#{rem($header-height-sp, 14)} + 105.87vw);
+    padding-block-start: unset;
   }
 }
 
@@ -39,9 +42,11 @@
   // z-index: 0; // non-comp: stacking（FvInner z=1 より背面、Concern::before z=2 より背面）
 
   @include sp {
-    inset-block-start: rem($header-height-sp, 14); // SP は SP 用画像を画面 100% で表示
-    // inset-inline-end: 0;
     inline-size: 100%;
+    // カンプ SP：visible 写真サイズ 391×438（uuid 1597 visible bounds）。
+    // top-FV-sp.webp は natural 783×829（0.945）なので、aspect-ratio + object-fit で 391:438 (0.892) に強制
+    aspect-ratio: 391 / 438;
+    overflow: hidden; // non-comp: mask
   }
 }
 
@@ -49,11 +54,15 @@
   display: block;
   inline-size: 100%;
   block-size: auto; // 元アスペクト比 1361:1739 で自動算出（width 720 → height 920）。空白が出ない
+
+  @include sp {
+    block-size: 100%;
+    object-fit: cover; // non-comp: mask（aspect-ratio 強制に合わせて切り抜き）
+  }
 }
 
 // Inner
 .FvInner {
-  position: relative;
   position: absolute;
   inset-block-start: 0;
   inset-inline-start: 0;
@@ -62,8 +71,9 @@
   margin-inline: auto;
   padding-inline-start: rem(76); // カンプ：artboard 左端 → 左カラム左端 76
   padding-inline-end: rem(30);
-
+  
   @include sp {
+    position: relative;
     padding-inline-start: rem(20, 14);
     padding-inline-end: rem(20, 14);
   }
@@ -123,8 +133,8 @@
 
   @include sp {
     margin-block-start: rem(20, 14);
-    font-size: rem(26, 14); // カンプ SP：「妊活をがんばる毎日に、」が 1 行に収まる
-    letter-spacing: 0.02em; // SP は tracking 控えめにして折り返し防止
+    font-size: rem(28, 14); // カンプ SP uuid 1605：leading 40.34 / line-height 1.44 → font ≒ 28
+    letter-spacing: 0.05em; // 視覚-pending tracking 50（カンプ SP uuid 1605、PC と同等）
   }
 }
 
@@ -132,6 +142,10 @@
 .FvTitleAccent {
   color: $color-accent; // カンプ実測：SVG fill=#d69a91
   font-size: rem(62); // カンプ実測：SVG font-size=61.78
+
+  @include sp {
+    font-size: rem(28, 14); // カンプ SP：「妊活」も同サイズ（PC の 62px を継承させない）
+  }
 }
 
 // 区切り線（アクセント色） + 左の小シンボル
@@ -186,7 +200,9 @@
   @include sp {
     margin-block-start: rem(20, 14);
     padding-inline-start: 0;
-    font-size: rem(16, 14);
+    font-size: rem(15, 14); // カンプ SP uuid 1578 font 15.49
+    letter-spacing: 0.02em; // 視覚-pending SP 折り返し防止（カンプ tracking 200 はそのまま使うと 1 行目はみ出し）
+    line-height: 1.75; // カンプ：leading 27.11 / font 15.49 ≒ 1.75
   }
 }
 
@@ -201,7 +217,7 @@
 
   @include sp {
     flex-wrap: wrap;
-    column-gap: rem(7, 14);
+    column-gap: rem(8, 14); // カンプ SP uuid 1614→1615 gap 7.97
     row-gap: rem(8, 14);
     margin-block-start: rem(28, 14);
     padding-inline-start: 0;
@@ -229,9 +245,9 @@
     flex-direction: column;
     column-gap: 0;
     row-gap: rem(6, 14);
-    inline-size: calc((100% - #{rem(14, 14)}) / 3);
-    block-size: rem(110, 14);
-    font-size: rem(13, 14);
+    inline-size: calc((100% - #{rem(16, 14)}) / 3); // カンプ SP：3 ボックス + 2 gap=8 を合わせて 100% を分割
+    block-size: rem(140, 14); // カンプ SP uuid 1614 h=140.36
+    font-size: rem(16, 14); // カンプ SP uuid 1641/1644/1647 font 16
     text-align: center;
   }
 }
@@ -275,9 +291,9 @@
   font-size: rem(16); // カンプ実測：SVG font-size=16
 
   @include sp {
-    margin-block-start: rem(18, 14);
+    margin-block-start: rem(12, 14); // カンプ SP：Reserve bottom 1152 → note top 1164 = 12
     padding-inline-start: 0;
-    font-size: rem(13, 14);
+    font-size: rem(13, 14); // カンプ SP uuid 1711 font 14.34 → 視認性で 13
   }
 }
 
@@ -291,8 +307,8 @@
   @include sp {
     flex-direction: column;
     column-gap: 0;
-    row-gap: rem(14, 14);
-    margin-block-start: rem(28, 14);
+    row-gap: rem(14, 14); // 視覚バランス（カンプ 0 gap だと pill が密着しすぎ）
+    margin-block-start: rem(20, 14); // カンプ SP：badge bottom 961 → LINE top 981 = 20
     padding-inline-start: 0;
   }
 }
@@ -315,8 +331,8 @@
   @include sp {
     column-gap: rem(10, 14);
     inline-size: 100%;
-    block-size: rem(60, 14);
-    font-size: rem(16, 14);
+    block-size: rem(85, 14); // カンプ SP uuid 1712 h=85（LINE rect）
+    font-size: rem(18, 14); // カンプ SP：PC 19.33 比例で 18
   }
 }
 

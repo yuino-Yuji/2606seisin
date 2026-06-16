@@ -37,15 +37,15 @@ Template Name: トップページ
         <ul class="FvBadges">
           <li class="FvBadge">
             <span class="FvBadgeIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/FV/pin-icon.webp" alt="" width="34" height="50"></span>
-            <span class="FvBadgeLabel">藤が丘駅徒歩圏内</span>
+            <span class="FvBadgeLabel">藤が丘駅<br class="sp">徒歩圏内</span>
           </li>
           <li class="FvBadge">
             <span class="FvBadgeIcon FvBadgeIcon--sp"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/header/sp-icon.webp" alt="" width="52" height="52"></span>
-            <span class="FvBadgeLabel">完全予約制</span>
+            <span class="FvBadgeLabel">完全<br class="sp">予約制</span>
           </li>
           <li class="FvBadge">
             <span class="FvBadgeIcon"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/FV/key-icon.webp" alt="" width="28" height="42"></span>
-            <span class="FvBadgeLabel">プライベート空間</span>
+            <span class="FvBadgeLabel">プライベート<br class="sp">空間</span>
           </li>
         </ul>
 
