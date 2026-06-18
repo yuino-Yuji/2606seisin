@@ -59,7 +59,7 @@
   margin: 0;
   color: $color-heading; // カンプ uuid 486 fill rgb(101,80,70) = #655046 = $color-heading
   font-family: $font-heading; // カンプ：RyuminPro Medium → Noto Sans JP 700 代替
-  font-weight: 400;
+  font-weight: 500;
   font-size: rem(28); // カンプ uuid 486 font_size 31.64。Gothic 代替で 3 行収納（11 文字 × 28 × 1.05 = 323 < title 325）
   line-height: 1.43; // カンプ：leading 45.31 / font 31.64 ≒ 1.43
   letter-spacing: 0.05em; // カンプ uuid 486 tracking 100 (0.1em) だが Gothic 代替では 11 文字 × 32 × 1.1 = 352 > 325 で 4 行折り返しになる。tracking 0.05em で 3 行に揃える（カンプ視覚優先）
@@ -74,9 +74,6 @@
 .ServiceLead {
   margin: 0;
   margin-block-start: rem(28); // カンプ：title bottom -2806.69 → body top -2778.59 = 28.10
-  color: $color-text; // カンプ uuid 839 fill rgb(131,116,114) = #837472 = $color-text
-  font-family: $font-body;
-  font-weight: 500;
   font-size: rem(17); // カンプ uuid 839 font_size 17
   line-height: 1.75; // カンプ：leading 29.75 / font 17 = 1.75
   // letter-spacing: 0.025em; // カンプ uuid 839 tracking 25 = 0.025em
@@ -113,7 +110,6 @@
 .ServiceCardTitle {
   margin: 0;
   color: $color-heading; // カンプ uuid 847 fill rgb(101,80,70) = #655046 = $color-heading
-  font-family: $font-body; // カンプ：FOT-Rodin DB → Noto Sans JP 500/700 代替
   font-weight: 700;
   font-size: rem(19); // カンプ uuid 847 font_size 19.33
   line-height: 1.75; // カンプ：leading 33.82 / font 19.33 ≒ 1.75
@@ -249,7 +245,6 @@
 .ServiceItemLabel {
   margin: 0;
   color: $color-accent; // カンプ uuid 866 fill rgb(214,154,145) = #D69A91 = $color-accent
-  font-family: $font-body;
   font-weight: 700;
   font-size: rem(19); // カンプ uuid 866 font_size 19.33
   line-height: 1.29; // カンプ：leading 25 / font 19.33 ≒ 1.29

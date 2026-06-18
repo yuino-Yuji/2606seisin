@@ -40,7 +40,7 @@
   text-align: center;
   color: $color-heading; // カンプ uuid 495 fill rgb(101,80,70) = #655046
   font-family: $font-heading;
-  font-weight: 400;
+  font-weight: 500;
   font-size: rem(32); // カンプ uuid 495 font_size 31.64
   line-height: 1.43;  // カンプ：leading 45.31 / font 31.64 = 1.43
   letter-spacing: 0.1em; // カンプ uuid 495 tracking 100
@@ -68,7 +68,7 @@
     grid-template-columns: 1fr;
     grid-template-rows: none;
     column-gap: 0;
-    row-gap: rem(16, 14); // 矢印スペース込みのカード間 gap
+    row-gap: rem(28, 14); // 矢印スペース込みのカード間 gap
   }
 }
 
@@ -180,6 +180,7 @@
     font-size: rem(24, 14); // カンプ uuid 2197 font_size 24.94
     line-height: 1.43;      // カンプ：leading 35.71 / font 24.94 = 1.43
     letter-spacing: 0.1em;
+    font-weight: 700;
   }
 }
 
@@ -239,7 +240,6 @@
   margin-block-start: rem(7); // カンプ：PC icon bottom -54.82 → title top -47.58 = 7.24
   text-align: center;
   color: $color-heading; // カンプ uuid 998 fill #655046
-  font-family: $font-body;
   font-weight: 700;
   font-size: rem(19); // カンプ uuid 998 font_size 19.33
   line-height: 1.29;  // カンプ：leading 25 / font 19.33 = 1.29
@@ -263,9 +263,6 @@
   grid-row: 4;
   margin: 0;
   margin-block-start: rem(24); // title → text の余白（PointCard との視覚バランス調整）
-  color: $color-text; // カンプ uuid 1005 fill #837472
-  font-family: $font-body;
-  font-weight: 500;
   font-size: rem(15); // カンプ uuid 1005 font_size 15
   line-height: 1.67;  // カンプ：leading 25 / font 15 = 1.67
   letter-spacing: 0;

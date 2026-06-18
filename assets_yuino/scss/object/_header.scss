@@ -104,15 +104,10 @@
   }
 }
 
-.HeaderNavItem {
-  font-family: $font-body;
-}
-
 .HeaderNavLink {
   color: $color-heading;
   text-decoration: none;
   display: inline-block;
-  font-weight: 500;
   white-space: nowrap;
   font-size: rem(13); // カンプ：FOT-Rodin ProN DB 12.94pt
   letter-spacing: 0.05em; // カンプ：tracking 50
@@ -150,7 +145,6 @@
   background-color: #38b34c; // カンプ：LINE 緑 #38B34C
   color: #fff;
   border-radius: 9999px; // non-comp: mask（ピル形状の技術的マスク）
-  font-family: $font-body;
   font-weight: 700;
   column-gap: rem(8);
   block-size: rem(50); // カンプ：ボタン高さ 49
@@ -187,13 +181,15 @@
   color: $color-accent;
   border: 1.5px solid $color-accent; // カンプ：アクセント色 1.5px ボーダー
   border-radius: 9999px; // non-comp: mask
-  font-family: $font-body;
   font-weight: 700;
   column-gap: rem(8);
   block-size: rem(50);
   inline-size: rem(175);
   font-size: rem(11); // カンプ：FOT-Rodin ProN DB 10.81pt
   letter-spacing: 0.1em; // カンプ：tracking 100
+  @include pc {
+    pointer-events: none;
+  }
 
   @include sp {
     column-gap: rem(8, 14);

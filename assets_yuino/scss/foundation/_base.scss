@@ -58,7 +58,6 @@ body {
   font-weight: 500;
   color: $color-text;
   background-color: var(--bg-color);
-
   @include sp {
     font-size: rem(14, 14);
   }
@@ -104,18 +103,18 @@ body {
 //   font-style: normal;
 // }
 
-// 管理バーを下に移動
-#wpadminbar {
-  inset-block-start: auto !important;
-  inset-block-end: 0 !important;
-}
-html {
-  margin-block-start: 0 !important;
-  margin-block-end: 32px !important;
-}
-@media screen and (max-width: 782px) {
-  html {
-    margin-block-end: 46px !important;
-  }
-}
+// // 管理バーを下に移動
+// #wpadminbar {
+//   inset-block-start: auto !important;
+//   inset-block-end: 0 !important;
+// }
+// html {
+//   margin-block-start: 0 !important;
+//   margin-block-end: 32px !important;
+// }
+// @media screen and (max-width: 782px) {
+//   html {
+//     margin-block-end: 46px !important;
+//   }
+// }
 

@@ -26,8 +26,8 @@
   max-inline-size: rem(1280); // PC は full-viewport (1280) ベース。Inner はカンプ全幅
   margin-inline: auto;
   display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); // カンプ：photo 視覚比率 ≒ 45% / content 55%
-  column-gap: rem(48); // カンプ：photo right ≈ 3 → title left 38 = 35。視覚で 48
+  grid-template-columns: rem(643.36) minmax(0, 1fr); // カンプ：photo(uuid 460) visible right 2.86（artboard 左端 -640.5 基準 → 643.36）= photo 列幅。残りを content
+  column-gap: rem(35.34); // カンプ：photo(uuid 460) right 2.86 → title(uuid 536) left 38.20 = 35.34
 
   @include sp {
     grid-template-columns: 1fr;
@@ -48,7 +48,7 @@
   min-block-size: rem(360);
 
   @include sp {
-    aspect-ratio: 391 / 240; // カンプ：SP photo (uuid 2563) 407.62 × 305.72 ≒ 4:3 → 視覚で 391:240 を採用
+    aspect-ratio: 391 / 300; // カンプ：SP photo (uuid 2563) 407.62 × 305.72 ≒ 4:3 → 視覚で 391:240 を採用
     min-block-size: auto;
   }
 }
@@ -66,7 +66,7 @@
 // ============================================
 .ClosingBody {
   padding-block: rem(72) rem(20); // カンプ：section top 1911.04 → title top 1993.56 = 82.52、button bottom 2333.83 → padding-block-end 連携
-  padding-inline-end: rem(70); // カンプ：reserve button right 570.89 → artboard right 639.5 = 68.61
+  padding-inline-end: rem(38); // カンプ：reserve button(uuid 1248) right 570.90 → artboard right 639.5 = 68.60。ボタン行右端のアンカーにもなる
   display: flex;
   flex-direction: column;
   row-gap: rem(28); // カンプ：title bottom 2077.45 → lead top 2106.81 = 29.36
@@ -74,9 +74,9 @@
   @include sp {
     padding-block: 0 0;
     padding-inline: rem(30, 14);
-    row-gap: rem(20, 14);
-    align-items: center; // SP は中央寄せ
-    text-align: center;
+    row-gap: unset;
+    // align-items: center; // SP は中央寄せ
+    // text-align: center;
   }
 }
 
@@ -92,14 +92,12 @@
   @include sp {
     font-size: rem(24, 14); // カンプ uuid 2497 font_size ≈ 30 → SP 視認性で 24
     line-height: 1.5;
+    margin-block-end: rem(18, 14);
   }
 }
 
 .ClosingLead {
   margin: 0;
-  color: $color-text; // カンプ uuid 539 fill #837472
-  font-family: $font-body; // カンプ：FOT-Rodin ProN DB → Noto Sans JP 500 代替
-  font-weight: 500;
   font-size: rem(15); // カンプ uuid 539 font_size 14.37 → 視認性で 15
   line-height: 1.75;  // カンプ：leading 25.15 / font 14.37 = 1.75
   letter-spacing: 0.05em; // カンプ tracking 100 → 視覚で 0.05em
@@ -114,10 +112,19 @@
 // CTA: PC は LINE / Reserve を横並び、SP は CtaPair デフォルト縦並び
 // ============================================
 .ClosingCtas {
+  position: relative; // photo の右端に被さるボタン行。DOM 上 photo の後ろなので前面に描画される
   margin-block-start: rem(10); // カンプ：lead bottom 2223 → button top 2261.26 = 38（lead と最終段落の row-gap 28 + 10）
+  // カンプ：ボタン行のみ本文（title 左端 38.20）より左＝画像側へ張り出す。
+  // title(uuid 536) left 38.20 → LINE rect(uuid 1237) left -127.44 = -165.64 だけ左へオフセット。
+  // 右端は本文コンテンツ右端（= ClosingBody content box 右 = inner 右 − padding-inline-end）にアンカーし、
+  // 左へ 165.64 張り出す。固定幅 rem(698.34) だと vw-base(1200)≠カンプ(1280) でビューポート幅により右端が外へ飛び出すため、
+  // 右アンカー + 左張り出し（100% + 張り出し量）で表現する。
+  margin-inline-start: calc(#{rem(165.64)} * -1);
+  inline-size: calc(100% + #{rem(165.64)}); // 100% = content box（右端が常に viewport 内）+ 左張り出し 165.64
 
   @include sp {
-    margin-block-start: rem(4, 14);
+    margin-block-start: rem(24, 14);
+    margin-inline-start: 0; // SP：張り出しを解除（ClosingBody align-items: center で中央寄せ）
     inline-size: 100%;
     max-inline-size: rem(320, 14); // SP button max-width
   }
@@ -130,7 +137,7 @@
 
   @include sp {
     flex-direction: column; // SP デフォルトに戻す
-    row-gap: 0;
+    row-gap: rem(14, 14);
     column-gap: 0;
   }
 }

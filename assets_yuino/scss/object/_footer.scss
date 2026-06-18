@@ -14,7 +14,6 @@
 .Footer {
   background-color: $color-accent; // カンプ uuid 521 fill rgb(214,154,145) = #D69A91
   color: #fff;                     // カンプ uuid 542/1267 text fill #FFFFFF
-  font-family: $font-body;
 
   padding-block-start: rem(35); // カンプ：bg top 2385.04 → logo top 2420.45 = 35.41
   padding-block-end: rem(46);   // カンプ：logo bottom 2498.89 → bg bottom 2544.90 = 46.01
@@ -71,7 +70,6 @@
 // 論理順を保ったまま列方向に流すため grid-auto-flow: column を使用
 .FooterInfoList {
   margin: 0; // non-comp: reset
-  font-family: $font-body;
   font-size: rem(15); // カンプ uuid 542 font_size 15
   line-height: lh(25, 15); // カンプ：leading 25 / font 15 = 1.67
   letter-spacing: 0; // カンプ tracking 0
@@ -103,7 +101,8 @@
 
 .FooterInfoLabel {
   margin: 0; // non-comp: reset
-  font-weight: 500;
+  flex-shrink: 0; // non-comp: layout-tool（dt 幅を確保し dd を縮ませない）
+  min-inline-size: 5em; // dt スペース確保：最長ラベル「営業時間：」(4字 + ：= 5em) 分の幅を持たせ、各列の値(dd)を揃える
 }
 
 .FooterInfoLabel::after {
@@ -113,5 +112,4 @@
 .FooterInfoValue {
   margin: 0; // non-comp: reset
   margin-inline-start: 0; // non-comp: reset（dd デフォルトの margin-inline-start: 40px を消す）
-  font-weight: 500;
 }

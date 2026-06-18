@@ -18,7 +18,7 @@
 // ============================================
 .Voice {
   position: relative;
-  background-color: #FCF9F6; // カンプ uuid 468 fill rgb(252,249,246) = #FCF9F6
+  background-color: $color-bg-pink; 
   padding-block-start: rem(50); // カンプ：PC bg top 243.84 → title top 294.06 = 50.22
   padding-block-end: rem(51);   // カンプ：PC note bottom 675.52 → bg bottom 726.60 = 51.08
 
@@ -123,16 +123,14 @@
   min-inline-size: 0; // non-comp: layout-tool（flex item shrink を効かせる）
   display: flex;
   flex-direction: column;
-  gap: rem(11); // カンプ：title bottom 444.17 → age top 455.46 = 11.29
+  // gap: rem(11); // カンプ：title bottom 444.17 → age top 455.46 = 11.29
 }
 
 .VoiceCardTitle {
   margin: 0;
-  color: $color-text; // カンプ uuid 1084 fill rgb(131,116,114) = #837472
-  font-family: $font-body;
   font-weight: 700; // 見出しは bold
   font-size: rem(18); // カンプ uuid 1084 font_size 18.09
-  line-height: 1.67;  // カンプ：leading 30.15 / font 18.09 = 1.67
+  // line-height: 1.67;  // カンプ：leading 30.15 / font 18.09 = 1.67
   letter-spacing: 0;  // カンプ uuid 1084 tracking 0
   text-align: justify;
 
@@ -144,9 +142,7 @@
 
 .VoiceCardAge {
   margin: 0;
-  color: $color-text; // カンプ uuid 1087 fill #837472
-  font-family: $font-body;
-  font-weight: 500;
+  color: #d69a91;
   font-size: rem(14); // カンプ uuid 1087 font_size 14
   line-height: 1.75;  // カンプ：leading 24.5 / font 14 = 1.75
   letter-spacing: 0;
@@ -159,9 +155,6 @@
 .VoiceCardBody {
   margin: 0;
   margin-block-start: rem(30); // カンプ：PC age bottom 470.65 → body top 500.85 = 30.20
-  color: $color-text; // カンプ uuid 1083 fill #837472
-  font-family: $font-body;
-  font-weight: 500;
   font-size: rem(15); // カンプ uuid 1083 font_size 15
   line-height: 1.67;  // カンプ：leading 25 / font 15 = 1.67
   letter-spacing: 0;
@@ -178,9 +171,6 @@
   margin: 0;
   margin-block-start: rem(41); // カンプ：PC card bottom 617.5 → note top 658.16 = 40.66
   text-align: center;
-  color: $color-text; // カンプ uuid 533 fill #837472
-  font-family: $font-body;
-  font-weight: 500;
   font-size: rem(16); // カンプ uuid 533 font_size 16
   line-height: 1.75;  // カンプ：leading 28 / font 16 = 1.75
   letter-spacing: 0;
