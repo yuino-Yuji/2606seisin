@@ -16,7 +16,7 @@
   padding-block-end: rem(41); // カンプ：リード文下端 -3524 → Concern bg 下端 -3483 = 41（次セクションとの白余白は Concept padding-block-start 側に分離）
 
   @include sp {
-    padding-block-start: rem(40, 14);
+    padding-block-start: rem(20, 14);
     padding-block-end: rem(28, 14); // カンプ：SP リード文下端 -5825.49 → Concern bg(uuid 1566) 下端 -5797.36 = 28.13
   }
 }
@@ -38,7 +38,9 @@
   z-index: 2; // non-comp: stacking（カンプ：波形が FV 写真・FvInner より z 上位。FvInner z=1 を超えるため z=2）
 
   @include sp {
-    display: none; // カンプ SP：波形なし、直線境界
+    inset-block-start: calc(#{rem(108, 14)} * -1); // カンプ SP uuid 1569：wave top -6688.92 = Concern bg top -6581.17 − 107.75（FV 領域に食い込む）
+    inline-size: rem(450, 14); // カンプ SP uuid 1569：wave width 449.68（左端基準・右へはみ出し）
+    block-size: rem(108, 14); // カンプ SP uuid 1569：wave height 107.75
   }
 }
 
@@ -52,7 +54,7 @@
   // padding-block-start: rem(42);
 
   @include sp {
-    padding-inline: rem(20, 14);
+    padding-inline: rem(38, 14);
   }
 }
 
@@ -73,9 +75,9 @@
 
   @include sp {
     // margin-block-start: 0; // SP では矩形上端からの食み出しなし
-    font-size: rem(24, 14);
-    // letter-spacing: 0.1em; // SP は折り返し許容のため tracking 抑制
+    font-size: rem(26, 14);
     line-height: 1.5;
+    white-space: nowrap; // カンプ SP uuid 1572：title は 2 行（line1「妊活中、こんなお悩みは」）。改行は <br class="sp"> のみ
     // padding-inline-start: 0;
   }
 }
@@ -128,9 +130,7 @@
   display: flex;
   align-items: flex-start;
   column-gap: rem(10); // カンプ実測：チェック四角 right → text left = 9.83
-  color: $color-text; // カンプ実測：rgb(131,116,114) = #837472
   font-family: $font-tag; // カンプ実測：FOT-Seurat ProN DB → Zen Maru Gothic 500 代替
-  font-weight: 500;
   letter-spacing: 0; // カンプ実測 0.05em。代替フォント Zen Maru Gothic の字幅増（約 5%）を完全吸収するため tracking を 0 に補正（視覚差ほぼ無し）
   line-height: 1.75; // カンプ実測：leading 31.62 / font 18.07 ≒ 1.75
   font-size: rem(18); // カンプ実測：font-size 18.07
@@ -152,7 +152,7 @@
 
 @include sp {
   .ConcernListItem {
-    font-size: rem(15, 14);
+    font-size: rem(17, 14);
     column-gap: rem(10, 14);
   }
   .ConcernListItem:nth-child(odd),
@@ -171,7 +171,6 @@
   background-color: #d18b82; // カンプ実測：rgb(209,139,130) = #D18B82（$color-accent より少し濃い独自色）
   border-radius: rem(4); // カンプ実測：チェック四角は薄く角丸、SVG 上は直角だが視覚的に rem(4) 程度
   color: $color-bg-pink; // カンプ実測：チェックマーク内側 fill #FBF0F2
-  font-family: $font-body;
   font-weight: 700;
   inline-size: rem(22); // カンプ実測：チェック四角 width=21.49
   block-size: rem(22); // カンプ実測：チェック四角 height=21.49
@@ -188,9 +187,6 @@
 
 // カード下のリード文
 .ConcernLead {
-  color: $color-text; // カンプ実測：rgb(131,116,114) = #837472
-  font-family: $font-body; // カンプ実測：FOT-Rodin ProN DB → Noto Sans JP 500 代替
-  font-weight: 500;
   letter-spacing: 0.2em; // カンプ実測：tracking 200 = 0.2em
   line-height: 1.75; // カンプ実測：leading 33.82 / font 19.33 ≒ 1.75
   margin-block: 0;
@@ -200,7 +196,7 @@
 
   @include sp {
     margin-block-start: rem(28, 14);
-    font-size: rem(15, 14);
+    font-size: rem(20, 14);
     letter-spacing: 0.1em;
   }
 }
@@ -313,7 +309,22 @@
   .ConcernLeaf05 { display: none; }
   .ConcernLeaf06 { inset-block-start: rem(80, 14); inset-inline-start: rem(-15, 14); inline-size: rem(60, 14); block-size: rem(60, 14); }
   .ConcernLeaf07 { display: none; }
-  .ConcernLeaf08 { inset-block-start: auto; inset-block-end: rem(180, 14); inset-inline-end: rem(20, 14); inline-size: rem(36, 14); block-size: rem(24, 14); }
-  .ConcernLeaf09 { inset-block-start: auto; inset-block-end: rem(80, 14); inset-inline-end: rem(40, 14); inline-size: rem(28, 14); block-size: rem(24, 14); }
-  .ConcernLeaf10 { inset-block-start: auto; inset-block-end: rem(40, 14); inset-inline-end: rem(-15, 14); inline-size: rem(80, 14); block-size: rem(80, 14); }
+  // 右クラスター（カンプ SP：花同士の相対位置はカンプ準拠。大きい花の下端をカード下端＝リード文直上に合わせるため、
+  // クラスター全体を +107 下げる。実装はリスト項目が 2 行折返しでカードがカンプ(490)より高い(588)ため、
+  // Concern top 基準の生カンプ値では花がカード中ほどに浮く。大きい花を「カード下端 straddle」に揃える補正）
+  .ConcernLeaf08 { // カンプ SP uuid 2504（小花弁・上）：右端 -7.57 / 43×29
+    inset-block-start: rem(445, 14); inset-block-end: auto;
+    inset-inline-end: calc(#{rem(8, 14)} * -1);
+    inline-size: rem(43, 14); block-size: rem(29, 14);
+  }
+  .ConcernLeaf09 { // カンプ SP uuid 2505（小花弁・中）：右端 -1.33 / 36×31
+    inset-block-start: rem(573, 14); inset-block-end: auto;
+    inset-inline-end: calc(#{rem(1, 14)} * -1);
+    inline-size: rem(36, 14); block-size: rem(31, 14);
+  }
+  .ConcernLeaf10 { // カンプ SP uuid 2539（満開の桜・右下）：右端 14.95 / 80×80。下端がリード文直上（カード下端）に来る
+    inset-block-start: rem(653, 14); inset-block-end: auto;
+    inset-inline-end: rem(15, 14);
+    inline-size: rem(80, 14); block-size: rem(80, 14);
+  }
 }

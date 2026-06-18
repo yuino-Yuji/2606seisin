@@ -57,13 +57,13 @@
         </nav>
 
         <div class="HeaderCtas">
-          <a class="HeaderCtaLine" href="#">
+          <a class="HeaderCtaLine" href="https://lin.ee/zjTD6uD" target="_blank" rel="noopener">
             <span class="HeaderCtaLineIcon">
               <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/header/line-icon.webp" alt="" width="47" height="45">
             </span>
             <span class="HeaderCtaLineText">LINEで相談する</span>
           </a>
-          <a class="HeaderCtaReserve" href="#">
+          <a class="HeaderCtaReserve" href="tel:+0527373454">
             <span class="HeaderCtaReserveIcon">
               <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/header/sp-icon.webp" alt="" width="52" height="52">
             </span>

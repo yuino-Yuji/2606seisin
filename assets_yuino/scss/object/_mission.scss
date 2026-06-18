@@ -85,7 +85,7 @@
   margin: 0;
   color: $color-heading; // カンプ uuid 489 fill rgb(101,80,70) = #655046
   font-family: $font-heading;
-  font-weight: 400;
+  font-weight: 500;
   font-size: rem(28); // カンプ uuid 489 font_size 31.64。Gothic 代替で 3 行収納（Concept/Service と同パターン）
   line-height: 1.43;  // カンプ：leading 45.31 / font 31.64 ≒ 1.43
   letter-spacing: 0.05em; // カンプ tracking 100 (0.1em) だが Gothic 代替で行の収まりを優先（Service と同パターン）
@@ -112,8 +112,6 @@
 
 .MissionText p {
   margin: 0;
-  color: $color-text; // カンプ uuid 874/877 fill rgb(131,116,114) = #837472
-  font-family: $font-body;
   font-size: rem(17); // カンプ：font_size 17
   line-height: 1.75;  // カンプ：leading 29.75 / font 17 = 1.75
   letter-spacing: 0.025em; // カンプ：tracking 25

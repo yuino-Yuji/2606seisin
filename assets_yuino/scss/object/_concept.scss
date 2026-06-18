@@ -119,8 +119,6 @@
 
 .ConceptText p {
   margin: 0;
-  color: $color-text; // カンプ：本文色 #837472（$color-text）
-  font-family: $font-body; // カンプ：FOT-Rodin ProN DB → Noto Sans JP 500 代替（$font-body）
   // font-weight: 400;
   font-size: rem(17); // カンプ uuid 821 font_size 17
   line-height: 1.75; // カンプ：leading 29.75 / font 17 = 1.75
@@ -150,9 +148,11 @@
 // SP CTA: Concept 内で個別 size override（共通 .CtaButton ベース + Concept SP サイズ）
 .ConceptCtas .CtaButton {
   @include sp {
-    block-size: rem(86, 14); // カンプ：SP LINE CTA(uuid 1753) height 86 / 初回予約(uuid 1769) height 85（86 で統一）
+    inline-size: rem(333, 14);
+    block-size: rem(72, 14); // カンプ：SP LINE CTA(uuid 1753) height 86 / 初回予約(uuid 1769) height 85（86 で統一）
     font-size: rem(19, 14);  // カンプ uuid 1768 + 1778 font_size 19.33
     column-gap: rem(10, 14);
+    margin-inline: auto;
   }
 }
 

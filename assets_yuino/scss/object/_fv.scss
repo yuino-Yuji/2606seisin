@@ -4,6 +4,7 @@
 .main {
   // padding-block-start: rem(151);
   padding-block-start: rem($header-height-pc);
+  overflow-x: clip; // non-comp: mask（画面端で見切れる花びら装飾の左右はみ出しをページ全体でクリップ。html を触らず .main にスコープ。hidden だと縦スクロールに影響するため clip）
   @include sp {
     padding-block-start: rem($header-height-sp, 14);
   }
@@ -61,6 +62,54 @@
   }
 }
 
+// 花びら装飾（SP のみ。カンプ PC FV には花びら無し）
+// カンプ SP：写真左側に 3 枚（茎付き花 / 花弁 / 満開の桜）。写真上端基準の座標で絶対配置。
+.FvLeaves {
+  display: none;
+
+  @include sp {
+    display: block;
+  }
+}
+
+.FvLeaf {
+  @include sp {
+    position: absolute;
+    z-index: 0; // non-comp: stacking（写真の上・本文 FvInner z=1 の下）
+    display: block;
+  }
+}
+
+.FvLeaf img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.FvLeaf01 { // カンプ SP uuid 2507（茎付き花）：写真上端から top 194.67 / left -11.61 / 57×75
+  @include sp {
+    inset-block-start: rem(195, 14);
+    inset-inline-start: calc(#{rem(12, 14)} * -1);
+    inline-size: rem(57, 14);
+  }
+}
+
+.FvLeaf02 { // カンプ SP uuid 2506（花弁）：top 280.64 / left 66.97 / 38×31
+  @include sp {
+    inset-block-start: rem(281, 14);
+    inset-inline-start: rem(67, 14);
+    inline-size: rem(38, 14);
+  }
+}
+
+.FvLeaf03 { // カンプ SP uuid 2515（満開の桜）：top 334.79 / left -34.74 / 89×89
+  @include sp {
+    inset-block-start: rem(335, 14);
+    inset-inline-start: calc(#{rem(35, 14)} * -1);
+    inline-size: rem(89, 14);
+  }
+}
+
 // Inner
 .FvInner {
   position: absolute;
@@ -74,8 +123,9 @@
   
   @include sp {
     position: relative;
-    padding-inline-start: rem(20, 14);
-    padding-inline-end: rem(20, 14);
+    margin-block-start: calc(#{rem(28, 14)} * -1); // カンプ SP：本文ブロックを写真下端に食い込ませる（tag top 写真上端から 410 / 写真高さ 438 = 28px 重なり）
+    padding-inline-start: rem(38, 14); // カンプ SP：badges left rel 37.71 = コンテンツ左右 padding 38
+    padding-inline-end: rem(38, 14);
   }
 }
 
@@ -87,7 +137,7 @@
 
   @include sp {
     inline-size: auto;
-    padding-block-start: rem(45, 14);
+    padding-block-start: 0; // 写真への食い込みは FvInner の margin-block-start で実施
     padding-block-end: rem(40, 14);
   }
 }
@@ -102,7 +152,6 @@
   border-radius: 999px; // カンプ実測：SVG rx=20.28（実体 40.55 高さに対するピル）
   box-shadow: 0 0 rem(4) rgba(5, 1, 1, 0.1); // カンプ：drop-shadow stdDeviation=2 → CSS blur-radius ≒ 4, color #050101 / opacity 0.1
   color: $color-accent; // カンプ実測：SVG fill=#d69a91
-  font-family: $font-body; // カンプ実測：FOT-Rodin ProN DB
   font-weight: 700;
   letter-spacing: 0.18em; // カンプ実測：tracking 各文字 0.15〜0.20em の平均
   margin-block-start: 0;
@@ -112,6 +161,9 @@
   font-size: rem(19); // カンプ実測：SVG font-size=19.33
 
   @include sp {
+    display: flex; // 中央寄せのため block-level flex 化
+    margin-inline-start: auto; // カンプ SP：タグのみ中央寄せ（左右 padding 63 対称）
+    margin-inline-end: auto;
     inline-size: rem(252, 14);
     block-size: rem(41, 14);
     font-size: rem(17, 14);
@@ -135,6 +187,7 @@
     margin-block-start: rem(20, 14);
     font-size: rem(28, 14); // カンプ SP uuid 1605：leading 40.34 / line-height 1.44 → font ≒ 28
     letter-spacing: 0.05em; // 視覚-pending tracking 50（カンプ SP uuid 1605、PC と同等）
+    white-space: nowrap; // カンプ SP：title は自然幅（line1 ≒ 325 > content 315）。改行は <br> のみ
   }
 }
 
@@ -144,7 +197,7 @@
   font-size: rem(62); // カンプ実測：SVG font-size=61.78
 
   @include sp {
-    font-size: rem(28, 14); // カンプ SP：「妊活」も同サイズ（PC の 62px を継承させない）
+    font-size: rem(36, 14); // カンプ SP：「妊活」も同サイズ（PC の 62px を継承させない）
   }
 }
 
@@ -158,9 +211,9 @@
   block-size: 0.5px; // カンプ実測：SVG stroke-width=0.5
 
   @include sp {
-    margin-block-start: rem(28, 14);
-    margin-inline-start: rem(40, 14);
-    inline-size: rem(220, 14);
+    margin-block-start: rem(24, 14);
+    margin-inline-start: rem(37, 14); // カンプ SP：line left rel 75.21 − padding 38 = 37
+    inline-size: rem(277, 14); // カンプ SP uuid 1592 line width 276.90
   }
 }
 
@@ -187,9 +240,6 @@
 
 // 本文リード
 .FvLead {
-  color: $color-text; // カンプ実測：SVG fill=#837472
-  font-family: $font-body; // カンプ実測：FOT-Rodin ProN DB
-  font-weight: 500;
   letter-spacing: 0.13em; // カンプ実測：文字ごと 0.04〜0.21em の平均（厳密には文字単位カーニング）
   line-height: 1.75; // カンプ実測：leading 33.82 / font 19.33 ≒ 1.75
   margin-block-start: rem(39); // カンプ実測：本文 top 510 − 線 top 471 = 39
@@ -213,7 +263,7 @@
   margin-block-start: rem(38); // カンプ実測：バッジ実体 top 670.42 − 本文下端 632.4 = 38.02
   margin-block-end: 0;
   padding-inline-start: rem(7);
-  column-gap: rem(7); // カンプ：バッジ間 6.5
+  column-gap: rem(16); // カンプ：バッジ間 6.5
 
   @include sp {
     flex-wrap: wrap;
@@ -232,9 +282,7 @@
   background-color: #f8f2ee; // カンプ実測：rgb(248,242,238) ≒ #F8F2EE
   border-radius: rem(8); // カンプ実測：SVG rx=7.75
   box-shadow: 0 0 rem(4) rgba(5, 1, 1, 0.1); // カンプ：drop-shadow stdDeviation=2 → CSS blur-radius ≒ 4, color #050101 / opacity 0.1
-  color: $color-text; // カンプ実測：SVG fill=#837472
   font-family: $font-tag;
-  font-weight: 500;
   letter-spacing: 0; // カンプ実測：tracking ≒ 0（文字ごと -0.02〜0.01em）
   column-gap: rem(8); // カンプ：アイコン → ラベル 8
   inline-size: rem(204); // カンプ実測：SVG rect width=203.95
@@ -249,6 +297,13 @@
     block-size: rem(140, 14); // カンプ SP uuid 1614 h=140.36
     font-size: rem(16, 14); // カンプ SP uuid 1641/1644/1647 font 16
     text-align: center;
+  }
+}
+
+// バッジラベルは <br class="sp"> のみで改行（自動折り返し禁止）
+.FvBadgeLabel {
+  @include sp {
+    white-space: nowrap; // カンプ SP：「プライベート」等を 1 行に保持（badge 幅 99 への縮小で自動折り返しさせない）
   }
 }
 
@@ -283,8 +338,6 @@
 // 注釈
 .FvNote {
   color: #666; // カンプ実測：SVG fill=#666（$color-text とは別）
-  font-family: $font-body; // カンプ実測：FOT-Rodin ProN DB
-  font-weight: 500;
   margin-block-start: rem(25); // カンプ実測：注釈 top 860.57 − CTA 実体 bottom 835.88 = 24.69
   margin-block-end: 0;
   padding-inline-start: rem(15); // カンプ実測：注釈 left 90.82 − FvInner padding 76 = 14.82
@@ -294,6 +347,7 @@
     margin-block-start: rem(12, 14); // カンプ SP：Reserve bottom 1152 → note top 1164 = 12
     padding-inline-start: 0;
     font-size: rem(13, 14); // カンプ SP uuid 1711 font 14.34 → 視認性で 13
+    white-space: nowrap;
   }
 }
 
@@ -309,6 +363,8 @@
     column-gap: 0;
     row-gap: rem(14, 14); // 視覚バランス（カンプ 0 gap だと pill が密着しすぎ）
     margin-block-start: rem(20, 14); // カンプ SP：badge bottom 961 → LINE top 981 = 20
+    margin-inline-start: calc(#{rem(16, 14)} * -1); // カンプ SP：CTA は本文(padding 38)より広い（left rel 22）→ 左右 16 ずつ張り出し
+    inline-size: calc(100% + #{rem(32, 14)});
     padding-inline-start: 0;
   }
 }
@@ -319,9 +375,8 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  border-radius: rem(36); // カンプ実測：SVG rx=36.1
+  border-radius: rem(999); // カンプ実測：SVG rx=36.1
   box-shadow: 0 0 rem(4) rgba(5, 1, 1, 0.1); // カンプ：drop-shadow stdDeviation=2 → CSS blur ≒ 4, color #050101 / opacity 0.1
-  font-family: $font-body; // カンプ実測：FOT-Rodin ProN DB
   font-weight: 700;
   column-gap: rem(10);
   inline-size: rem(333); // カンプ実測：SVG rect width=333.47
@@ -330,9 +385,10 @@
 
   @include sp {
     column-gap: rem(10, 14);
-    inline-size: 100%;
-    block-size: rem(85, 14); // カンプ SP uuid 1712 h=85（LINE rect）
-    font-size: rem(18, 14); // カンプ SP：PC 19.33 比例で 18
+    inline-size: rem(333, 14);
+    block-size: rem(72, 14); // カンプ SP uuid 1712 h=85（LINE rect）
+    font-size: rem(20, 14); // カンプ SP：PC 19.33 比例で 18
+    margin-inline: auto;
   }
 }
 

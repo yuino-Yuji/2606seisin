@@ -63,8 +63,8 @@
 
   @include sp {
     grid-template-columns: 1fr 1fr;
-    column-gap: rem(1, 14); // カンプ：SP card 水平 gap 0.99 ≒ 1
-    row-gap: rem(9, 14);    // カンプ：SP card 垂直 gap 9.00
+    column-gap: rem(10, 14); // カンプ：SP card 水平 gap 0.99 ≒ 1
+    row-gap: rem(18, 14);    // カンプ：SP card 垂直 gap 9.00
     margin-block-start: rem(19, 14); // カンプ：SP title bottom -3041.91 → card top -3023.21 = 18.70
   }
 }
@@ -99,7 +99,6 @@
   padding-inline: rem(27); // カンプ：body left -537.88 → card left -565.5 = 27.62
   text-align: center;
   color: $color-accent; // カンプ uuid 886 fill — 推定（pink accent）
-  font-family: $font-body;
   font-weight: 700;
   font-size: rem(19); // カンプ uuid 886 font_size 19.33
   line-height: 1.29; // カンプ：leading 25 / font 19.33 ≒ 1.29
@@ -117,9 +116,6 @@
   margin: 0;
   margin-block-start: rem(16); // カンプ：title bottom -1434.45 → body top -1418.38 = 16.07
   padding-inline: rem(27); // body left padding（title と同じ）
-  color: $color-text; // カンプ uuid 893 fill rgb(131,116,114) = #837472
-  font-family: $font-body;
-  font-weight: 500;
   font-size: rem(15); // カンプ uuid 893 font_size 15
   line-height: 1.67; // カンプ：leading 25 / font 15 ≒ 1.67
   letter-spacing: 0; // カンプ tracking 0

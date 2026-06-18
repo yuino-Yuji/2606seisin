@@ -19,8 +19,40 @@
   padding-block-end: rem(66);   // カンプ：FAQ 最終カード bottom 1440.5 (opened Q.1 想定) → Notes bg top 1506.45 = 65.95
 
   @include sp {
-    padding-block-start: rem(40, 14);
+    padding-block-start: rem(32, 14); // カンプ SP：先頭に CTA を内包。Voice 帯下端 → LINE top ≒ 26（Voice padding-block-end 42 と合わせ note → LINE ≒ 54）
     padding-block-end: rem(44, 14);
+  }
+}
+
+// CTA（Voice → FAQ 間。SP のみ。カンプ uuid 1835/1851：白地に LINE/予約ボタン縦積み・中央寄せ）
+// サイズは他セクション CTA と統一（inline-size 333 / block-size 72）
+.FaqCtas {
+  @include sp {
+    display: block;
+    inline-size: rem(333, 14);
+    margin-inline: auto;
+    margin-block-end: rem(32, 14); // カンプ：Reserve bottom 1027.5 → FAQ title top 1059.44 = 31.94
+    box-sizing: border-box; // non-comp: layout-tool
+  }
+}
+
+.FaqCtas .CtaButton {
+  @include sp {
+    block-size: rem(72, 14); // 他 CTA と統一（カンプ 85〜86 を 72 に統一）
+    font-size: rem(19, 14);
+    column-gap: rem(10, 14);
+  }
+}
+
+.FaqCtas .CtaButton__Icon {
+  @include sp {
+    inline-size: rem(41, 14);
+  }
+}
+
+.FaqCtas .CtaButton--reserve .CtaButton__Icon {
+  @include sp {
+    inline-size: rem(24, 14);
   }
 }
 
@@ -40,7 +72,6 @@
   text-align: center;
   color: $color-heading; // カンプ uuid 527 fill #655046
   font-family: $font-heading; // カンプ：RyuminPro Medium → Noto Sans JP 700 代替
-  font-weight: 700;
   font-size: rem(32); // カンプ uuid 527 font_size 31.64
   line-height: 1.43;  // カンプ：leading 45.31 / font 31.64 = 1.43
   letter-spacing: 0.1em; // カンプ uuid 527 tracking 100
@@ -106,6 +137,12 @@
   position: relative;
 }
 
+// 開状態：pink Q の下角を角無しにして A と密着（A は上 border なし＝ Q が A の囲みの上辺）
+.FaqItem[data-open] .FaqSummary {
+  border-end-start-radius: 0; // non-comp: mask（下角を A と連続させ密着）
+  border-end-end-radius: 0; // non-comp: mask
+}
+
 // 質問（pink summary 部 = 常時表示）
 .FaqSummary {
   list-style: none; // non-comp: reset
@@ -141,7 +178,6 @@
   flex-shrink: 0; // non-comp: layout-tool（label 折返し禁止）
   color: $color-accent; // カンプ uuid 1126 fill #D69A91
   font-family: $font-heading; // カンプ：RyuminPro Medium → Noto Sans JP 700 代替
-  font-weight: 700;
   font-size: rem(35); // カンプ uuid 1126 font_size 34.97
   line-height: 1;
   letter-spacing: 0.05em; // カンプ tracking 100、見た目で 0.05em に絞る
@@ -154,8 +190,6 @@
 .FaqQText {
   flex: 1;
   color: $color-heading; // カンプ uuid 1129 fill #655046
-  font-family: $font-body; // カンプ：FOT-Rodin ProN DB → Noto Sans JP 500 代替
-  font-weight: 500;
   font-size: rem(19); // カンプ uuid 1129 font_size 19.33
   line-height: 1.3;  // カンプ：leading 25 / font 19.33 = 1.29
   letter-spacing: 0;
@@ -204,11 +238,7 @@
 
 .FaqItem[data-open] .FaqAnswer {
   grid-template-rows: 1fr; // animation-state: 終端値（開）
-  margin-block-start: rem(8); // カンプ視覚：pink Q bottom → white A top の僅かな gap
-
-  @include sp {
-    margin-block-start: rem(6, 14);
-  }
+  // Q と A は一体カード。gap なし（pink Q 下端 → A. の余白は FaqAnswerInner padding-block-start が担う）
 }
 
 // grid item: padding を持たず、ただ高さを 0 → コンテンツ実高さに変える役割
@@ -217,22 +247,26 @@
   min-block-size: 0; // non-comp: layout-tool（grid 子の縮小許可）
 }
 
-// 実コンテンツ（padding と背景はここ）
+// 解答カード：Q と同じ幅で密着。囲み（border）は左右下のみ＝上辺は Q と一体。下角だけ角丸。
 .FaqAnswerInner {
-  background-color: #fff; // カンプ uuid 1118 fill #FFFFFF
-  border-radius: rem(20); // カンプ視覚：角丸
-  box-shadow: 0 rem(4) rem(12) rgba(101, 80, 70, 0.08); // non-comp: a11y / 視覚アクセント。カンプ uuid 1118 周辺の soft shadow
+  background-color: #fff; // 視覚-composite y=1250 白い解答カード（カンプ uuid 2333 fill 白）
+  border-inline-start: 1px solid rgba(5, 1, 1, 0.1); // 視覚-composite y=1250 縁取り左（カンプ uuid 2333 stroke 無＝デザイナー意図 border、ConcernCard と同値）
+  border-inline-end: 1px solid rgba(5, 1, 1, 0.1); // 視覚-composite y=1250 縁取り右
+  border-block-end: 1px solid rgba(5, 1, 1, 0.1); // 視覚-composite y=1290 縁取り下（上は Q と一体のため border なし）
+  border-end-start-radius: rem(20); // 視覚-composite y=1290 下角丸（左）
+  border-end-end-radius: rem(20); // 視覚-composite y=1290 下角丸（右）
   padding-block: rem(28) rem(40); // カンプ：A label top 1040.92 - card outer top + answer text bottom 1117.3 → outer bottom 1161.5 = 44
   padding-inline: rem(56); // カンプ：A label left -516.31 - outer left -578.5 = 62.19、Q.label と揃え 56
   display: flex;
-  align-items: flex-start;
+  align-items: center; // カンプ：A. と解答本文は天地中央揃え
   gap: rem(10); // カンプ：A. label right -482.17 → A text left -442.15 = 40 / 視覚で 10
 
   @include sp {
+    border-end-start-radius: rem(14, 14); // 視覚-composite y=1290 SP 下角丸
+    border-end-end-radius: rem(14, 14);
     padding-block: rem(16, 14) rem(20, 14);
     padding-inline: rem(33, 14);
     gap: rem(6, 14);
-    border-radius: rem(14, 14);
   }
 }
 
@@ -252,18 +286,13 @@
 
 .FaqAText {
   flex: 1;
-  margin: 0;
-  margin-block-start: rem(8); // 視覚バランス：A label baseline と A text 1 行目を合わせる
-  color: $color-text; // カンプ uuid 1232 fill #837472
-  font-family: $font-body;
-  font-weight: 500;
+  margin: 0; // 天地中央揃え（FaqAnswerInner align-items: center）のため baseline 合わせ margin は不要
   font-size: rem(15); // カンプ uuid 1232 font_size 15
   line-height: 1.67;  // カンプ：leading 25 / font 15 = 1.67
   letter-spacing: 0;
   text-align: justify; // カンプ：paragraph_alignment=justify
 
   @include sp {
-    margin-block-start: rem(6, 14);
     font-size: rem(13, 14); // カンプ uuid 2447 font_size 10 → 視認性で 13
     line-height: 1.7;       // カンプ：leading 17 / font 10 = 1.7
   }

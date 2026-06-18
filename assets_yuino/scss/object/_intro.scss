@@ -77,7 +77,7 @@
   margin: 0;
   color: $color-heading; // カンプ uuid 499 fill rgb(101,80,70) = #655046
   font-family: $font-heading;
-  font-weight: 400;
+  font-weight: 500;
   font-size: rem(28); // カンプ uuid 499 font_size 31.64。Gothic 代替で 1 行収納のため 28 に
   line-height: 1.43;  // カンプ：leading 45.31 / font 31.64 = 1.43
   letter-spacing: 0.1em; // カンプ uuid 499 tracking 100
@@ -94,9 +94,6 @@
 .IntroLead {
   margin: 0;
   margin-block-start: rem(27); // カンプ：PC title bottom -658.97 → lead top -631.75 = 27.22
-  color: $color-text; // カンプ uuid 508 fill rgb(131,116,114) = #837472
-  font-family: $font-body;
-  font-weight: 500;
   font-size: rem(17); // カンプ uuid 508 font_size 17
   line-height: 1.75;  // カンプ：leading 29.75 / font 17 = 1.75
   letter-spacing: 0.025em; // カンプ uuid 508 tracking 25
@@ -116,9 +113,6 @@
   margin-block-start: rem(32); // カンプ：PC lead bottom -613.10 → quotes top -580.70 = 32.40
   padding-inline-start: 0; // non-comp: reset
   list-style: none; // non-comp: reset
-  color: $color-text;
-  font-family: $font-body;
-  font-weight: 500;
   font-size: rem(17); // カンプ uuid 511 font_size 17
   line-height: 1.75;
   letter-spacing: 0.025em;
@@ -139,9 +133,6 @@
 .IntroLead2 {
   margin: 0;
   margin-block-start: rem(30); // カンプ：PC quotes bottom -502.76 → lead2 top -472.94 = 29.82
-  color: $color-text;
-  font-family: $font-body;
-  font-weight: 500;
   font-size: rem(17); // カンプ uuid 514 font_size 17
   line-height: 1.75;
   letter-spacing: 0.025em;

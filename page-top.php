@@ -20,6 +20,12 @@ Template Name: トップページ
       </picture>
     </div>
 
+    <div class="FvLeaves" aria-hidden="true">
+      <span class="FvLeaf FvLeaf01"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/FV/fv-leaf01.webp" alt="" width="173" height="226"></span>
+      <span class="FvLeaf FvLeaf02"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/FV/fv-leaf02.webp" alt="" width="117" height="95"></span>
+      <span class="FvLeaf FvLeaf03"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/FV/fv-leaf03.webp" alt="" width="269" height="269"></span>
+    </div>
+
     <div class="FvInner">
       <div class="FvBody">
         <p class="FvTag">妊活中のあなたへ</p>
@@ -73,7 +79,7 @@ Template Name: トップページ
        Concern — 妊活中、こんなお悩みはありませんか？
        ============================================ -->
   <section class="Concern" id="concern">
-    <div class="ConcernLeavesLeft" aria-hidden="true">
+    <div class="ConcernLeavesLeft pc" aria-hidden="true">
       <span class="ConcernLeaf ConcernLeaf01"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/concern/leaf01.webp" alt="" width="100" height="100"></span>
       <span class="ConcernLeaf ConcernLeaf02"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/concern/leaf02.webp" alt="" width="64" height="84"></span>
       <span class="ConcernLeaf ConcernLeaf03"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/concern/leaf03.webp" alt="" width="47" height="42"></span>
@@ -83,25 +89,25 @@ Template Name: トップページ
     </div>
 
     <div class="ConcernInner">
-      <h2 class="ConcernTitle">妊活中、こんなお悩みはありませんか？</h2>
+      <h2 class="ConcernTitle">妊活中、こんなお悩みは<br class="sp">ありませんか？</h2>
 
       <div class="ConcernCard">
         <ul class="ConcernList">
           <li class="ConcernListItem">冷えが気になり、身体のめぐりを整えたい</li>
-          <li class="ConcernListItem">疲れやすく、なかなか休まらない</li>
+          <li class="ConcernListItem">疲れやすく、なかなか<br class="sp">休まらない</li>
           <li class="ConcernListItem">妊活のために、できることを少しでも増やしたい</li>
-          <li class="ConcernListItem">通院や仕事との両立で、心も身体も疲れやすい</li>
+          <li class="ConcernListItem">通院や仕事との両立で、<br class="sp">心も身体も疲れやすい</li>
           <li class="ConcernListItem">ストレスを感じることが多い</li>
-          <li class="ConcernListItem">病院以外でもできるセルフケアを探している</li>
-          <li class="ConcernListItem">まずは気軽に相談できる場所がほしい</li>
+          <li class="ConcernListItem">病院以外でもできる<br class="sp">セルフケアを探している</li>
+          <li class="ConcernListItem">まずは気軽に相談できる<br class="sp">場所がほしい</li>
         </ul>
       </div>
 
-      <p class="ConcernLead">妊活中の身体づくりには、「がんばる時間」だけでなく、<br>ほっと休みながら「整える時間」も大切です。</p>
+      <p class="ConcernLead">妊活中の身体づくりには、<br class="sp">「がんばる時間」だけでなく、<br>ほっと休みながら<br class="sp">「整える時間」も大切です。</p>
     </div>
 
     <div class="ConcernLeavesRight" aria-hidden="true">
-      <span class="ConcernLeaf ConcernLeaf07"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/concern/leaf07.webp" alt="" width="89" height="89"></span>
+      <span class="ConcernLeaf ConcernLeaf07 pc"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/concern/leaf07.webp" alt="" width="89" height="89"></span>
       <span class="ConcernLeaf ConcernLeaf08"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/concern/leaf08.webp" alt="" width="54" height="39"></span>
       <span class="ConcernLeaf ConcernLeaf09"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/concern/leaf09.webp" alt="" width="40" height="35"></span>
       <span class="ConcernLeaf ConcernLeaf10"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/concern/leaf10.webp" alt="" width="48" height="33"></span>
@@ -218,7 +224,7 @@ Template Name: トップページ
        Point — 妊活中の方にも選ばれる、Sakuraの安心ポイント
        ============================================ -->
   <section class="Point" id="point">
-    <div class="PointLeavesLeft" aria-hidden="true">
+    <div class="PointLeavesLeft pc" aria-hidden="true">
       <span class="PointLeaf PointLeaf01"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf01.webp" alt="" width="43" height="35"></span>
       <span class="PointLeaf PointLeaf02"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf02.webp" alt="" width="39" height="31"></span>
       <span class="PointLeaf PointLeaf03"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf03.webp" alt="" width="64" height="84"></span>
@@ -261,7 +267,7 @@ Template Name: トップページ
       </ul>
     </div>
 
-    <div class="PointLeavesRight" aria-hidden="true">
+    <div class="PointLeavesRight pc" aria-hidden="true">
       <span class="PointLeaf PointLeaf06"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf06.webp" alt="" width="48" height="33"></span>
       <span class="PointLeaf PointLeaf07"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf07.webp" alt="" width="40" height="35"></span>
       <span class="PointLeaf PointLeaf08"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/point/point-leaf08.webp" alt="" width="89" height="89"></span>
@@ -313,7 +319,7 @@ Template Name: トップページ
       </div>
 
       <div class="IntroBody">
-        <h2 class="IntroTitle">初めての方も、安心してご利用いただけます。</h2>
+        <h2 class="IntroTitle">初めての方も、安心して<br class="sp">ご利用いただけます。</h2>
 
         <p class="IntroLead">酸素カプセルが初めての方にも、事前に使い方や注意事項を丁寧にご案内します。</p>
 
@@ -407,7 +413,7 @@ Template Name: トップページ
        Voice — ご利用いただいた方の声
        ============================================ -->
   <section class="Voice" id="voice">
-    <div class="VoiceLeavesLeft" aria-hidden="true">
+    <div class="VoiceLeavesLeft pc" aria-hidden="true">
       <span class="VoiceLeaf VoiceLeaf01"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf01.webp" alt="" width="43" height="35"></span>
       <span class="VoiceLeaf VoiceLeaf02"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf02.webp" alt="" width="39" height="31"></span>
       <span class="VoiceLeaf VoiceLeaf03"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf03.webp" alt="" width="47" height="42"></span>
@@ -454,7 +460,7 @@ Template Name: トップページ
       <p class="VoiceNote">※個人の感想であり、効果を保証するものではありません。</p>
     </div>
 
-    <div class="VoiceLeavesRight" aria-hidden="true">
+    <div class="VoiceLeavesRight pc" aria-hidden="true">
       <span class="VoiceLeaf VoiceLeaf04"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf04.webp" alt="" width="39" height="31"></span>
       <span class="VoiceLeaf VoiceLeaf05"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf05.webp" alt="" width="64" height="84"></span>
       <span class="VoiceLeaf VoiceLeaf06"><img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/voice/voice-leaf06.webp" alt="" width="47" height="42"></span>
@@ -466,6 +472,10 @@ Template Name: トップページ
        FAQ — よくあるご質問
        ============================================ -->
   <section class="Faq" id="faq">
+    <div class="FaqCtas sp">
+      <?php get_template_part('template-parts/cta-pair'); ?>
+    </div>
+
     <div class="FaqInner">
       <h2 class="FaqTitle">よくあるご質問</h2>
 
@@ -546,7 +556,7 @@ Template Name: トップページ
             <img src="<?php echo get_template_directory_uri(); ?>/assets_yuino/img/note/note-icon02.webp" alt="" width="80" height="80">
           </span>
           <div class="NoteBody">
-            <p class="NoteTextHeading">妊娠中の方はご利用いただけません。</p>
+            <p class="NoteTextHeading">妊娠中の方は<br class="sp">ご利用いただけません。</p>
             <p class="NoteText">また、持病をお持ちの方、通院中の方、体調に不安がある方は、事前に医師へご相談のうえご利用ください。</p>
           </div>
         </li>
@@ -577,11 +587,8 @@ Template Name: トップページ
 
       <div class="ClosingBody">
         <h2 class="ClosingTitle">妊活中の身体づくりに、<br>まずは&ldquo;整える時間&rdquo;を。</h2>
-
-        <p class="ClosingLead">冷えや疲れ、ストレスが気になる毎日に。<br>Sakuraでは、酸素カプセルを通じて、<br>妊活中のコンディションづくりをやさしくサポートしています。</p>
-
+        <p class="ClosingLead">冷えや疲れ、ストレスが気になる毎日に。<br>Sakuraでは、酸素カプセルを通じて、<br>妊活中のコンディションづくりをやさしく<br class="sp">サポートしています。</p>
         <p class="ClosingLead">まずはLINEから、今のお悩みやご希望をお気軽にご相談ください。</p>
-
         <div class="ClosingCtas">
           <?php get_template_part('template-parts/cta-pair'); ?>
         </div>
