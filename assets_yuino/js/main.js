@@ -254,4 +254,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+// セクションのスクロール表示（控えめなフェードアップ）
+// - 対象は各 <section> 直下のコンテンツ本体 *Inner のみ。
+//   波形装飾（::before）や花びら（絶対配置の兄弟要素）はアニメ対象から外す。
+//   ※ section 全体に opacity/transform をかけると stacking context が出来て
+//     波形の mix-blend-mode が壊れ、transform の含有ブロックで装飾位置がずれるため。
+// - 画面内に入ったら .is-inview を付与して一度だけ表示（unobserve）
+// - 非対応ブラウザ / prefers-reduced-motion ではクラスを付けず常時表示のまま
+document.addEventListener("DOMContentLoaded", function () {
+  if (!("IntersectionObserver" in window)) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const targets = document.querySelectorAll('.main > section > [class$="Inner"]');
+  if (!targets.length) return;
+
+  targets.forEach((el) => el.classList.add("is-fadeReady"));
+
+  const observer = new IntersectionObserver(
+    function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-inview");
+          obs.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: "0px 0px -12% 0px" }
+  );
+
+  targets.forEach((el) => observer.observe(el));
+});
+
 console.log("abientot");
