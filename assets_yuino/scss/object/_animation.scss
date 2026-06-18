@@ -1,0 +1,17 @@
+@use "../foundation/setting" as *;
+@use "../foundation/mixin" as *;
+
+// セクションのスクロール表示（控えめなフェードアップ）
+// JS（IntersectionObserver）が .is-fadeReady を付与した要素だけに初期状態を適用する。
+// 画面内に入ると .is-inview が付き、ふわっと表示される。
+// JS 無効時 / prefers-reduced-motion 時はクラスが付かず、常時表示のまま崩れない。
+.is-fadeReady {
+  opacity: 0; // non-comp: animation-state
+  transform: translateY(1.5rem); // non-comp: animation-state 控えめな立ち上がり量（PC 24px / SP 21px 相当）
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out; // non-comp: animation-state
+}
+
+.is-fadeReady.is-inview {
+  opacity: 1; // non-comp: animation-state
+  transform: translateY(0); // non-comp: animation-state
+}
